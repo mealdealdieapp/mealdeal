@@ -30,7 +30,33 @@ export function OffersPage() {
 
   const { offers, categories, isLoading, isError, refetch } = useOffers(storeFilter)
   const [scraping, setScraping] = useState(false)
+  const [autoScrapeDone, setAutoScrapeDone] = useState(false)
   const { addOne: addToShopping } = useAddToShopping()
+
+  // Auto-Scrape: Wenn keine Angebote vorhanden sind (neue PLZ), automatisch scrapen
+  useEffect(() => {
+    if (isLoading || isError || autoScrapeDone || scraping) return
+    if (!profile?.plz || !markets.length) return
+    if (offers.length > 0) return
+
+    // Keine Angebote gefunden → automatisch scrapen
+    console.log('[MealDeal] Keine Angebote für PLZ', profile.plz, '– starte Auto-Scrape')
+    setScraping(true)
+    setAutoScrapeDone(true)
+
+    scrapeOffersForPlz(profile.plz, markets)
+      .then((result) => {
+        console.log(`[MealDeal] Auto-Scrape: ${result.count} Angebote geladen`)
+        queryClient.invalidateQueries({ queryKey: ['offers'] })
+        refetch()
+      })
+      .catch((err) => {
+        console.warn('[MealDeal] Auto-Scrape fehlgeschlagen:', err)
+      })
+      .finally(() => {
+        setScraping(false)
+      })
+  }, [isLoading, isError, offers.length, profile?.plz, markets, autoScrapeDone, scraping, refetch])
 
   const handleRefreshOffers = async () => {
     if (!profile?.plz || !markets.length || scraping) return
@@ -168,8 +194,15 @@ export function OffersPage() {
           </div>
         )}
 
-        {isLoading ? (
-          <GridSkeleton />
+        {isLoading || (scraping && offers.length === 0) ? (
+          <div>
+            <GridSkeleton />
+            {scraping && (
+              <p className="text-center text-muted text-[13px] mt-4 animate-pulse">
+                Angebote werden für deine Region geladen...
+              </p>
+            )}
+          </div>
         ) : isError ? (
           <ErrorState message="Angebote konnten nicht geladen werden." onRetry={() => refetch()} />
         ) : showingList ? (
