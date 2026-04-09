@@ -76,15 +76,120 @@ function normalizeMarketName(advertiserName: string): string | null {
 }
 
 // ===== Kategorie-Mapping =====
+// Schritt 1: Kategorie-basiert (Marktguru-Kategorie)
+// Schritt 2: Produktname-basiert (Fallback wenn Kategorie nicht matcht)
+
 const OBST_KEYWORDS = ['apfel', 'banane', 'orange', 'birne', 'kirsche', 'erdbeere',
   'beere', 'traube', 'mango', 'ananas', 'melone', 'zitrone', 'pflaume',
   'pfirsich', 'nektarine', 'kiwi', 'obst', 'clementine', 'mandarine',
-  'himbeere', 'heidelbeere']
+  'himbeere', 'heidelbeere', 'johannisbeere', 'stachelbeere', 'brombeere',
+  'granatapfel', 'passionsfrucht', 'maracuja', 'papaya', 'litschi',
+  'feige', 'dattel', 'kokosnuss', 'avocado', 'grapefruit', 'limette',
+  'weintraube', 'mirabelle', 'zwetschge', 'aprikose']
+
+const GEMUESE_NAME_KEYWORDS = ['tomate', 'gurke', 'paprika', 'zwiebel', 'karotte',
+  'möhre', 'brokkoli', 'blumenkohl', 'zucchini', 'aubergine', 'spinat',
+  'lauch', 'porree', 'sellerie', 'fenchel', 'kohlrabi', 'radieschen',
+  'rettich', 'rübe', 'kürbis', 'champignon', 'pilz', 'salat',
+  'eisberg', 'rucola', 'feldsalat', 'kopfsalat', 'romano', 'kohl',
+  'rotkohl', 'weißkohl', 'wirsing', 'grünkohl', 'rosenkohl',
+  'spargel', 'bohne', 'erbse', 'mais', 'kartoffel', 'süßkartoffel',
+  'batate', 'mangold', 'pak choi', 'chinakohl', 'frühlingszwiebel',
+  'knoblauch', 'ingwer', 'rote bete', 'petersilienwurzel', 'pastinake']
+
+const FLEISCH_NAME_KEYWORDS = ['hähnchen', 'huhn', 'hühnchen', 'chicken', 'pute',
+  'truthahn', 'ente', 'gans', 'rind', 'schwein', 'lamm', 'kalb',
+  'hackfleisch', 'gehacktes', 'hack', 'gulasch', 'geschnetzeltes',
+  'schnitzel', 'steak', 'braten', 'filet', 'keule', 'schenkel',
+  'brust', 'wurst', 'bratwurst', 'wiener', 'bockwurst', 'salami',
+  'schinken', 'speck', 'bacon', 'leberkäse', 'fleischkäse',
+  'mettwurst', 'aufschnitt', 'mortadella', 'lyoner', 'fleisch',
+  'geflügel', 'roulade', 'frikadelle', 'bulette', 'mett', 'tatar']
+
+const FISCH_NAME_KEYWORDS = ['lachs', 'forelle', 'thunfisch', 'hering', 'makrele',
+  'kabeljau', 'pangasius', 'seelachs', 'rotbarsch', 'scholle',
+  'zander', 'dorade', 'wolfsbarsch', 'garnele', 'shrimp', 'krabbe',
+  'krabben', 'muschel', 'tintenfisch', 'calamari', 'fischstäbchen',
+  'räucherlachs', 'matjes', 'sardine', 'sardelle', 'anchovis',
+  'fisch', 'meeresfrüchte', 'scampi', 'sushi']
+
+const MILCH_NAME_KEYWORDS = ['milch', 'vollmilch', 'fettarme milch', 'h-milch',
+  'frischmilch', 'joghurt', 'jogurt', 'kefir', 'buttermilch',
+  'sahne', 'schlagsahne', 'kochsahne', 'schmand', 'saure sahne',
+  'crème fraîche', 'creme fraiche', 'quark', 'skyr', 'butter',
+  'margarine', 'ei ', 'eier', 'freilandeier', 'bio-eier',
+  'pudding', 'milchreis', 'grießbrei']
+
+const KAESE_NAME_KEYWORDS = ['käse', 'gouda', 'emmentaler', 'edamer', 'mozzarella',
+  'parmesan', 'cheddar', 'camembert', 'brie', 'feta', 'hirtenkäse',
+  'frischkäse', 'mascarpone', 'ricotta', 'gorgonzola', 'roquefort',
+  'gruyère', 'bergkäse', 'tilsiter', 'appenzeller', 'raclette',
+  'halloumi', 'hüttenkäse', 'cottage cheese', 'schmelzkäse',
+  'scheibletten', 'reibekäse', 'streukäse']
+
+const BACKWAREN_NAME_KEYWORDS = ['brot', 'brötchen', 'semmel', 'toast', 'baguette',
+  'ciabatta', 'croissant', 'brezel', 'laugenbrezel', 'laugenstange',
+  'vollkornbrot', 'roggenbrot', 'dinkelbrot', 'toastbrot', 'knäckebrot',
+  'tortilla', 'wrap', 'fladenbrot', 'naan', 'pita', 'focaccia',
+  'kuchen', 'torte', 'gebäck', 'muffin', 'donut', 'berliner',
+  'strudel', 'hefezopf', 'stutenkerl']
+
+const NUDELN_REIS_NAME_KEYWORDS = ['nudel', 'pasta', 'spaghetti', 'penne', 'fusilli',
+  'farfalle', 'rigatoni', 'tagliatelle', 'linguine', 'lasagne',
+  'tortellini', 'ravioli', 'gnocchi', 'spätzle', 'reis',
+  'basmatireis', 'jasminreis', 'langkornreis', 'risotto', 'milchreis',
+  'couscous', 'bulgur', 'quinoa', 'polenta', 'grieß',
+  'glasnudeln', 'reisnudeln', 'udon', 'ramen', 'mie-nudeln']
+
+const GETRAENKE_NAME_KEYWORDS = ['bier', 'wein', 'sekt', 'prosecco', 'champagner',
+  'schnaps', 'likör', 'vodka', 'whisky', 'rum', 'gin', 'tequila',
+  'saft', 'orangensaft', 'apfelsaft', 'multivitamin', 'nektar',
+  'wasser', 'mineralwasser', 'sprudel', 'cola', 'fanta', 'sprite',
+  'limo', 'limonade', 'eistee', 'energy', 'schorle', 'smoothie',
+  'kaffee', 'espresso', 'cappuccino', 'tee', 'kakao']
+
+const SNACKS_NAME_KEYWORDS = ['chips', 'flips', 'cracker', 'salzstangen',
+  'schokolade', 'tafel', 'praline', 'bonbon', 'gummibärchen',
+  'fruchtgummi', 'lakritze', 'keks', 'waffel', 'riegel',
+  'müsliriegel', 'schokoriegel', 'eis', 'eiscreme', 'magnum',
+  'cornetto', 'popcorn', 'nüsse', 'erdnüsse', 'cashew',
+  'studentenfutter', 'trockenfrüchte', 'knabber']
+
+const KONSERVEN_NAME_KEYWORDS = ['konserve', 'dose', 'passierte tomaten', 'passata',
+  'mais dose', 'bohnen dose', 'erbsen dose', 'pilze dose',
+  'thunfisch dose', 'ananas dose', 'pfirsich dose',
+  'fertiggericht', 'ravioli dose', 'suppe dose', 'eintopf',
+  'instant', 'tütensuppe', 'brühe']
+
+const GEWUERZE_NAME_KEYWORDS = ['gewürz', 'pfeffer', 'salz', 'zimt', 'kurkuma',
+  'paprikapulver', 'oregano', 'basilikum', 'thymian', 'rosmarin',
+  'curry', 'chili', 'muskat', 'nelke', 'koriander', 'kümmel',
+  'senf', 'ketchup', 'mayo', 'mayonnaise', 'remoulade',
+  'sojasauce', 'worcester', 'tabasco', 'sriracha', 'sambal',
+  'pesto', 'essig', 'balsamico', 'dressing']
+
+const OELE_FETTE_NAME_KEYWORDS = ['olivenöl', 'sonnenblumenöl', 'rapsöl', 'kokosöl',
+  'sesamöl', 'erdnussöl', 'distelöl', 'walnussöl', 'leinöl',
+  'bratöl', 'speiseöl', 'pflanzenöl', 'butterschmalz', 'schmalz',
+  'kokosfett', 'frittierfett']
+
+const HAUSHALT_NAME_KEYWORDS = ['spülmittel', 'waschmittel', 'weichspüler',
+  'toilettenpapier', 'küchenpapier', 'taschentücher', 'müllbeutel',
+  'alufolie', 'backpapier', 'frischhaltefolie', 'reiniger',
+  'allzweckreiniger', 'glasreiniger', 'badreiniger',
+  'staubsaugerbeutel', 'schwamm', 'lappen', 'besen']
+
+const DROGERIE_NAME_KEYWORDS = ['shampoo', 'duschgel', 'seife', 'zahnpasta',
+  'zahnbürste', 'deo', 'deodorant', 'creme', 'bodylotion',
+  'handcreme', 'sonnencreme', 'rasierer', 'rasiergel',
+  'windel', 'feuchttücher', 'wattepads', 'damenbinde',
+  'tampon', 'parfüm', 'haarspray', 'haargel']
 
 function mapCategory(catName: string, productName: string): string {
   const cat = (catName || '').toLowerCase()
   const name = productName.toLowerCase()
 
+  // Schritt 1: Marktguru-Kategorie matchen (hohe Konfidenz)
   if (['fleisch', 'wurst', 'schinken', 'geflügel'].some(k => cat.includes(k))) return 'Fleisch'
   if (['obst', 'gemüse', 'salat'].some(k => cat.includes(k)))
     return OBST_KEYWORDS.some(k => name.includes(k)) ? 'Obst' : 'Gemüse'
@@ -102,6 +207,25 @@ function mapCategory(catName: string, productName: string): string {
   if (['haushalt', 'reinigung', 'spül', 'wasch'].some(k => cat.includes(k))) return 'Haushalt'
   if (['drogerie', 'pflege', 'hygiene', 'kosmetik', 'seife', 'shampoo', 'dusch', 'zahn', 'deo']
     .some(k => cat.includes(k) || name.includes(k))) return 'Drogerie'
+
+  // Schritt 2: Produktname-basiert (für alles was Kategorie nicht abfängt)
+  // Reihenfolge: spezifisch → allgemein
+  if (DROGERIE_NAME_KEYWORDS.some(k => name.includes(k))) return 'Drogerie'
+  if (HAUSHALT_NAME_KEYWORDS.some(k => name.includes(k))) return 'Haushalt'
+  if (FISCH_NAME_KEYWORDS.some(k => name.includes(k))) return 'Fisch & Meeresfrüchte'
+  if (FLEISCH_NAME_KEYWORDS.some(k => name.includes(k))) return 'Fleisch'
+  if (KAESE_NAME_KEYWORDS.some(k => name.includes(k))) return 'Käse'
+  if (MILCH_NAME_KEYWORDS.some(k => name.includes(k))) return 'Milch & Eier'
+  if (OBST_KEYWORDS.some(k => name.includes(k))) return 'Obst'
+  if (GEMUESE_NAME_KEYWORDS.some(k => name.includes(k))) return 'Gemüse'
+  if (NUDELN_REIS_NAME_KEYWORDS.some(k => name.includes(k))) return 'Nudeln & Reis'
+  if (BACKWAREN_NAME_KEYWORDS.some(k => name.includes(k))) return 'Backwaren'
+  if (GETRAENKE_NAME_KEYWORDS.some(k => name.includes(k))) return 'Getränke'
+  if (SNACKS_NAME_KEYWORDS.some(k => name.includes(k))) return 'Snacks & Süßes'
+  if (KONSERVEN_NAME_KEYWORDS.some(k => name.includes(k))) return 'Konserven'
+  if (GEWUERZE_NAME_KEYWORDS.some(k => name.includes(k))) return 'Gewürze'
+  if (OELE_FETTE_NAME_KEYWORDS.some(k => name.includes(k))) return 'Öle & Fette'
+
   return 'Sonstiges Lebensmittel'
 }
 

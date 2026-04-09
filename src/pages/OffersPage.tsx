@@ -11,7 +11,7 @@ import { useAddToShopping } from '../hooks/useAddToShopping'
 import { useWatchlist } from '../hooks/useWatchlist'
 import { useAppStore } from '../store/useAppStore'
 import { OFFER_CATEGORY_CONFIG } from '../lib/offerCategoryConfig'
-import { Search, ArrowLeft, CheckCircle2, RefreshCw } from 'lucide-react'
+import { Search, ArrowLeft, CheckCircle2, RefreshCw, Flame } from 'lucide-react'
 import { getWeekNumber } from '../lib/weekNumber'
 import { scrapeOffersForPlz } from '../lib/marktguruScraper'
 import { queryClient } from '../lib/queryClient'
@@ -127,6 +127,14 @@ export function OffersPage() {
   const handleBack = () => { if (search) setSearch(''); else setSelectedCategory(null) }
   const showingList = selectedCategory || search.trim()
 
+  // Top-Deals: Die 5 Angebote mit dem höchsten Rabatt
+  const topDeals = useMemo(() => {
+    return [...offers]
+      .filter(o => o.discount_percent != null && o.discount_percent >= 25 && o.image_url)
+      .sort((a, b) => (b.discount_percent ?? 0) - (a.discount_percent ?? 0))
+      .slice(0, 8)
+  }, [offers])
+
   // Split categories into food and other
   const foodCategories = categories.filter((c) => {
     const cfg = OFFER_CATEGORY_CONFIG[c.category]
@@ -224,6 +232,50 @@ export function OffersPage() {
           <p className="text-center text-muted py-16 text-[14px]">Keine Angebote gefunden</p>
         ) : (
           <div className="pb-4">
+            {/* Top-Deals Carousel */}
+            {topDeals.length >= 3 && (
+              <div className="mb-4">
+                <div className="flex items-center gap-1.5 mb-2.5">
+                  <Flame size={14} className="text-orange-500" />
+                  <span className="font-display text-[14px] font-extrabold text-dark">Top-Deals diese Woche</span>
+                </div>
+                <div className="flex gap-2.5 overflow-x-auto pb-2 -mx-4 px-4 no-scrollbar">
+                  {topDeals.map((deal) => (
+                    <button
+                      key={deal.id}
+                      onClick={() => {
+                        const cat = categories.find(c => c.offers.some(o => o.id === deal.id))
+                        if (cat) setSelectedCategory(cat.category)
+                      }}
+                      className="shrink-0 w-[130px] bg-white rounded-card overflow-hidden active:scale-[0.97] transition-transform text-left"
+                      style={{ border: '1.5px solid #EBEBEB' }}
+                    >
+                      {deal.image_url && (
+                        <div className="w-full h-[80px] bg-background relative">
+                          <img src={deal.image_url} alt={deal.product_name} className="w-full h-full object-contain p-2" loading="lazy" />
+                          {deal.discount_percent && (
+                            <span className="absolute top-1.5 right-1.5 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-pill">
+                              -{deal.discount_percent}%
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      <div className="p-2">
+                        <p className="text-[10px] font-bold text-dark leading-tight line-clamp-2">{deal.product_name}</p>
+                        <div className="flex items-baseline gap-1 mt-1">
+                          <span className="text-[12px] font-extrabold text-primary">{Number(deal.offer_price).toFixed(2)}€</span>
+                          {deal.original_price && (
+                            <span className="text-[9px] text-muted line-through">{Number(deal.original_price).toFixed(2)}€</span>
+                          )}
+                        </div>
+                        <span className="text-[9px] text-muted">{deal.store}</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Food categories - 2er Grid */}
             <div className="grid grid-cols-2 gap-2.5">
               {foodCategories.map((group) => (

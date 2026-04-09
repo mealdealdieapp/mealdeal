@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { ArrowLeft, Check, Store, Shield } from 'lucide-react'
+import { ArrowLeft, Check, Store, Shield, Loader2 } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { useAppStore } from '../../store/useAppStore'
 import { queryClient } from '../../lib/queryClient'
@@ -43,6 +43,8 @@ export function OnboardingPage() {
   const navigate = useNavigate()
   const [privacyAccepted, setPrivacyAccepted] = useState(false)
   const [showOnboarding, setShowOnboarding] = useState(false)
+  const [showWelcome, setShowWelcome] = useState(false)
+  const [welcomeProgress, setWelcomeProgress] = useState(0)
   const [step, setStep] = useState(1)
   const [dir, setDir] = useState(1)
   const [loading, setLoading] = useState(false)
@@ -90,32 +92,41 @@ export function OnboardingPage() {
       if (saveError) throw saveError
       if (data) {
         setProfile(data)
-
-        // Angebote für PLZ laden - nur wenn nötig
-        console.log('[MealDeal] Prüfe Angebote für PLZ...')
-        hasOffersForPlz(plz)
-          .then((hasOffers) => {
-            if (hasOffers) {
-              console.log('[MealDeal] Genug Angebote vorhanden, kein Scrape nötig')
-              // Scrape nicht nötig
-              queryClient.invalidateQueries({ queryKey: ['offers'] })
-              return
-            }
-            console.log('[MealDeal] Starte Scrape für PLZ...')
-            return scrapeOffersForPlz(plz, markets)
-              .then((result) => {
-                console.log(`[MealDeal] ${result.count} Angebote geladen`)
-                queryClient.invalidateQueries({ queryKey: ['offers'] })
-              })
-          })
-          .catch((err) => console.warn('[MealDeal] Angebote laden fehlgeschlagen:', err))
-
-        setActiveTab('recipes')
         queryClient.invalidateQueries({ queryKey: ['profile'] })
+
+        // Welcome-Screen anzeigen während Angebote laden
+        setShowWelcome(true)
+        setWelcomeProgress(10)
+
+        const hasOffers = await hasOffersForPlz(plz)
+        setWelcomeProgress(30)
+
+        if (!hasOffers) {
+          console.log('[MealDeal] Starte Scrape für PLZ...')
+          setWelcomeProgress(40)
+          const result = await scrapeOffersForPlz(plz, markets)
+          console.log(`[MealDeal] ${result.count} Angebote geladen`)
+          setWelcomeProgress(90)
+        } else {
+          setWelcomeProgress(90)
+        }
+
+        queryClient.invalidateQueries({ queryKey: ['offers'] })
+        setWelcomeProgress(100)
+
+        // Kurz warten damit der User den fertigen Zustand sieht
+        await new Promise(r => setTimeout(r, 800))
+        setActiveTab('recipes')
         navigate('/recipes', { replace: true })
       }
     } catch (e) {
-      setError('Profil konnte nicht gespeichert werden. Bitte versuche es erneut.')
+      // Bei Fehler trotzdem weiternavigieren (Angebote können später laden)
+      if (showWelcome) {
+        setActiveTab('recipes')
+        navigate('/recipes', { replace: true })
+      } else {
+        setError('Profil konnte nicht gespeichert werden. Bitte versuche es erneut.')
+      }
     } finally {
       setLoading(false)
     }
@@ -126,6 +137,67 @@ export function OnboardingPage() {
   const togglePref = (p: string) => setPreferences((prev) => prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p])
 
   const progress = (step / TOTAL_STEPS) * 100
+
+  // Welcome-Screen: Angebote werden geladen
+  if (showWelcome) {
+    const WELCOME_FEATURES = [
+      { emoji: '🏷️', title: 'Angebote finden', desc: 'Echtzeitpreise aus deinen Märkten' },
+      { emoji: '🍳', title: 'Günstig kochen', desc: 'Rezepte passend zu den Angeboten' },
+      { emoji: '📋', title: 'Smart einkaufen', desc: 'Einkaufsliste mit Preisvergleich' },
+    ]
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6">
+        <div className="w-full max-w-sm text-center">
+          <img src="/logo-icon.png" alt="MealDeal" className="w-20 h-20 mx-auto mb-4" />
+          <h1 className="font-display text-[26px] font-extrabold tracking-tight mb-1">
+            <span className="text-dark">Meal</span><span className="text-primary">Deal</span>
+          </h1>
+          <p className="text-[14px] text-muted mb-8">
+            {welcomeProgress < 100 ? 'Wir richten alles für dich ein...' : 'Alles bereit!'}
+          </p>
+
+          {/* Progress */}
+          <div className="w-full h-2 bg-white rounded-full overflow-hidden mb-8" style={{ border: '1px solid #EBEBEB' }}>
+            <div
+              className="h-full bg-primary rounded-full transition-all duration-700 ease-out"
+              style={{ width: `${welcomeProgress}%` }}
+            />
+          </div>
+
+          {/* Feature highlights */}
+          <div className="space-y-3 text-left">
+            {WELCOME_FEATURES.map((f, i) => (
+              <div
+                key={f.title}
+                className="bg-white rounded-card p-3.5 flex items-center gap-3.5 transition-all duration-500"
+                style={{
+                  border: '1.5px solid #EBEBEB',
+                  opacity: welcomeProgress > (i + 1) * 25 ? 1 : 0.4,
+                  transform: welcomeProgress > (i + 1) * 25 ? 'translateY(0)' : 'translateY(8px)',
+                }}
+              >
+                <span className="text-[28px] shrink-0">{f.emoji}</span>
+                <div>
+                  <span className="font-display text-[14px] font-extrabold text-dark block">{f.title}</span>
+                  <span className="text-[12px] text-muted">{f.desc}</span>
+                </div>
+                {welcomeProgress > (i + 1) * 25 && (
+                  <Check size={16} className="text-primary shrink-0 ml-auto" strokeWidth={3} />
+                )}
+              </div>
+            ))}
+          </div>
+
+          {welcomeProgress < 100 && (
+            <div className="flex items-center justify-center gap-2 mt-6 text-muted">
+              <Loader2 size={14} className="animate-spin" />
+              <span className="text-[12px]">Angebote für PLZ {plz} werden geladen...</span>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
 
   if (!showOnboarding) {
     return (

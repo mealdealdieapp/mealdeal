@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { Heart, Sparkles } from 'lucide-react'
+import { Heart, Sparkles, Tag } from 'lucide-react'
 import type { ScoredRecipe } from '../../hooks/useRecipes'
 import { IMAGE_BASE_URL } from '../../lib/mealConfig'
 
@@ -16,7 +16,9 @@ export const RecipeCard = memo(function RecipeCard({ recipe, onOpen, onToggleSav
       ? recipe.image_url.slice(4)
       : `${IMAGE_BASE_URL}${encodeURIComponent(recipe.image_url)}`
     : null
-  const hasSavings = recipe.saved != null && Number(recipe.saved) > 0
+  // Dynamische Ersparnis aus aktuellen Angeboten (nicht statischer DB-Wert)
+  const savedAmount = recipe.dynamicSaved ?? 0
+  const hasSavings = savedAmount > 0
 
   return (
     <div
@@ -64,9 +66,14 @@ export const RecipeCard = memo(function RecipeCard({ recipe, onOpen, onToggleSav
               <Sparkles size={10} /> Perfekt für dich
             </span>
           )}
+          {recipe.matchPercent != null && recipe.matchPercent > 0 && (
+            <span className="inline-flex items-center gap-0.5 text-[10px] font-bold text-primary bg-green-50 px-1.5 py-0.5 rounded-pill">
+              <Tag size={9} /> {recipe.matchPercent}% im Angebot
+            </span>
+          )}
           {hasSavings && (
             <span className="inline-block text-[10px] font-bold text-success bg-green-50 px-1.5 py-0.5 rounded-pill">
-              +{Number(recipe.saved).toFixed(2)}€ sparen
+              +{savedAmount.toFixed(2)}€ sparen
             </span>
           )}
           {recipe.estimatedCost != null && recipe.estimatedCost > 0 && (

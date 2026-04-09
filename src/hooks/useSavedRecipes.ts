@@ -46,6 +46,7 @@ export function useSavedRecipes() {
   })
 
   const isSaved = (recipeId: string) => query.data?.includes(recipeId) ?? false
+  const savedIds = new Set(query.data ?? [])
 
-  return { ...query, toggle, isSaved }
+  return { ...query, toggle, isSaved, savedIds }
 }

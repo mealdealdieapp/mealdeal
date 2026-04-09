@@ -80,10 +80,43 @@ export function ShoppingPage() {
       ) : undefined} />
 
       <div className="px-4 space-y-3 pb-24">
-        {/* Progress bar */}
+        {/* Gesamt-Übersicht */}
         {totalCount > 0 && !selectMode && (
-          <div className="w-full h-2 bg-white rounded-full overflow-hidden" style={{ border: '1px solid #EBEBEB' }}>
-            <div className="h-full bg-primary rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+          <div className="bg-white rounded-card p-3.5" style={{ border: '1.5px solid #EBEBEB' }}>
+            {/* Progress */}
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[11px] font-bold text-muted">{checkedCount} von {totalCount} erledigt</span>
+              {strategy && <span className="text-[11px] font-bold text-muted">{strategy.storeCount === 1 ? '1 Markt' : `${strategy.storeCount} Märkte`}</span>}
+            </div>
+            <div className="w-full h-2 bg-background rounded-full overflow-hidden mb-3">
+              <div className="h-full bg-primary rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+            </div>
+
+            {/* Stats-Zeile */}
+            <div className="flex items-center gap-3">
+              {strategy && strategy.savings > 0 && (
+                <div className="flex items-center gap-1.5 bg-green-50 px-2.5 py-1.5 rounded-pill">
+                  <TrendingDown size={12} className="text-success" />
+                  <span className="text-[11px] font-bold text-success">{strategy.savings.toFixed(2)}€ sparen</span>
+                </div>
+              )}
+              {strategy && (
+                <span className="text-[11px] text-muted">{strategy.label}</span>
+              )}
+            </div>
+
+            {/* Buttons */}
+            <div className="flex gap-2 mt-3">
+              <button onClick={() => { setSelectMode(true); setSelected(new Set()) }}
+                className="flex-1 py-2.5 text-[12px] font-bold text-dark bg-background rounded-btn active:bg-gray-200 flex items-center justify-center gap-1.5">
+                <CheckSquare size={13} /> Auswählen
+              </button>
+              <button onClick={() => setShowConfirm(true)} disabled={checkedCount === 0 || finishShopping.isPending}
+                className="flex-1 py-2.5 text-[12px] font-bold text-white bg-primary rounded-btn disabled:opacity-40 flex items-center justify-center gap-1.5 active:bg-green-800">
+                {finishShopping.isPending ? <Loader2 size={13} className="animate-spin" /> : <ShoppingBag size={13} />}
+                Abschließen
+              </button>
+            </div>
           </div>
         )}
 
@@ -95,39 +128,12 @@ export function ShoppingPage() {
           </div>
         )}
 
-        {/* Action buttons */}
-        {totalCount > 0 && !selectMode && (
-          <div className="flex gap-2">
-            <button onClick={() => { setSelectMode(true); setSelected(new Set()) }}
-              className="flex-1 py-2.5 text-[12px] font-bold text-dark bg-white rounded-btn active:bg-background flex items-center justify-center gap-1.5"
-              style={{ border: '1.5px solid #EBEBEB' }}>
-              <CheckSquare size={13} /> Auswählen
-            </button>
-            <button onClick={() => setShowConfirm(true)} disabled={checkedCount === 0 || finishShopping.isPending}
-              className="flex-1 py-2.5 text-[12px] font-bold text-white bg-primary rounded-btn disabled:opacity-40 flex items-center justify-center gap-1.5 active:bg-green-800">
-              {finishShopping.isPending ? <Loader2 size={13} className="animate-spin" /> : <ShoppingBag size={13} />}
-              Abschließen
-            </button>
-          </div>
-        )}
-
         {/* Delete bar in select mode */}
         {selectMode && selected.size > 0 && (
           <button onClick={deleteSelected}
             className="w-full py-2.5 text-[12px] font-bold text-white bg-red-500 rounded-btn flex items-center justify-center gap-1.5 active:bg-red-600">
             <Trash2 size={13} /> {selected.size} Artikel löschen
           </button>
-        )}
-
-        {/* Strategy banner */}
-        {strategy && strategy.savings > 0 && !selectMode && (
-          <div className="bg-green-50 rounded-btn px-3.5 py-3 flex items-center gap-2.5" style={{ border: '1.5px solid #BBF7D0' }}>
-            <TrendingDown size={16} className="text-success shrink-0" />
-            <div className="flex-1 min-w-0">
-              <span className="text-[12px] font-bold text-dark block">{strategy.label}</span>
-              <span className="text-[11px] text-success font-bold">{strategy.savings.toFixed(2)}€ sparen · {strategy.storeCount === 1 ? '1 Markt' : `${strategy.storeCount} Märkte`}</span>
-            </div>
-          </div>
         )}
 
         {/* Content */}

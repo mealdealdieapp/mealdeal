@@ -13,6 +13,7 @@ export interface ScoredRecipe extends Recipe {
   perfectMatch: boolean
   estimatedCost?: number   // Dynamisch berechnete Kosten basierend auf Angeboten
   matchPercent?: number    // % der Zutaten im Angebot
+  dynamicSaved?: number    // Dynamisch berechnete Ersparnis basierend auf aktuellen Angeboten
 }
 
 export interface MealGroup {
@@ -86,10 +87,9 @@ function calcDietScore(recipe: Recipe, userDiets: string[]): number {
   return count > 0 ? Math.round(totalScore / count) : 60
 }
 
-function calcOfferScore(recipe: Recipe): number {
-  const saved = Number(recipe.saved) || 0
-  if (saved <= 0) return 0
-  return Math.min(100, Math.round(saved / 0.5) * 20)
+function calcOfferScore(savedAmount: number): number {
+  if (savedAmount <= 0) return 0
+  return Math.min(100, Math.round(savedAmount / 0.5) * 20)
 }
 
 // Check if a recipe matches a virtual category
@@ -103,8 +103,11 @@ function matchesVirtualCategory(recipe: ScoredRecipe, category: string): boolean
       if (recipe.estimatedCost != null && recipe.matchPercent != null && recipe.matchPercent >= 20) {
         return recipe.estimatedCost <= 8
       }
-      // Fallback: statischer cost-Wert aus DB
-      return recipe.cost != null && Number(recipe.cost) <= 5
+      // Fallback: geschätzte Kosten ohne Mindest-Matchrate
+      if (recipe.estimatedCost != null) {
+        return recipe.estimatedCost <= 6
+      }
+      return false
     case 'meal_prep':
       return (recipe.diets ?? []).includes('meal-prep')
     default:
@@ -178,10 +181,12 @@ export function useRecipes(mealFilter?: string | null) {
     return query.data
       .map((recipe) => {
         const dietScore = calcDietScore(recipe, userDiets)
-        const offerScore = calcOfferScore(recipe)
+        const costInfo = costMap.get(recipe.id)
+        // Dynamische Ersparnis aus aktuellen Angeboten (statt statischem DB-Wert)
+        const dynamicSaved = costInfo?.totalSaved ?? 0
+        const offerScore = calcOfferScore(dynamicSaved)
         const score = dietScore + offerScore
         const perfectMatch = dietScore >= 80
-        const costInfo = costMap.get(recipe.id)
         return {
           ...recipe,
           score,
@@ -190,6 +195,7 @@ export function useRecipes(mealFilter?: string | null) {
           perfectMatch,
           estimatedCost: costInfo?.estimatedTotalCost,
           matchPercent: costInfo?.matchPercent,
+          dynamicSaved,
         }
       })
       .filter((r) => r.dietScore > -999)
