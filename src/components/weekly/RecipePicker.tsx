@@ -1,0 +1,167 @@
+import { useState, useMemo } from 'react'
+import { X, Search, Clock, Sparkles } from 'lucide-react'
+import { useRecipes } from '../../hooks/useRecipes'
+import { supabase } from '../../lib/supabase'
+import { IMAGE_BASE_URL } from '../../lib/mealConfig'
+import { Portal } from '../ui/Portal'
+import type { MealKey, PlanRecipe } from '../../hooks/useWeeklyPlan'
+import type { Recipe } from '../../types/app.types'
+
+const MEAL_LABELS: Record<string, string> = {
+  breakfast: 'Frühstück',
+  lunch: 'Mittagessen',
+  dinner: 'Abendessen',
+  snack: 'Snack',
+}
+
+interface RecipePickerProps {
+  meal: MealKey
+  onSelect: (recipe: PlanRecipe) => void
+  onClose: () => void
+}
+
+async function recipeToPlanRecipe(r: Recipe): Promise<PlanRecipe> {
+  // Load ingredients from DB
+  const { data } = await supabase
+    .from('recipe_ingredients')
+    .select('amount, unit, ingredients(name, emoji, category)')
+    .eq('recipe_id', r.id)
+
+  const ings = (data ?? []).map((ri) => {
+    const ing = ri.ingredients as { name: string; emoji: string | null; category: string | null } | null
+    return {
+      n: ing?.name ?? '',
+      m: ri.amount != null ? String(ri.amount) : '',
+      e: ri.unit ?? '',
+      k: ing?.category ?? '',
+    }
+  }).filter((i) => i.n)
+
+  return {
+    id: r.id,
+    name: r.name,
+    emoji: r.emoji,
+    cal: r.calories,
+    protein: r.protein != null ? Number(r.protein) : null,
+    carbs: r.carbs != null ? Number(r.carbs) : null,
+    fat: r.fat != null ? Number(r.fat) : null,
+    time: r.time_minutes ? `${r.time_minutes} Min` : null,
+    diff: r.difficulty,
+    image_url: r.image_url,
+    servings: r.servings,
+    saved: r.saved != null ? Number(r.saved) : null,
+    cost: r.cost != null ? Number(r.cost) : null,
+    ings,
+  }
+}
+
+export { recipeToPlanRecipe }
+
+export function RecipePicker({ meal, onSelect, onClose }: RecipePickerProps) {
+  const [search, setSearch] = useState('')
+  const [loading, setLoading] = useState<string | null>(null)
+  const { recipes, isLoading } = useRecipes()
+
+  const filtered = useMemo(() => {
+    let list = recipes
+    if (meal === 'breakfast') {
+      const breakfastOnly = recipes.filter((r) => r.meal === 'breakfast')
+      if (breakfastOnly.length > 0) list = breakfastOnly
+    } else {
+      list = recipes.filter((r) => r.meal !== 'breakfast' || search.trim())
+    }
+    if (search.trim()) {
+      const q = search.toLowerCase()
+      list = recipes.filter((r) => r.name.toLowerCase().includes(q))
+    }
+    return list
+  }, [recipes, meal, search])
+
+  const handleSelect = async (recipe: Recipe) => {
+    setLoading(recipe.id)
+    const planRecipe = await recipeToPlanRecipe(recipe)
+    onSelect(planRecipe)
+    setLoading(null)
+  }
+
+  return (
+    <Portal>
+      <div className="fixed inset-0 z-50 flex flex-col" style={{ fontFamily: 'DM Sans, system-ui, sans-serif' }}>
+        <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+        <div className="relative mt-[8vh] h-[92vh] bg-white rounded-t-[20px] flex flex-col overflow-hidden max-w-[480px] mx-auto w-full">
+          <div className="px-4 pt-4 pb-3 shrink-0" style={{ borderBottom: '1px solid #EBEBEB' }}>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-display text-[17px] font-extrabold text-dark">
+                {MEAL_LABELS[meal] ?? 'Rezept'} wählen
+              </h2>
+              <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full bg-background">
+                <X size={16} className="text-dark" />
+              </button>
+            </div>
+            <div className="relative">
+              <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted/50" />
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Rezept suchen..."
+                autoFocus
+                className="w-full pl-9 pr-3 py-2 bg-background rounded-btn text-[13px] text-dark placeholder-muted/60 focus:outline-none focus:ring-2 focus:ring-primary/20"
+              />
+            </div>
+          </div>
+
+          <div className="flex-1 overflow-y-auto px-4 py-3">
+            {isLoading ? (
+              <p className="text-center text-muted py-8 text-[13px]">Laden...</p>
+            ) : filtered.length === 0 ? (
+              <p className="text-center text-muted py-8 text-[13px]">Keine Rezepte gefunden</p>
+            ) : (
+              <div className="space-y-1">
+                {filtered.map((recipe) => {
+                  const imgUrl = recipe.image_url
+                    ? `${IMAGE_BASE_URL}${encodeURIComponent(recipe.image_url)}`
+                    : null
+                  const isLoading = loading === recipe.id
+                  return (
+                    <button
+                      key={recipe.id}
+                      onClick={() => handleSelect(recipe)}
+                      disabled={!!loading}
+                      className="w-full flex items-center gap-3 p-2.5 rounded-[12px] text-left active:bg-background transition-colors disabled:opacity-60"
+                    >
+                      <div className="w-12 h-12 rounded-[8px] overflow-hidden bg-background shrink-0 flex items-center justify-center">
+                        {imgUrl ? (
+                          <img src={imgUrl} alt="" className="w-full h-full object-cover" loading="lazy" />
+                        ) : (
+                          <span className="text-[22px]">{recipe.emoji ?? '🍽️'}</span>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-[13px] font-semibold text-dark block truncate">{recipe.name}</span>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          {recipe.calories && <span className="text-[11px] text-muted">{recipe.calories} kcal</span>}
+                          {recipe.time_minutes && (
+                            <span className="text-[11px] text-muted flex items-center gap-0.5">
+                              <Clock size={10} />{recipe.time_minutes} Min
+                            </span>
+                          )}
+                          {recipe.perfectMatch && (
+                            <span className="text-[9px] font-bold text-primary flex items-center gap-0.5">
+                              <Sparkles size={9} /> Passt
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      {isLoading && <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin shrink-0" />}
+                    </button>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </Portal>
+  )
+}

@@ -1,0 +1,4979 @@
+[
+  {
+    "id": "rührei-mit-brot",
+    "title": "Rührei mit Brot",
+    "beschreibung": "Klassisches deutsches Frühstück mit fluffy Rührei und knuspriger Stulle",
+    "kategorie": "fruehstueck",
+    "unterkategorie": "eier",
+    "tags": [
+      "schnell",
+      "familienfreundlich",
+      "budget"
+    ],
+    "zubereitungszeit_min": 10,
+    "schwierigkeit": "einfach",
+    "portionen": 2,
+    "kcal": 380,
+    "protein_g": 15.2,
+    "kohlenhydrate_g": 38.5,
+    "fett_g": 18.7,
+    "ballaststoffe_g": 2.1,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": [
+      "gluten",
+      "eier"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Eier",
+        "zutat_kategorie": "eier",
+        "menge": 4,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Butter",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 30,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Vollkornbrot",
+        "zutat_kategorie": "getreide",
+        "menge": 200,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Pfeffer",
+        "zutat_kategorie": "gewuerze",
+        "menge": 0.5,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Eier in einer Schüssel verquirlen, Salz und Pfeffer hinzufügen"
+      },
+      {
+        "schritt": 2,
+        "text": "Butter in einer Pfanne schmelzen"
+      },
+      {
+        "schritt": 3,
+        "text": "Eimasse hineingießen und bei mittlerer Hitze rühren bis cremig"
+      },
+      {
+        "schritt": 4,
+        "text": "Brot toasten und auf Teller anrichten"
+      },
+      {
+        "schritt": 5,
+        "text": "Rührei dazugeben und sofort servieren"
+      }
+    ]
+  },
+  {
+    "id": "overnight-oats",
+    "title": "Overnight Oats",
+    "beschreibung": "Perfekt vorbereitetes Frühstück für Eilige - über Nacht im Kühlschrank",
+    "kategorie": "fruehstueck",
+    "unterkategorie": "cerealien",
+    "tags": [
+      "mealprep",
+      "schnell",
+      "vegan"
+    ],
+    "zubereitungszeit_min": 5,
+    "schwierigkeit": "einfach",
+    "portionen": 1,
+    "kcal": 420,
+    "protein_g": 12.5,
+    "kohlenhydrate_g": 58.2,
+    "fett_g": 14.3,
+    "ballaststoffe_g": 8.6,
+    "ernaehrungsformen": [
+      "vegetarisch",
+      "vegan"
+    ],
+    "allergene": [
+      "gluten"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Haferflocken",
+        "zutat_kategorie": "getreide",
+        "menge": 50,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Milch",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 150,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Joghurt",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 100,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Banane",
+        "zutat_kategorie": "obst",
+        "menge": 1,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": "gehackt"
+      },
+      {
+        "zutat_name": "Mandelmus",
+        "zutat_kategorie": "nussmus",
+        "menge": 20,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Haferflocken, Milch und Joghurt in einen Behälter geben"
+      },
+      {
+        "schritt": 2,
+        "text": "Banane hacken und hinzufügen"
+      },
+      {
+        "schritt": 3,
+        "text": "Mandelmus untermischen"
+      },
+      {
+        "schritt": 4,
+        "text": "Abdecken und über Nacht im Kühlschrank lagern"
+      },
+      {
+        "schritt": 5,
+        "text": "Morgens umrühren und eventuell Milch hinzufügen"
+      }
+    ]
+  },
+  {
+    "id": "pfannkuchen-eierkuchen",
+    "title": "Pfannkuchen / Eierkuchen",
+    "beschreibung": "Klassische deutsche Pfannkuchen, süß oder herzhaft",
+    "kategorie": "fruehstueck",
+    "unterkategorie": "eier",
+    "tags": [
+      "familienfreundlich",
+      "klassiker"
+    ],
+    "zubereitungszeit_min": 25,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 290,
+    "protein_g": 8.5,
+    "kohlenhydrate_g": 38.2,
+    "fett_g": 11.3,
+    "ballaststoffe_g": 1.2,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "gluten",
+      "eier",
+      "milch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Eier",
+        "zutat_kategorie": "eier",
+        "menge": 3,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Mehl",
+        "zutat_kategorie": "getreide",
+        "menge": 150,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Milch",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 250,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zucker",
+        "zutat_kategorie": "suessmittel",
+        "menge": 30,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 40,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "prise",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Eier mit Zucker verquirlen"
+      },
+      {
+        "schritt": 2,
+        "text": "Milch hinzufügen und verrühren"
+      },
+      {
+        "schritt": 3,
+        "text": "Mehl und Salz hinzufügen, glatte Masse rühren"
+      },
+      {
+        "schritt": 4,
+        "text": "Pfanne erhitzen und mit Öl ausreiben"
+      },
+      {
+        "schritt": 5,
+        "text": "Mit Kelle Teig eingießen und von beiden Seiten goldbraun backen"
+      }
+    ]
+  },
+  {
+    "id": "käsespätzle",
+    "title": "Käsespätzle",
+    "beschreibung": "Schwäbische Spezialität - Spätzle mit Käse und Zwiebeln",
+    "kategorie": "mittag",
+    "unterkategorie": "nudeln",
+    "tags": [
+      "klassiker",
+      "familienfreundlich",
+      "vegetarisch"
+    ],
+    "zubereitungszeit_min": 35,
+    "schwierigkeit": "mittel",
+    "portionen": 4,
+    "kcal": 550,
+    "protein_g": 22.5,
+    "kohlenhydrate_g": 58.3,
+    "fett_g": 24.1,
+    "ballaststoffe_g": 2.8,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "gluten",
+      "eier",
+      "milch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Spätzle (fertig)",
+        "zutat_kategorie": "nudeln",
+        "menge": 500,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Emmentaler",
+        "zutat_kategorie": "kaese",
+        "menge": 300,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "gerieben"
+      },
+      {
+        "zutat_name": "Zwiebeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 3,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": "mittlere"
+      },
+      {
+        "zutat_name": "Butter",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 50,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Pfeffer",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Zwiebeln schälen und in feine Ringe schneiden"
+      },
+      {
+        "schritt": 2,
+        "text": "Butter in Pfanne schmelzen, Zwiebeln goldbraun anbraten"
+      },
+      {
+        "schritt": 3,
+        "text": "Spätzle nach Anleitung kochen und abtropfen"
+      },
+      {
+        "schritt": 4,
+        "text": "Spätzle in Auflaufform schichten, abwechselnd mit Käse"
+      },
+      {
+        "schritt": 5,
+        "text": "Gebratene Zwiebeln oben verteilen"
+      },
+      {
+        "schritt": 6,
+        "text": "Im Ofen bei 200°C 10 Minuten überbacken, bis Käse schmilzt"
+      }
+    ]
+  },
+  {
+    "id": "schnitzel-kartoffelsalat",
+    "title": "Schnitzel mit Kartoffelsalat",
+    "beschreibung": "Deutsche Klassiker - frittiertes Schweineschnitzel mit bayrischem Kartoffelsalat",
+    "kategorie": "mittag",
+    "unterkategorie": "fleisch",
+    "tags": [
+      "klassiker",
+      "familienfreundlich"
+    ],
+    "zubereitungszeit_min": 45,
+    "schwierigkeit": "mittel",
+    "portionen": 4,
+    "kcal": 680,
+    "protein_g": 35.2,
+    "kohlenhydrate_g": 52.1,
+    "fett_g": 38.5,
+    "ballaststoffe_g": 3.4,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": [
+      "gluten",
+      "eier"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Schweineschnitzel",
+        "zutat_kategorie": "fleisch",
+        "menge": 800,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "4 Stück à 200g"
+      },
+      {
+        "zutat_name": "Mehl",
+        "zutat_kategorie": "getreide",
+        "menge": 100,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Eier",
+        "zutat_kategorie": "eier",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Paniermehl",
+        "zutat_kategorie": "getreide",
+        "menge": 150,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Kartoffeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 800,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "festkochend"
+      },
+      {
+        "zutat_name": "Mayonnaise",
+        "zutat_kategorie": "saucen",
+        "menge": 200,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 300,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": "zum Frittieren"
+      },
+      {
+        "zutat_name": "Zitrone",
+        "zutat_kategorie": "obst",
+        "menge": 1,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Kartoffeln kochen, schälen und in Scheiben schneiden"
+      },
+      {
+        "schritt": 2,
+        "text": "Kartoffelsalat mit Mayo, Brühe und Senf anmachen"
+      },
+      {
+        "schritt": 3,
+        "text": "Schnitzel plattieren und in Mehl, Ei, Paniermehl wälzen"
+      },
+      {
+        "schritt": 4,
+        "text": "Öl erhitzen und Schnitzel goldbraun frittieren"
+      },
+      {
+        "schritt": 5,
+        "text": "Auf Küchenpapier abtropfen und mit Zitrone servieren"
+      }
+    ]
+  },
+  {
+    "id": "spaghetti-bolognese",
+    "title": "Spaghetti Bolognese",
+    "beschreibung": "Klassiker der deutschen Alltagsküche - schnelle Pasta mit Fleischsoße",
+    "kategorie": "mittag",
+    "unterkategorie": "pasta",
+    "tags": [
+      "schnell",
+      "familienfreundlich",
+      "budget"
+    ],
+    "zubereitungszeit_min": 30,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 520,
+    "protein_g": 28.5,
+    "kohlenhydrate_g": 62.0,
+    "fett_g": 18.3,
+    "ballaststoffe_g": 4.2,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": [
+      "gluten"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Spaghetti",
+        "zutat_kategorie": "nudeln",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Hackfleisch",
+        "zutat_kategorie": "fleisch",
+        "menge": 500,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "Rind"
+      },
+      {
+        "zutat_name": "Zwiebeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": "gehackt"
+      },
+      {
+        "zutat_name": "Knoblauch",
+        "zutat_kategorie": "gemuese",
+        "menge": 3,
+        "einheit": "zehen",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Tomatensoße",
+        "zutat_kategorie": "konserven",
+        "menge": 400,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Tomatenmark",
+        "zutat_kategorie": "konserven",
+        "menge": 2,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 2,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Pfeffer",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Spaghetti in Salzwasser nach Packungsanleitung kochen"
+      },
+      {
+        "schritt": 2,
+        "text": "Öl in Pfanne erhitzen, Zwiebeln und Knoblauch anbraten"
+      },
+      {
+        "schritt": 3,
+        "text": "Hackfleisch hinzugeben und braten bis nicht mehr roh"
+      },
+      {
+        "schritt": 4,
+        "text": "Tomatenmark und Tomatensoße hinzufügen"
+      },
+      {
+        "schritt": 5,
+        "text": "20 Minuten köcheln lassen, mit Salz und Pfeffer würzen"
+      },
+      {
+        "schritt": 6,
+        "text": "Pasta mit Sauce vermischen und sofort servieren"
+      }
+    ]
+  },
+  {
+    "id": "kartoffelsuppe",
+    "title": "Kartoffelsuppe",
+    "beschreibung": "Klassische deutsche Kartoffelsuppe - wärmend und sättigend",
+    "kategorie": "mittag",
+    "unterkategorie": "suppen",
+    "tags": [
+      "klassiker",
+      "budget",
+      "schnell"
+    ],
+    "zubereitungszeit_min": 40,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 280,
+    "protein_g": 8.2,
+    "kohlenhydrate_g": 35.5,
+    "fett_g": 11.3,
+    "ballaststoffe_g": 3.5,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "milch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Kartoffeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 800,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "mehligkochend"
+      },
+      {
+        "zutat_name": "Zwiebeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Möhren",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Gemüsebrühe",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1000,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Sahne",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 100,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Butter",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 30,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Muskatnuss",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "prise",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Kartoffeln, Zwiebeln und Möhren schälen und würfeln"
+      },
+      {
+        "schritt": 2,
+        "text": "Butter schmelzen, Gemüse darin andünsten"
+      },
+      {
+        "schritt": 3,
+        "text": "Mit Brühe aufgießen und 20 Minuten köcheln"
+      },
+      {
+        "schritt": 4,
+        "text": "Teilweise pürieren für cremige Konsistenz"
+      },
+      {
+        "schritt": 5,
+        "text": "Sahne einrühren, mit Muskatnuss würzen"
+      }
+    ]
+  },
+  {
+    "id": "gulasch",
+    "title": "Gulasch",
+    "beschreibung": "Ungarischer Eintopf - fleischreich und würzig",
+    "kategorie": "mittag",
+    "unterkategorie": "eintopf",
+    "tags": [
+      "klassiker",
+      "familienfreundlich",
+      "winterspeise"
+    ],
+    "zubereitungszeit_min": 120,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 420,
+    "protein_g": 32.5,
+    "kohlenhydrate_g": 28.3,
+    "fett_g": 22.1,
+    "ballaststoffe_g": 2.8,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": null,
+    "saison": [
+      "herbst",
+      "winter"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Rindergulasch",
+        "zutat_kategorie": "fleisch",
+        "menge": 800,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zwiebeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 4,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Paprikapulver",
+        "zutat_kategorie": "gewuerze",
+        "menge": 3,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Rinderbrühe",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1000,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Kartoffeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 600,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 3,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Gulasch trocken tupfen und würfeln"
+      },
+      {
+        "schritt": 2,
+        "text": "Öl erhitzen und Fleisch von allen Seiten anbraten"
+      },
+      {
+        "schritt": 3,
+        "text": "Zwiebeln hinzufügen und glasig anbraten"
+      },
+      {
+        "schritt": 4,
+        "text": "Paprikapulver hinzufügen und gut verrühren"
+      },
+      {
+        "schritt": 5,
+        "text": "Mit Brühe aufgießen und 1 Stunde schmoren"
+      },
+      {
+        "schritt": 6,
+        "text": "Kartoffeln hinzufügen und weitere 30 Minuten garen"
+      }
+    ]
+  },
+  {
+    "id": "frikadellen",
+    "title": "Frikadellen",
+    "beschreibung": "Deutsche Fleischbällchen - klassisch und zeitlos beliebt",
+    "kategorie": "mittag",
+    "unterkategorie": "fleisch",
+    "tags": [
+      "klassiker",
+      "familienfreundlich",
+      "schnell",
+      "budget"
+    ],
+    "zubereitungszeit_min": 30,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 380,
+    "protein_g": 26.2,
+    "kohlenhydrate_g": 18.5,
+    "fett_g": 24.3,
+    "ballaststoffe_g": 1.2,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": [
+      "gluten",
+      "eier",
+      "milch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Hackfleisch",
+        "zutat_kategorie": "fleisch",
+        "menge": 700,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "Rind/Schwein gemischt"
+      },
+      {
+        "zutat_name": "Zwiebel",
+        "zutat_kategorie": "gemuese",
+        "menge": 1,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": "gehackt"
+      },
+      {
+        "zutat_name": "Ei",
+        "zutat_kategorie": "eier",
+        "menge": 1,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Semmelbrösel",
+        "zutat_kategorie": "getreide",
+        "menge": 50,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Senf",
+        "zutat_kategorie": "saucen",
+        "menge": 1,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Pfeffer",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 3,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": "zum Braten"
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Hackfleisch mit Zwiebel, Ei, Semmelbrösel und Senf vermischen"
+      },
+      {
+        "schritt": 2,
+        "text": "Mit Salz und Pfeffer würzen"
+      },
+      {
+        "schritt": 3,
+        "text": "Aus Masse 8 Frikadellen formen"
+      },
+      {
+        "schritt": 4,
+        "text": "Öl in Pfanne erhitzen"
+      },
+      {
+        "schritt": 5,
+        "text": "Frikadellen von beiden Seiten 4-5 Minuten braten bis braun"
+      }
+    ]
+  },
+  {
+    "id": "currywurst",
+    "title": "Currywurst",
+    "beschreibung": "Kultklassiker - Wurst mit würziger Curry-Ketchup-Soße",
+    "kategorie": "mittag",
+    "unterkategorie": "fleisch",
+    "tags": [
+      "schnell",
+      "budget",
+      "klassiker"
+    ],
+    "zubereitungszeit_min": 15,
+    "schwierigkeit": "einfach",
+    "portionen": 2,
+    "kcal": 480,
+    "protein_g": 18.5,
+    "kohlenhydrate_g": 28.3,
+    "fett_g": 32.1,
+    "ballaststoffe_g": 1.5,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": null,
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Currywurst",
+        "zutat_kategorie": "fleisch",
+        "menge": 4,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Ketchup",
+        "zutat_kategorie": "saucen",
+        "menge": 150,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Currypulver",
+        "zutat_kategorie": "gewuerze",
+        "menge": 2,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Worcestersauce",
+        "zutat_kategorie": "saucen",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 1,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Pommes",
+        "zutat_kategorie": "gemuese",
+        "menge": 300,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "tiefgekühlt"
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Ketchup mit Currypulver und Worcestersauce verrühren"
+      },
+      {
+        "schritt": 2,
+        "text": "Öl in Pfanne erhitzen und Currywurst braten bis scharf"
+      },
+      {
+        "schritt": 3,
+        "text": "Pommes nach Packungsanleitung zubereiten"
+      },
+      {
+        "schritt": 4,
+        "text": "Wurst in Stücke schneiden und mit Curry-Ketchup übergießen"
+      },
+      {
+        "schritt": 5,
+        "text": "Mit Pommes servieren"
+      }
+    ]
+  },
+  {
+    "id": "flammkuchen",
+    "title": "Flammkuchen (Tarte Flambée)",
+    "beschreibung": "Elsässischer Klassiker - knuspriger Boden mit Creme fraîche und Speck",
+    "kategorie": "mittag",
+    "unterkategorie": "pizza",
+    "tags": [
+      "schnell",
+      "klassiker"
+    ],
+    "zubereitungszeit_min": 25,
+    "schwierigkeit": "mittel",
+    "portionen": 4,
+    "kcal": 420,
+    "protein_g": 16.5,
+    "kohlenhydrate_g": 38.2,
+    "fett_g": 22.3,
+    "ballaststoffe_g": 2.1,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": [
+      "gluten"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Pizzateig",
+        "zutat_kategorie": "getreide",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "fertig"
+      },
+      {
+        "zutat_name": "Creme fraîche",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 200,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Speckstreifen",
+        "zutat_kategorie": "fleisch",
+        "menge": 150,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zwiebeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": "in Ringe"
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Pfeffer",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Pizzateig ausrollen auf Blech"
+      },
+      {
+        "schritt": 2,
+        "text": "Creme fraîche auf Teig verteilen"
+      },
+      {
+        "schritt": 3,
+        "text": "Speck und Zwiebeln darauf verteilen"
+      },
+      {
+        "schritt": 4,
+        "text": "Mit Salz und Pfeffer würzen"
+      },
+      {
+        "schritt": 5,
+        "text": "Im Ofen bei 220°C 15-20 Minuten backen bis Rand knusprig"
+      }
+    ]
+  },
+  {
+    "id": "linseneintopf",
+    "title": "Linseneintopf",
+    "beschreibung": "Deftiger Eintopf mit Linsen und Würstchen",
+    "kategorie": "mittag",
+    "unterkategorie": "eintopf",
+    "tags": [
+      "klassiker",
+      "budget",
+      "vegetarisch"
+    ],
+    "zubereitungszeit_min": 50,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 340,
+    "protein_g": 18.5,
+    "kohlenhydrate_g": 42.3,
+    "fett_g": 8.1,
+    "ballaststoffe_g": 8.2,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": null,
+    "saison": [
+      "herbst",
+      "winter"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Rote Linsen",
+        "zutat_kategorie": "leguminosen",
+        "menge": 300,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Möhren",
+        "zutat_kategorie": "gemuese",
+        "menge": 3,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zwiebel",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Kartoffeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Gemüsebrühe",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1000,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 2,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Gemüse schälen und würfeln"
+      },
+      {
+        "schritt": 2,
+        "text": "Öl in Topf erhitzen, Zwiebeln und Möhren anbraten"
+      },
+      {
+        "schritt": 3,
+        "text": "Kartoffeln und Linsen hinzufügen"
+      },
+      {
+        "schritt": 4,
+        "text": "Mit Brühe aufgießen und 40 Minuten köcheln"
+      },
+      {
+        "schritt": 5,
+        "text": "Mit Salz abschmecken und servieren"
+      }
+    ]
+  },
+  {
+    "id": "chili-con-carne",
+    "title": "Chili con Carne",
+    "beschreibung": "Scharfes Fleisch-Bohnen-Gericht aus Mexiko",
+    "kategorie": "mittag",
+    "unterkategorie": "eintopf",
+    "tags": [
+      "scharfs",
+      "familienfreundlich",
+      "mealprep"
+    ],
+    "zubereitungszeit_min": 60,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 480,
+    "protein_g": 32.5,
+    "kohlenhydrate_g": 48.2,
+    "fett_g": 14.3,
+    "ballaststoffe_g": 9.1,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": null,
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Hackfleisch",
+        "zutat_kategorie": "fleisch",
+        "menge": 500,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "Rind"
+      },
+      {
+        "zutat_name": "Rote Bohnen",
+        "zutat_kategorie": "konserven",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "in Dose"
+      },
+      {
+        "zutat_name": "Tomaten gehackt",
+        "zutat_kategorie": "konserven",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "in Dose"
+      },
+      {
+        "zutat_name": "Zwiebeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": "gehackt"
+      },
+      {
+        "zutat_name": "Knoblauch",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "zehen",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Chili Pulver",
+        "zutat_kategorie": "gewuerze",
+        "menge": 2,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 2,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Öl erhitzen, Zwiebeln und Knoblauch anbraten"
+      },
+      {
+        "schritt": 2,
+        "text": "Hackfleisch hinzufügen und braten bis braun"
+      },
+      {
+        "schritt": 3,
+        "text": "Chili Pulver hinzufügen und verrühren"
+      },
+      {
+        "schritt": 4,
+        "text": "Tomaten und Bohnen hinzufügen"
+      },
+      {
+        "schritt": 5,
+        "text": "40 Minuten köcheln lassen und würzen"
+      }
+    ]
+  },
+  {
+    "id": "kaiserschmarrn",
+    "title": "Kaiserschmarrn",
+    "beschreibung": "Österreichisches Dessert - zarte Kaiserpfannkuchen mit Pflaumenmus",
+    "kategorie": "dessert",
+    "unterkategorie": "süss",
+    "tags": [
+      "klassiker",
+      "österreich"
+    ],
+    "zubereitungszeit_min": 30,
+    "schwierigkeit": "mittel",
+    "portionen": 4,
+    "kcal": 320,
+    "protein_g": 8.5,
+    "kohlenhydrate_g": 48.2,
+    "fett_g": 10.3,
+    "ballaststoffe_g": 1.2,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "gluten",
+      "eier",
+      "milch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Eier",
+        "zutat_kategorie": "eier",
+        "menge": 4,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Mehl",
+        "zutat_kategorie": "getreide",
+        "menge": 100,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Milch",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 200,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Butter",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 40,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zucker",
+        "zutat_kategorie": "suessmittel",
+        "menge": 40,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Pflaumenmus",
+        "zutat_kategorie": "konserven",
+        "menge": 150,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Puderzucker",
+        "zutat_kategorie": "suessmittel",
+        "menge": 30,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Eigelbe mit Zucker schaumig schlagen"
+      },
+      {
+        "schritt": 2,
+        "text": "Mehl und Milch hinzufügen und verrühren"
+      },
+      {
+        "schritt": 3,
+        "text": "Eiweiß steif schlagen und unter Teig heben"
+      },
+      {
+        "schritt": 4,
+        "text": "Butter in Pfanne schmelzen und Teig eingießen"
+      },
+      {
+        "schritt": 5,
+        "text": "Von beiden Seiten hellbraun backen, dann zerreißen"
+      },
+      {
+        "schritt": 6,
+        "text": "Mit Puderzucker bestäuben und Pflaumenmus servieren"
+      }
+    ]
+  },
+  {
+    "id": "schwarzwälder-kirschtorte",
+    "title": "Schwarzwälder Kirschtorte",
+    "beschreibung": "Klassische deutsche Festtorte mit Kirschen und Sahne",
+    "kategorie": "dessert",
+    "unterkategorie": "kuchen",
+    "tags": [
+      "klassiker",
+      "festlich"
+    ],
+    "zubereitungszeit_min": 120,
+    "schwierigkeit": "schwer",
+    "portionen": 12,
+    "kcal": 380,
+    "protein_g": 5.5,
+    "kohlenhydrate_g": 45.2,
+    "fett_g": 20.3,
+    "ballaststoffe_g": 1.5,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "gluten",
+      "eier",
+      "milch",
+      "nuesse"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Schokoladenkuchen",
+        "zutat_kategorie": "gebaeck",
+        "menge": 800,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "fertig"
+      },
+      {
+        "zutat_name": "Sauerkirschen",
+        "zutat_kategorie": "konserven",
+        "menge": 500,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Sahne",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 500,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": "zum Schlagen"
+      },
+      {
+        "zutat_name": "Kirschlikör",
+        "zutat_kategorie": "alkohol",
+        "menge": 50,
+        "einheit": "ml",
+        "ist_optional": true,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Schokolade",
+        "zutat_kategorie": "suessmittel",
+        "menge": 100,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "gerieben"
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Kuchen in 3 Schichten teilen"
+      },
+      {
+        "schritt": 2,
+        "text": "Sahne schlagen und mit Zucker süßen"
+      },
+      {
+        "schritt": 3,
+        "text": "Kirschen mit Saft abtropfen"
+      },
+      {
+        "schritt": 4,
+        "text": "Schichten zusammensetzen mit Sahne und Kirschen"
+      },
+      {
+        "schritt": 5,
+        "text": "Torte mit Sahne bestreichen und mit Schokolade garnieren"
+      }
+    ]
+  },
+  {
+    "id": "sachertorte",
+    "title": "Sachertorte",
+    "beschreibung": "Österreichische Schokoladentorte mit Aprikosenguss",
+    "kategorie": "dessert",
+    "unterkategorie": "kuchen",
+    "tags": [
+      "klassiker",
+      "österreich",
+      "festlich"
+    ],
+    "zubereitungszeit_min": 90,
+    "schwierigkeit": "schwer",
+    "portionen": 10,
+    "kcal": 420,
+    "protein_g": 6.2,
+    "kohlenhydrate_g": 52.3,
+    "fett_g": 22.1,
+    "ballaststoffe_g": 2.3,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "gluten",
+      "eier",
+      "milch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Butter",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 150,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zucker",
+        "zutat_kategorie": "suessmittel",
+        "menge": 150,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Eier",
+        "zutat_kategorie": "eier",
+        "menge": 8,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Mehl",
+        "zutat_kategorie": "getreide",
+        "menge": 150,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Kakaopulver",
+        "zutat_kategorie": "suessmittel",
+        "menge": 50,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Aprikosenmarmelade",
+        "zutat_kategorie": "konserven",
+        "menge": 300,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Butter und Zucker cremig schlagen"
+      },
+      {
+        "schritt": 2,
+        "text": "Eier einzeln einschlagen"
+      },
+      {
+        "schritt": 3,
+        "text": "Mehl und Kakao hinzufügen und unterrühren"
+      },
+      {
+        "schritt": 4,
+        "text": "In Kuchenform füllen und 50 Minuten backen"
+      },
+      {
+        "schritt": 5,
+        "text": "Nach dem Abkühlen mit Aprikosenmarmelade bestreichen"
+      }
+    ]
+  },
+  {
+    "id": "apfelstrudel",
+    "title": "Apfelstrudel",
+    "beschreibung": "Klassisches österreichisches Dessert mit dünn ausgezogenem Blätterteig",
+    "kategorie": "dessert",
+    "unterkategorie": "kuchen",
+    "tags": [
+      "klassiker",
+      "österreich"
+    ],
+    "zubereitungszeit_min": 60,
+    "schwierigkeit": "schwer",
+    "portionen": 8,
+    "kcal": 280,
+    "protein_g": 5.2,
+    "kohlenhydrate_g": 42.3,
+    "fett_g": 11.1,
+    "ballaststoffe_g": 2.4,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "gluten",
+      "eier"
+    ],
+    "saison": [
+      "herbst",
+      "winter"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Blätterteig",
+        "zutat_kategorie": "getreide",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "tiefgekühlt"
+      },
+      {
+        "zutat_name": "Äpfel",
+        "zutat_kategorie": "obst",
+        "menge": 800,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zucker",
+        "zutat_kategorie": "suessmittel",
+        "menge": 100,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Rosinen",
+        "zutat_kategorie": "obst",
+        "menge": 100,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Butter",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 50,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zimt",
+        "zutat_kategorie": "gewuerze",
+        "menge": 2,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Äpfel schälen, entkernen und in Scheiben schneiden"
+      },
+      {
+        "schritt": 2,
+        "text": "Mit Zucker, Zimt und Rosinen vermischen"
+      },
+      {
+        "schritt": 3,
+        "text": "Blätterteig ausrollen und Apfelmasse darauf verteilen"
+      },
+      {
+        "schritt": 4,
+        "text": "Teig zu Rolle formen und auf Blech legen"
+      },
+      {
+        "schritt": 5,
+        "text": "Bei 180°C 40 Minuten backen bis goldbraun"
+      }
+    ]
+  },
+  {
+    "id": "one-pot-pasta",
+    "title": "One-Pot-Pasta",
+    "beschreibung": "Moderne schnelle Pasta - alles in einem Topf",
+    "kategorie": "mittag",
+    "unterkategorie": "pasta",
+    "tags": [
+      "schnell",
+      "modern",
+      "eintopf"
+    ],
+    "zubereitungszeit_min": 20,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 480,
+    "protein_g": 18.5,
+    "kohlenhydrate_g": 58.2,
+    "fett_g": 18.3,
+    "ballaststoffe_g": 5.1,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": [
+      "gluten"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Spaghetti",
+        "zutat_kategorie": "nudeln",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Kirschtomaten",
+        "zutat_kategorie": "gemuese",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Spinat",
+        "zutat_kategorie": "gemuese",
+        "menge": 200,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Wasser",
+        "zutat_kategorie": "fluessigkeit",
+        "menge": 1000,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Knoblauch",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "zehen",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 3,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Öl und Knoblauch in großem Topf erhitzen"
+      },
+      {
+        "schritt": 2,
+        "text": "Tomaten und Wasser hinzufügen"
+      },
+      {
+        "schritt": 3,
+        "text": "Spaghetti hinzufügen und 10 Minuten kochen"
+      },
+      {
+        "schritt": 4,
+        "text": "Spinat hinzufügen und 5 Minuten weitergaren"
+      },
+      {
+        "schritt": 5,
+        "text": "Mit Salz und Pfeffer abschmecken"
+      }
+    ]
+  },
+  {
+    "id": "shakshuka",
+    "title": "Shakshuka",
+    "beschreibung": "Nordafrikanisches Gericht - Eier in würziger Tomatensoße",
+    "kategorie": "mittag",
+    "unterkategorie": "eier",
+    "tags": [
+      "modern",
+      "trending",
+      "vegetarisch"
+    ],
+    "zubereitungszeit_min": 25,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 320,
+    "protein_g": 14.2,
+    "kohlenhydrate_g": 18.5,
+    "fett_g": 22.1,
+    "ballaststoffe_g": 3.2,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "eier"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Tomaten gehackt",
+        "zutat_kategorie": "konserven",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Paprika",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zwiebel",
+        "zutat_kategorie": "gemuese",
+        "menge": 1,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Eier",
+        "zutat_kategorie": "eier",
+        "menge": 4,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Koriander",
+        "zutat_kategorie": "gewuerze",
+        "menge": 2,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 3,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Öl erhitzen und Zwiebel und Paprika anbraten"
+      },
+      {
+        "schritt": 2,
+        "text": "Tomaten und Koriander hinzufügen"
+      },
+      {
+        "schritt": 3,
+        "text": "15 Minuten köcheln lassen"
+      },
+      {
+        "schritt": 4,
+        "text": "Mit Löffel Mulden in Sauce drücken"
+      },
+      {
+        "schritt": 5,
+        "text": "Eier vorsichtig in Mulden gleiten lassen"
+      },
+      {
+        "schritt": 6,
+        "text": "5 Minuten garen bis Eier gar sind"
+      }
+    ]
+  },
+  {
+    "id": "hawaiian-pizza",
+    "title": "Hawaiian Pizza",
+    "beschreibung": "Pizzaklassiker mit Ananas und Schinken",
+    "kategorie": "mittag",
+    "unterkategorie": "pizza",
+    "tags": [
+      "schnell",
+      "familienfreundlich"
+    ],
+    "zubereitungszeit_min": 30,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 420,
+    "protein_g": 18.5,
+    "kohlenhydrate_g": 48.2,
+    "fett_g": 18.1,
+    "ballaststoffe_g": 2.3,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": [
+      "gluten",
+      "milch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Pizzateig",
+        "zutat_kategorie": "getreide",
+        "menge": 600,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "fertig"
+      },
+      {
+        "zutat_name": "Pizzasauce",
+        "zutat_kategorie": "saucen",
+        "menge": 200,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Mozzarella",
+        "zutat_kategorie": "kaese",
+        "menge": 300,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "gerieben"
+      },
+      {
+        "zutat_name": "Schinken",
+        "zutat_kategorie": "fleisch",
+        "menge": 200,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Ananas",
+        "zutat_kategorie": "obst",
+        "menge": 200,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "gehackt"
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Pizzateig auf Blech ausrollen"
+      },
+      {
+        "schritt": 2,
+        "text": "Mit Pizzasauce bestreichen"
+      },
+      {
+        "schritt": 3,
+        "text": "Mozzarella, Schinken und Ananas darauf verteilen"
+      },
+      {
+        "schritt": 4,
+        "text": "Bei 220°C 15-20 Minuten backen bis Käse schmilzt"
+      }
+    ]
+  },
+  {
+    "id": "quiche-lorraine",
+    "title": "Quiche Lorraine",
+    "beschreibung": "Französischer Klassiker - Torte mit Ei-Sahne und Speck",
+    "kategorie": "mittag",
+    "unterkategorie": "tarte",
+    "tags": [
+      "klassiker",
+      "schnell"
+    ],
+    "zubereitungszeit_min": 45,
+    "schwierigkeit": "mittel",
+    "portionen": 6,
+    "kcal": 380,
+    "protein_g": 16.5,
+    "kohlenhydrate_g": 28.2,
+    "fett_g": 24.1,
+    "ballaststoffe_g": 1.2,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": [
+      "gluten",
+      "eier",
+      "milch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Mürbeteig",
+        "zutat_kategorie": "getreide",
+        "menge": 300,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Speckstreifen",
+        "zutat_kategorie": "fleisch",
+        "menge": 150,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Eier",
+        "zutat_kategorie": "eier",
+        "menge": 3,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Sahne",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 300,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Mürbeteig in Tarteform auslegen"
+      },
+      {
+        "schritt": 2,
+        "text": "Speck auslegen"
+      },
+      {
+        "schritt": 3,
+        "text": "Eier mit Sahne vermischen, würzen"
+      },
+      {
+        "schritt": 4,
+        "text": "Eier-Sahne-Masse über Speck gießen"
+      },
+      {
+        "schritt": 5,
+        "text": "Bei 180°C 30 Minuten backen"
+      }
+    ]
+  },
+  {
+    "id": "falafel-burger",
+    "title": "Falafel Burger",
+    "beschreibung": "Vegetarischer Burger mit Kichererbsen-Puffer",
+    "kategorie": "mittag",
+    "unterkategorie": "burger",
+    "tags": [
+      "modern",
+      "vegetarisch",
+      "schnell"
+    ],
+    "zubereitungszeit_min": 35,
+    "schwierigkeit": "mittel",
+    "portionen": 4,
+    "kcal": 420,
+    "protein_g": 14.5,
+    "kohlenhydrate_g": 48.2,
+    "fett_g": 18.5,
+    "ballaststoffe_g": 6.2,
+    "ernaehrungsformen": [
+      "vegetarisch",
+      "vegan"
+    ],
+    "allergene": [
+      "gluten"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Kichererbsen",
+        "zutat_kategorie": "konserven",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "in Dose"
+      },
+      {
+        "zutat_name": "Zwiebel",
+        "zutat_kategorie": "gemuese",
+        "menge": 1,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Knoblauch",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "zehen",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Petersilie",
+        "zutat_kategorie": "kraut",
+        "menge": 50,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "gehackt"
+      },
+      {
+        "zutat_name": "Mehl",
+        "zutat_kategorie": "getreide",
+        "menge": 50,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 3,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Burgerbrötchen",
+        "zutat_kategorie": "getreide",
+        "menge": 4,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Kichererbsen abtropfen und grob hacken"
+      },
+      {
+        "schritt": 2,
+        "text": "Zwiebel und Knoblauch fein hacken"
+      },
+      {
+        "schritt": 3,
+        "text": "Alles mit Petersilie und Mehl vermischen"
+      },
+      {
+        "schritt": 4,
+        "text": "4 Puffer formen und in Öl braten"
+      },
+      {
+        "schritt": 5,
+        "text": "Brötchen toasten und Falafel mit Salat und Tahini-Sauce servieren"
+      }
+    ]
+  },
+  {
+    "id": "hähnchen-schnitzel",
+    "title": "Hähnchen-Schnitzel",
+    "beschreibung": "Leichte Variante des Klassikers mit Hähnchenbrust",
+    "kategorie": "mittag",
+    "unterkategorie": "fleisch",
+    "tags": [
+      "klassiker",
+      "light",
+      "schnell"
+    ],
+    "zubereitungszeit_min": 25,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 380,
+    "protein_g": 38.5,
+    "kohlenhydrate_g": 22.3,
+    "fett_g": 16.1,
+    "ballaststoffe_g": 1.2,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": [
+      "gluten",
+      "eier"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Hähnchenbrust",
+        "zutat_kategorie": "fleisch",
+        "menge": 800,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "4 Filets"
+      },
+      {
+        "zutat_name": "Mehl",
+        "zutat_kategorie": "getreide",
+        "menge": 80,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Eier",
+        "zutat_kategorie": "eier",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Paniermehl",
+        "zutat_kategorie": "getreide",
+        "menge": 100,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 3,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zitrone",
+        "zutat_kategorie": "obst",
+        "menge": 1,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Hähnchenbrust plattieren"
+      },
+      {
+        "schritt": 2,
+        "text": "In Mehl, Ei, Paniermehl wälzen"
+      },
+      {
+        "schritt": 3,
+        "text": "In Öl von beiden Seiten je 4-5 Minuten braten"
+      },
+      {
+        "schritt": 4,
+        "text": "Mit Zitrone servieren"
+      }
+    ]
+  },
+  {
+    "id": "rote-beete-salat",
+    "title": "Rote-Beete-Salat",
+    "beschreibung": "Klassischer deutscher Beilage-Salat mit Rote Beete",
+    "kategorie": "snack",
+    "unterkategorie": "salat",
+    "tags": [
+      "klassiker",
+      "budget",
+      "vegetarisch"
+    ],
+    "zubereitungszeit_min": 15,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 140,
+    "protein_g": 4.2,
+    "kohlenhydrate_g": 18.5,
+    "fett_g": 6.3,
+    "ballaststoffe_g": 3.2,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": null,
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Rote Beete",
+        "zutat_kategorie": "konserven",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "in Dose"
+      },
+      {
+        "zutat_name": "Zwiebel",
+        "zutat_kategorie": "gemuese",
+        "menge": 1,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Essig",
+        "zutat_kategorie": "saucen",
+        "menge": 100,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zucker",
+        "zutat_kategorie": "suessmittel",
+        "menge": 20,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 2,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Rote Beete abtropfen und in Stücke schneiden"
+      },
+      {
+        "schritt": 2,
+        "text": "Zwiebel fein würfeln"
+      },
+      {
+        "schritt": 3,
+        "text": "Essig, Zucker und Öl verrühren"
+      },
+      {
+        "schritt": 4,
+        "text": "Mit Rote Beete und Zwiebel vermischen"
+      },
+      {
+        "schritt": 5,
+        "text": "Mindestens 1 Stunde durchziehen lassen"
+      }
+    ]
+  },
+  {
+    "id": "krautsalat",
+    "title": "Krautsalat",
+    "beschreibung": "Klassischer deutscher Coleslaw - knackig frisch",
+    "kategorie": "snack",
+    "unterkategorie": "salat",
+    "tags": [
+      "klassiker",
+      "budget",
+      "schnell",
+      "vegetarisch"
+    ],
+    "zubereitungszeit_min": 20,
+    "schwierigkeit": "einfach",
+    "portionen": 6,
+    "kcal": 120,
+    "protein_g": 2.5,
+    "kohlenhydrate_g": 12.3,
+    "fett_g": 6.8,
+    "ballaststoffe_g": 2.5,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": null,
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Weißkohl",
+        "zutat_kategorie": "gemuese",
+        "menge": 800,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "fein gehobelt"
+      },
+      {
+        "zutat_name": "Möhren",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": "gerieben"
+      },
+      {
+        "zutat_name": "Essig",
+        "zutat_kategorie": "saucen",
+        "menge": 50,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 4,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zucker",
+        "zutat_kategorie": "suessmittel",
+        "menge": 10,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Kohl und Möhren vorbereiten"
+      },
+      {
+        "schritt": 2,
+        "text": "In Schüssel geben"
+      },
+      {
+        "schritt": 3,
+        "text": "Essig, Öl, Zucker und Salz verrühren"
+      },
+      {
+        "schritt": 4,
+        "text": "Dressing über Gemüse gießen und massieren"
+      },
+      {
+        "schritt": 5,
+        "text": "Mindestens 30 Minuten ziehen lassen"
+      }
+    ]
+  },
+  {
+    "id": "kartoffelpuffer",
+    "title": "Kartoffelpuffer",
+    "beschreibung": "Knusprige deutsche Kartoffelpuffer mit Apfelmus",
+    "kategorie": "snack",
+    "unterkategorie": "kartoffeln",
+    "tags": [
+      "klassiker",
+      "schnell",
+      "vegetarisch",
+      "budget"
+    ],
+    "zubereitungszeit_min": 30,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 240,
+    "protein_g": 5.2,
+    "kohlenhydrate_g": 28.3,
+    "fett_g": 11.5,
+    "ballaststoffe_g": 2.1,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "eier"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Kartoffeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 800,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "mehligkochend"
+      },
+      {
+        "zutat_name": "Ei",
+        "zutat_kategorie": "eier",
+        "menge": 1,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Mehl",
+        "zutat_kategorie": "getreide",
+        "menge": 40,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 4,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": "zum Braten"
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Apfelmus",
+        "zutat_kategorie": "konserven",
+        "menge": 200,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Kartoffeln reiben"
+      },
+      {
+        "schritt": 2,
+        "text": "In Tuch auspressen"
+      },
+      {
+        "schritt": 3,
+        "text": "Mit Ei, Mehl und Salz vermischen"
+      },
+      {
+        "schritt": 4,
+        "text": "Öl erhitzen"
+      },
+      {
+        "schritt": 5,
+        "text": "Mit Löffel Puffer formen und von beiden Seiten 3 Minuten braten"
+      },
+      {
+        "schritt": 6,
+        "text": "Mit Apfelmus servieren"
+      }
+    ]
+  },
+  {
+    "id": "brokkoli-auflauf",
+    "title": "Brokkoli-Auflauf",
+    "beschreibung": "Vegetarischer Auflauf mit Brokkoli und Käsesauce",
+    "kategorie": "abendessen",
+    "unterkategorie": "auflauf",
+    "tags": [
+      "vegetarisch",
+      "familienfreundlich"
+    ],
+    "zubereitungszeit_min": 50,
+    "schwierigkeit": "mittel",
+    "portionen": 4,
+    "kcal": 340,
+    "protein_g": 18.5,
+    "kohlenhydrate_g": 28.3,
+    "fett_g": 18.1,
+    "ballaststoffe_g": 3.2,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "gluten",
+      "milch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Brokkoli",
+        "zutat_kategorie": "gemuese",
+        "menge": 800,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "in Röschen"
+      },
+      {
+        "zutat_name": "Butter",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 30,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Mehl",
+        "zutat_kategorie": "getreide",
+        "menge": 30,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Milch",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 500,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Käse",
+        "zutat_kategorie": "kaese",
+        "menge": 200,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "gerieben"
+      },
+      {
+        "zutat_name": "Paniermehl",
+        "zutat_kategorie": "getreide",
+        "menge": 50,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Brokkoli kurz blanchieren"
+      },
+      {
+        "schritt": 2,
+        "text": "Butter und Mehl zu Roux verrühren"
+      },
+      {
+        "schritt": 3,
+        "text": "Milch hinzufügen und Käsesauce köcheln lassen"
+      },
+      {
+        "schritt": 4,
+        "text": "Brokkoli mit Sauce vermischen in Auflaufform"
+      },
+      {
+        "schritt": 5,
+        "text": "Mit Paniermehl bestreuen"
+      },
+      {
+        "schritt": 6,
+        "text": "Bei 180°C 25 Minuten überbacken"
+      }
+    ]
+  },
+  {
+    "id": "hähnchen-mit-reis",
+    "title": "Hähnchen mit Reis",
+    "beschreibung": "Einfache Alltagsvariante mit Hähnchen und Duftreis",
+    "kategorie": "abendessen",
+    "unterkategorie": "fleisch",
+    "tags": [
+      "schnell",
+      "einfach",
+      "budget"
+    ],
+    "zubereitungszeit_min": 35,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 420,
+    "protein_g": 32.5,
+    "kohlenhydrate_g": 42.3,
+    "fett_g": 10.1,
+    "ballaststoffe_g": 2.2,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": null,
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Hähnchenbrust",
+        "zutat_kategorie": "fleisch",
+        "menge": 800,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "in Stücken"
+      },
+      {
+        "zutat_name": "Langkornreis",
+        "zutat_kategorie": "getreide",
+        "menge": 300,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Gemüsebrühe",
+        "zutat_kategorie": "gewuerze",
+        "menge": 600,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zwiebel",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": "gehackt"
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 2,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Öl erhitzen und Hähnchen anbraten"
+      },
+      {
+        "schritt": 2,
+        "text": "Zwiebeln hinzufügen und andünsten"
+      },
+      {
+        "schritt": 3,
+        "text": "Reis hinzufügen und kurz mitbraten"
+      },
+      {
+        "schritt": 4,
+        "text": "Mit Brühe aufgießen"
+      },
+      {
+        "schritt": 5,
+        "text": "20 Minuten köcheln bis Reis gar ist"
+      }
+    ]
+  },
+  {
+    "id": "fischstäbchen-kartoffeln",
+    "title": "Fischstäbchen mit Kartoffeln",
+    "beschreibung": "Klassisches Kinderessen - schnell zubereitet",
+    "kategorie": "abendessen",
+    "unterkategorie": "fisch",
+    "tags": [
+      "klassiker",
+      "schnell",
+      "budget",
+      "familienfreundlich"
+    ],
+    "zubereitungszeit_min": 25,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 380,
+    "protein_g": 18.5,
+    "kohlenhydrate_g": 42.3,
+    "fett_g": 14.1,
+    "ballaststoffe_g": 3.2,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": [
+      "fisch",
+      "gluten"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Fischstäbchen",
+        "zutat_kategorie": "fleisch",
+        "menge": 600,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "tiefgekühlt"
+      },
+      {
+        "zutat_name": "Kartoffeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 800,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "festkochend"
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 300,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": "zum Frittieren"
+      },
+      {
+        "zutat_name": "Remoulade",
+        "zutat_kategorie": "saucen",
+        "menge": 150,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Kartoffeln schälen und in Stifte schneiden"
+      },
+      {
+        "schritt": 2,
+        "text": "Öl erhitzen und Kartoffeln darin ausbacken"
+      },
+      {
+        "schritt": 3,
+        "text": "Fischstäbchen in separater Pfanne backen"
+      },
+      {
+        "schritt": 4,
+        "text": "Auf Papier abtropfen"
+      },
+      {
+        "schritt": 5,
+        "text": "Mit Salz würzen und mit Remoulade servieren"
+      }
+    ]
+  },
+  {
+    "id": "hähnchen-noodle-bowl",
+    "title": "Hähnchen Noodle Bowl",
+    "beschreibung": "Moderne asiatische Bowl mit Hähnchen und Nudeln",
+    "kategorie": "mittag",
+    "unterkategorie": "bowl",
+    "tags": [
+      "modern",
+      "trendig",
+      "schnell"
+    ],
+    "zubereitungszeit_min": 30,
+    "schwierigkeit": "einfach",
+    "portionen": 2,
+    "kcal": 480,
+    "protein_g": 35.2,
+    "kohlenhydrate_g": 48.5,
+    "fett_g": 12.3,
+    "ballaststoffe_g": 4.2,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": [
+      "gluten"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Instant-Nudeln",
+        "zutat_kategorie": "nudeln",
+        "menge": 300,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Hähnchenbrust",
+        "zutat_kategorie": "fleisch",
+        "menge": 300,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "in Streifen"
+      },
+      {
+        "zutat_name": "Pak Choi",
+        "zutat_kategorie": "gemuese",
+        "menge": 200,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Sojasoße",
+        "zutat_kategorie": "saucen",
+        "menge": 40,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Sesam",
+        "zutat_kategorie": "suessmittel",
+        "menge": 20,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Nudeln nach Anleitung kochen"
+      },
+      {
+        "schritt": 2,
+        "text": "Hähnchen in Pfanne braten"
+      },
+      {
+        "schritt": 3,
+        "text": "Pak Choi kurz mitbraten"
+      },
+      {
+        "schritt": 4,
+        "text": "Nudeln in Schüssel anrichten"
+      },
+      {
+        "schritt": 5,
+        "text": "Mit Hähnchen, Gemüse und Sojasoße toppen"
+      },
+      {
+        "schritt": 6,
+        "text": "Mit Sesam bestreuen"
+      }
+    ]
+  },
+  {
+    "id": "tomaten-mozzarella-salat",
+    "title": "Tomaten-Mozzarella-Salat",
+    "beschreibung": "Italienischer Klassiker - Caprese Salat",
+    "kategorie": "snack",
+    "unterkategorie": "salat",
+    "tags": [
+      "schnell",
+      "klassiker",
+      "vegetarisch"
+    ],
+    "zubereitungszeit_min": 10,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 220,
+    "protein_g": 12.5,
+    "kohlenhydrate_g": 8.3,
+    "fett_g": 16.5,
+    "ballaststoffe_g": 2.1,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "milch"
+    ],
+    "saison": [
+      "sommer"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Tomaten",
+        "zutat_kategorie": "gemuese",
+        "menge": 600,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "reif"
+      },
+      {
+        "zutat_name": "Mozzarella",
+        "zutat_kategorie": "kaese",
+        "menge": 300,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "frisch"
+      },
+      {
+        "zutat_name": "Basilikum",
+        "zutat_kategorie": "kraut",
+        "menge": 30,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Olivenöl",
+        "zutat_kategorie": "oel",
+        "menge": 40,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Balsamico",
+        "zutat_kategorie": "saucen",
+        "menge": 20,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "prise",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Tomaten in Scheiben schneiden"
+      },
+      {
+        "schritt": 2,
+        "text": "Mozzarella in Scheiben schneiden"
+      },
+      {
+        "schritt": 3,
+        "text": "Abwechselnd Tomaten und Mozzarella auf Teller anrichten"
+      },
+      {
+        "schritt": 4,
+        "text": "Basilikumblätter verteilen"
+      },
+      {
+        "schritt": 5,
+        "text": "Mit Olivenöl und Balsamico beträufeln, würzen"
+      }
+    ]
+  },
+  {
+    "id": "rinderbraten",
+    "title": "Rinderbraten",
+    "beschreibung": "Klassischer deutscher Sonntagsbraten mit Sauce",
+    "kategorie": "abendessen",
+    "unterkategorie": "fleisch",
+    "tags": [
+      "klassiker",
+      "festlich",
+      "winterspeise"
+    ],
+    "zubereitungszeit_min": 180,
+    "schwierigkeit": "mittel",
+    "portionen": 6,
+    "kcal": 450,
+    "protein_g": 42.5,
+    "kohlenhydrate_g": 12.3,
+    "fett_g": 24.1,
+    "ballaststoffe_g": 1.2,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": null,
+    "saison": [
+      "herbst",
+      "winter"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Rinderbraten",
+        "zutat_kategorie": "fleisch",
+        "menge": 1500,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zwiebeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 4,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Möhren",
+        "zutat_kategorie": "gemuese",
+        "menge": 3,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Sellerie",
+        "zutat_kategorie": "gemuese",
+        "menge": 1,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Rinderbrühe",
+        "zutat_kategorie": "gewuerze",
+        "menge": 500,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 2,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Braten in Öl anbraten"
+      },
+      {
+        "schritt": 2,
+        "text": "Gemüse hinzufügen und mitbraten"
+      },
+      {
+        "schritt": 3,
+        "text": "Mit Brühe aufgießen"
+      },
+      {
+        "schritt": 4,
+        "text": "Im Ofen bei 160°C 2 Stunden schmoren"
+      },
+      {
+        "schritt": 5,
+        "text": "Braten herausnehmen und Sauce passieren"
+      },
+      {
+        "schritt": 6,
+        "text": "In Scheiben schneiden und servieren"
+      }
+    ]
+  },
+  {
+    "id": "falafel-mit-hummus",
+    "title": "Falafel mit Hummus",
+    "beschreibung": "Klassische Mittelmeer-Vorspeise",
+    "kategorie": "snack",
+    "unterkategorie": "dips",
+    "tags": [
+      "vegetarisch",
+      "vegan",
+      "schnell"
+    ],
+    "zubereitungszeit_min": 25,
+    "schwierigkeit": "mittel",
+    "portionen": 4,
+    "kcal": 280,
+    "protein_g": 10.5,
+    "kohlenhydrate_g": 28.3,
+    "fett_g": 14.1,
+    "ballaststoffe_g": 6.2,
+    "ernaehrungsformen": [
+      "vegetarisch",
+      "vegan"
+    ],
+    "allergene": [
+      "sesam"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Kichererbsen",
+        "zutat_kategorie": "konserven",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "in Dose"
+      },
+      {
+        "zutat_name": "Sesammus",
+        "zutat_kategorie": "saucen",
+        "menge": 100,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zitrone",
+        "zutat_kategorie": "obst",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": "Saft"
+      },
+      {
+        "zutat_name": "Knoblauch",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "zehen",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Olivenöl",
+        "zutat_kategorie": "oel",
+        "menge": 40,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Kichererbsen mit Sesammus, Zitronensaft und Knoblauch mixen"
+      },
+      {
+        "schritt": 2,
+        "text": "Mit Olivenöl glätten"
+      },
+      {
+        "schritt": 3,
+        "text": "Hummus in Schüssel geben"
+      },
+      {
+        "schritt": 4,
+        "text": "Falafel kaufen oder selbst frittieren"
+      },
+      {
+        "schritt": 5,
+        "text": "Mit Hummus und Gemüse servieren"
+      }
+    ]
+  },
+  {
+    "id": "müsli-granola",
+    "title": "Müsli mit Granola",
+    "beschreibung": "Knuspriges Frühstück mit selbstgemachtem Granola",
+    "kategorie": "fruehstueck",
+    "unterkategorie": "cerealien",
+    "tags": [
+      "schnell",
+      "vegetarisch",
+      "health"
+    ],
+    "zubereitungszeit_min": 10,
+    "schwierigkeit": "einfach",
+    "portionen": 2,
+    "kcal": 380,
+    "protein_g": 11.2,
+    "kohlenhydrate_g": 52.3,
+    "fett_g": 14.5,
+    "ballaststoffe_g": 7.2,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "gluten",
+      "nusseMüsli mit Granola",
+      "milch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Haferflocken",
+        "zutat_kategorie": "getreide",
+        "menge": 50,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Granola",
+        "zutat_kategorie": "cerealien",
+        "menge": 40,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Joghurt",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 150,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Beeren",
+        "zutat_kategorie": "obst",
+        "menge": 100,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "gemischt"
+      },
+      {
+        "zutat_name": "Honig",
+        "zutat_kategorie": "suessmittel",
+        "menge": 20,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Joghurt in Schüssel geben"
+      },
+      {
+        "schritt": 2,
+        "text": "Haferflocken und Granola oben verteilen"
+      },
+      {
+        "schritt": 3,
+        "text": "Beeren hinzufügen"
+      },
+      {
+        "schritt": 4,
+        "text": "Mit Honig beträufeln"
+      }
+    ]
+  },
+  {
+    "id": "steak-mit-pommes",
+    "title": "Steak mit Pommes",
+    "beschreibung": "Klassische Steakhouse-Speise",
+    "kategorie": "abendessen",
+    "unterkategorie": "fleisch",
+    "tags": [
+      "klassiker",
+      "festlich"
+    ],
+    "zubereitungszeit_min": 40,
+    "schwierigkeit": "mittel",
+    "portionen": 2,
+    "kcal": 680,
+    "protein_g": 48.5,
+    "kohlenhydrate_g": 48.2,
+    "fett_g": 28.1,
+    "ballaststoffe_g": 3.2,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": null,
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Rindersteak",
+        "zutat_kategorie": "fleisch",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "2x200g"
+      },
+      {
+        "zutat_name": "Kartoffeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 600,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 3,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Butter",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 40,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Kartoffeln schneiden und im Ofen frittieren"
+      },
+      {
+        "schritt": 2,
+        "text": "Steak salzen und pfeffern"
+      },
+      {
+        "schritt": 3,
+        "text": "In heißem Öl beide Seiten je 3-4 Minuten braten"
+      },
+      {
+        "schritt": 4,
+        "text": "Mit Butter baste und ruhen lassen"
+      },
+      {
+        "schritt": 5,
+        "text": "Mit Pommes servieren"
+      }
+    ]
+  },
+  {
+    "id": "gnocchi-spinat-creme",
+    "title": "Gnocchi mit Spinat-Creme",
+    "beschreibung": "Italienische Variante - fluffy Kartoffelnocken",
+    "kategorie": "mittag",
+    "unterkategorie": "pasta",
+    "tags": [
+      "klassiker",
+      "vegetarisch"
+    ],
+    "zubereitungszeit_min": 35,
+    "schwierigkeit": "mittel",
+    "portionen": 4,
+    "kcal": 420,
+    "protein_g": 14.2,
+    "kohlenhydrate_g": 52.3,
+    "fett_g": 16.5,
+    "ballaststoffe_g": 3.2,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "gluten",
+      "eier",
+      "milch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Gnocchi",
+        "zutat_kategorie": "nudeln",
+        "menge": 600,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "tiefgekühlt"
+      },
+      {
+        "zutat_name": "Spinat",
+        "zutat_kategorie": "gemuese",
+        "menge": 300,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "tiefgekühlt"
+      },
+      {
+        "zutat_name": "Sahne",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 200,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Parmesankäse",
+        "zutat_kategorie": "kaese",
+        "menge": 80,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "gerieben"
+      },
+      {
+        "zutat_name": "Knoblauch",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "zehen",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Gnocchi nach Anleitung kochen"
+      },
+      {
+        "schritt": 2,
+        "text": "Spinat mit Sahne und Knoblauch erwärmen"
+      },
+      {
+        "schritt": 3,
+        "text": "Parmesankäse hinzufügen"
+      },
+      {
+        "schritt": 4,
+        "text": "Gnocchi mit Spinat-Creme vermischen"
+      }
+    ]
+  },
+  {
+    "id": "champignon-pilzsuppe",
+    "title": "Champignon-Pilzsuppe",
+    "beschreibung": "Cremige Pilzsuppe mit Champignons",
+    "kategorie": "mittag",
+    "unterkategorie": "suppen",
+    "tags": [
+      "klassiker",
+      "vegetarisch",
+      "herbst"
+    ],
+    "zubereitungszeit_min": 35,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 220,
+    "protein_g": 8.5,
+    "kohlenhydrate_g": 18.3,
+    "fett_g": 12.1,
+    "ballaststoffe_g": 2.2,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "milch"
+    ],
+    "saison": [
+      "herbst",
+      "winter"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Champignons",
+        "zutat_kategorie": "gemuese",
+        "menge": 600,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zwiebel",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Knoblauch",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "zehen",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Gemüsebrühe",
+        "zutat_kategorie": "gewuerze",
+        "menge": 800,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Sahne",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 150,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Thymian",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": "getrocknet"
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Champignons putzen und in Scheiben schneiden"
+      },
+      {
+        "schritt": 2,
+        "text": "Zwiebel und Knoblauch andünsten"
+      },
+      {
+        "schritt": 3,
+        "text": "Champignons hinzufügen und leicht anbraten"
+      },
+      {
+        "schritt": 4,
+        "text": "Mit Brühe aufgießen und 20 Minuten köcheln"
+      },
+      {
+        "schritt": 5,
+        "text": "Teilweise pürieren und Sahne hinzufügen"
+      }
+    ]
+  },
+  {
+    "id": "caprese-bowl",
+    "title": "Caprese Bowl",
+    "beschreibung": "Gesunde Buddha Bowl mit Mozzarella",
+    "kategorie": "mittag",
+    "unterkategorie": "bowl",
+    "tags": [
+      "modern",
+      "vegetarisch",
+      "sommer"
+    ],
+    "zubereitungszeit_min": 15,
+    "schwierigkeit": "einfach",
+    "portionen": 2,
+    "kcal": 380,
+    "protein_g": 16.2,
+    "kohlenhydrate_g": 35.5,
+    "fett_g": 18.3,
+    "ballaststoffe_g": 5.2,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "gluten",
+      "milch"
+    ],
+    "saison": [
+      "sommer"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Quinoa gekocht",
+        "zutat_kategorie": "getreide",
+        "menge": 300,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Tomaten",
+        "zutat_kategorie": "gemuese",
+        "menge": 300,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "gewürfelt"
+      },
+      {
+        "zutat_name": "Mozzarella",
+        "zutat_kategorie": "kaese",
+        "menge": 200,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Basilikum",
+        "zutat_kategorie": "kraut",
+        "menge": 20,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Olivenöl",
+        "zutat_kategorie": "oel",
+        "menge": 40,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Quinoa in Bowl geben"
+      },
+      {
+        "schritt": 2,
+        "text": "Tomaten und Mozzarella oben verteilen"
+      },
+      {
+        "schritt": 3,
+        "text": "Basilikum hinzufügen"
+      },
+      {
+        "schritt": 4,
+        "text": "Mit Olivenöl und Balsamico würzen"
+      }
+    ]
+  },
+  {
+    "id": "lachssteak-zucchini",
+    "title": "Lachssteak mit Zucchini",
+    "beschreibung": "Gesundes Fischgericht mit Gemüse",
+    "kategorie": "abendessen",
+    "unterkategorie": "fisch",
+    "tags": [
+      "light",
+      "schnell",
+      "gesund"
+    ],
+    "zubereitungszeit_min": 25,
+    "schwierigkeit": "einfach",
+    "portionen": 2,
+    "kcal": 420,
+    "protein_g": 38.5,
+    "kohlenhydrate_g": 12.3,
+    "fett_g": 24.1,
+    "ballaststoffe_g": 2.2,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": [
+      "fisch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Lachssteaks",
+        "zutat_kategorie": "fleisch",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "2x200g"
+      },
+      {
+        "zutat_name": "Zucchini",
+        "zutat_kategorie": "gemuese",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "in Scheiben"
+      },
+      {
+        "zutat_name": "Zitrone",
+        "zutat_kategorie": "obst",
+        "menge": 1,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Olivenöl",
+        "zutat_kategorie": "oel",
+        "menge": 3,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Zucchini in Pfanne mit Öl anbraten"
+      },
+      {
+        "schritt": 2,
+        "text": "Salzen und beiseite stellen"
+      },
+      {
+        "schritt": 3,
+        "text": "Lachssteaks in separater Pfanne 5-6 Minuten pro Seite braten"
+      },
+      {
+        "schritt": 4,
+        "text": "Mit Zitrone servieren"
+      }
+    ]
+  },
+  {
+    "id": "erdäpfelpuffer-apfelmus",
+    "title": "Erdäpfelpuffer mit Apfelmus",
+    "beschreibung": "Österreichische Variation von Kartoffelpuffern",
+    "kategorie": "snack",
+    "unterkategorie": "kartoffeln",
+    "tags": [
+      "klassiker",
+      "österreich",
+      "vegetarisch"
+    ],
+    "zubereitungszeit_min": 25,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 220,
+    "protein_g": 4.8,
+    "kohlenhydrate_g": 26.3,
+    "fett_g": 10.2,
+    "ballaststoffe_g": 2.3,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "eier"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Kartoffeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 800,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Ei",
+        "zutat_kategorie": "eier",
+        "menge": 1,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Mehl",
+        "zutat_kategorie": "getreide",
+        "menge": 40,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 4,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Apfelmus",
+        "zutat_kategorie": "konserven",
+        "menge": 300,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Kartoffeln fein reiben"
+      },
+      {
+        "schritt": 2,
+        "text": "Auspressen und mit Ei und Mehl vermischen"
+      },
+      {
+        "schritt": 3,
+        "text": "Öl in Pfanne erhitzen"
+      },
+      {
+        "schritt": 4,
+        "text": "Puffer formen und von beiden Seiten braten"
+      },
+      {
+        "schritt": 5,
+        "text": "Mit Apfelmus servieren"
+      }
+    ]
+  },
+  {
+    "id": "bayerischer-leberkäse",
+    "title": "Bayerischer Leberkäse",
+    "beschreibung": "Klassisches bayrisches Fleischgericht",
+    "kategorie": "mittag",
+    "unterkategorie": "fleisch",
+    "tags": [
+      "klassiker",
+      "bayern"
+    ],
+    "zubereitungszeit_min": 60,
+    "schwierigkeit": "schwer",
+    "portionen": 4,
+    "kcal": 380,
+    "protein_g": 32.5,
+    "kohlenhydrate_g": 18.3,
+    "fett_g": 20.1,
+    "ballaststoffe_g": 0,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": [
+      "gluten",
+      "eier"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Hackfleisch",
+        "zutat_kategorie": "fleisch",
+        "menge": 800,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "gemischt"
+      },
+      {
+        "zutat_name": "Zwiebeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": "fein gehackt"
+      },
+      {
+        "zutat_name": "Semmelbrösel",
+        "zutat_kategorie": "getreide",
+        "menge": 100,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Eier",
+        "zutat_kategorie": "eier",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Salz",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1.5,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Fleisch mit Zwiebeln, Semmelbröseln und Eiern vermischen"
+      },
+      {
+        "schritt": 2,
+        "text": "Mit Salz würzen und gut durchkneten"
+      },
+      {
+        "schritt": 3,
+        "text": "In Kastenform drücken"
+      },
+      {
+        "schritt": 4,
+        "text": "Im Wasserbad bei 160°C 45 Minuten backen"
+      },
+      {
+        "schritt": 5,
+        "text": "Abkühlen lassen und aus Form stürzen"
+      }
+    ]
+  },
+  {
+    "id": "brezel-flammkuchen",
+    "title": "Brezel & Flammkuchen",
+    "beschreibung": "Klassische süßsalzige Kombination",
+    "kategorie": "snack",
+    "unterkategorie": "gebaeck",
+    "tags": [
+      "klassiker",
+      "deutsch",
+      "schnell"
+    ],
+    "zubereitungszeit_min": 20,
+    "schwierigkeit": "einfach",
+    "portionen": 2,
+    "kcal": 280,
+    "protein_g": 8.5,
+    "kohlenhydrate_g": 38.2,
+    "fett_g": 10.3,
+    "ballaststoffe_g": 1.5,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "gluten",
+      "milch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Brezel",
+        "zutat_kategorie": "gebaeck",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Süßer Senf",
+        "zutat_kategorie": "saucen",
+        "menge": 40,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Radieschen",
+        "zutat_kategorie": "gemuese",
+        "menge": 100,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "geschnitten"
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Brezel durchschneiden"
+      },
+      {
+        "schritt": 2,
+        "text": "Mit süßem Senf bestreichen"
+      },
+      {
+        "schritt": 3,
+        "text": "Radieschen hinzufügen"
+      },
+      {
+        "schritt": 4,
+        "text": "Zusammenklappen und servieren"
+      }
+    ]
+  },
+  {
+    "id": "rotkohl",
+    "title": "Rotkohl",
+    "beschreibung": "Klassische deutsche Beilage zu Festessen",
+    "kategorie": "snack",
+    "unterkategorie": "gemuese",
+    "tags": [
+      "klassiker",
+      "budget",
+      "vegetarisch"
+    ],
+    "zubereitungszeit_min": 50,
+    "schwierigkeit": "einfach",
+    "portionen": 6,
+    "kcal": 120,
+    "protein_g": 2.3,
+    "kohlenhydrate_g": 16.5,
+    "fett_g": 4.2,
+    "ballaststoffe_g": 3.2,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": null,
+    "saison": [
+      "herbst",
+      "winter"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Rotkohl",
+        "zutat_kategorie": "gemuese",
+        "menge": 1000,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "fein gehobelt"
+      },
+      {
+        "zutat_name": "Äpfel",
+        "zutat_kategorie": "obst",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": "gehackt"
+      },
+      {
+        "zutat_name": "Essig",
+        "zutat_kategorie": "saucen",
+        "menge": 100,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zucker",
+        "zutat_kategorie": "suessmittel",
+        "menge": 30,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 2,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Rotkohl und Äpfel vorbereiten"
+      },
+      {
+        "schritt": 2,
+        "text": "Öl erhitzen und Rotkohl anbraten"
+      },
+      {
+        "schritt": 3,
+        "text": "Äpfel, Essig und Zucker hinzufügen"
+      },
+      {
+        "schritt": 4,
+        "text": "30 Minuten schmoren bis weich"
+      }
+    ]
+  },
+  {
+    "id": "linsensuppe-mit-wurst",
+    "title": "Linsensuppe mit Wurst",
+    "beschreibung": "Klassische deftige Herbst- und Wintersuppe",
+    "kategorie": "mittag",
+    "unterkategorie": "suppen",
+    "tags": [
+      "klassiker",
+      "budget",
+      "winterspeise"
+    ],
+    "zubereitungszeit_min": 60,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 380,
+    "protein_g": 22.5,
+    "kohlenhydrate_g": 38.3,
+    "fett_g": 12.1,
+    "ballaststoffe_g": 7.2,
+    "ernaehrungsformen": [
+      "omnivor"
+    ],
+    "allergene": null,
+    "saison": [
+      "herbst",
+      "winter"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Linsen",
+        "zutat_kategorie": "leguminosen",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "rot oder braun"
+      },
+      {
+        "zutat_name": "Wursteinlage",
+        "zutat_kategorie": "fleisch",
+        "menge": 300,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Möhren",
+        "zutat_kategorie": "gemuese",
+        "menge": 3,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zwiebel",
+        "zutat_kategorie": "gemuese",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Gemüsebrühe",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1200,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 2,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Öl erhitzen, Gemüse anbraten"
+      },
+      {
+        "schritt": 2,
+        "text": "Linsen und Brühe hinzufügen"
+      },
+      {
+        "schritt": 3,
+        "text": "45 Minuten köcheln"
+      },
+      {
+        "schritt": 4,
+        "text": "Wurst hinzufügen und weitere 10 Minuten garen"
+      }
+    ]
+  },
+  {
+    "id": "vanille-pudding",
+    "title": "Vanille-Pudding",
+    "beschreibung": "Klassisches deutsches Dessert",
+    "kategorie": "dessert",
+    "unterkategorie": "pudding",
+    "tags": [
+      "klassiker",
+      "schnell",
+      "vegetarisch"
+    ],
+    "zubereitungszeit_min": 15,
+    "schwierigkeit": "einfach",
+    "portionen": 4,
+    "kcal": 160,
+    "protein_g": 4.5,
+    "kohlenhydrate_g": 22.3,
+    "fett_g": 6.2,
+    "ballaststoffe_g": 0,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "milch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Milch",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 500,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Puddingpulver Vanille",
+        "zutat_kategorie": "suessmittel",
+        "menge": 40,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zucker",
+        "zutat_kategorie": "suessmittel",
+        "menge": 30,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Milch in Topf erhitzen"
+      },
+      {
+        "schritt": 2,
+        "text": "Puddingpulver mit etwas kalter Milch anrühren"
+      },
+      {
+        "schritt": 3,
+        "text": "In heiße Milch einrühren"
+      },
+      {
+        "schritt": 4,
+        "text": "Zucker hinzufügen und durchköcheln"
+      },
+      {
+        "schritt": 5,
+        "text": "In Schüsseln füllen und abkühlen lassen"
+      }
+    ]
+  },
+  {
+    "id": "eierlikör-tiramisu",
+    "title": "Eierlikör-Tiramisu",
+    "beschreibung": "Deutsches Dessert mit Eierlikör und Kaffee",
+    "kategorie": "dessert",
+    "unterkategorie": "kuchen",
+    "tags": [
+      "festlich",
+      "klassiker",
+      "eierlikoer"
+    ],
+    "zubereitungszeit_min": 20,
+    "schwierigkeit": "mittel",
+    "portionen": 8,
+    "kcal": 320,
+    "protein_g": 6.5,
+    "kohlenhydrate_g": 38.2,
+    "fett_g": 16.3,
+    "ballaststoffe_g": 0,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "eier",
+      "milch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Löffelbiskuits",
+        "zutat_kategorie": "gebaeck",
+        "menge": 400,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Eierlikör",
+        "zutat_kategorie": "alkohol",
+        "menge": 200,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Mascarpone",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 500,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zucker",
+        "zutat_kategorie": "suessmittel",
+        "menge": 80,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Kakao",
+        "zutat_kategorie": "suessmittel",
+        "menge": 40,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Mascarpone mit Zucker cremig rühren"
+      },
+      {
+        "schritt": 2,
+        "text": "Eierlikör vorsichtig unterziehen"
+      },
+      {
+        "schritt": 3,
+        "text": "Löffelbiskuits kurz in Eierlikör dippen"
+      },
+      {
+        "schritt": 4,
+        "text": "In Auflaufform schichten: Biskuits - Creme - Biskuits - Creme"
+      },
+      {
+        "schritt": 5,
+        "text": "Mit Kakao bestäuben und mindestens 2 Stunden kalt stellen"
+      }
+    ]
+  },
+  {
+    "id": "feuerzangenbowle",
+    "title": "Feuerzangenbowle",
+    "beschreibung": "Klassisches deutsches Weihnachtsgetränk",
+    "kategorie": "snack",
+    "unterkategorie": "getraenk",
+    "tags": [
+      "klassiker",
+      "weihnacht",
+      "festlich"
+    ],
+    "zubereitungszeit_min": 30,
+    "schwierigkeit": "mittel",
+    "portionen": 10,
+    "kcal": 180,
+    "protein_g": 0,
+    "kohlenhydrate_g": 24.2,
+    "fett_g": 0,
+    "ballaststoffe_g": 0,
+    "ernaehrungsformen": [
+      "vegan"
+    ],
+    "allergene": null,
+    "saison": [
+      "winter"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Rotwein",
+        "zutat_kategorie": "alkohol",
+        "menge": 1000,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zucker",
+        "zutat_kategorie": "suessmittel",
+        "menge": 100,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Orangensaft",
+        "zutat_kategorie": "saft",
+        "menge": 500,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zimtstange",
+        "zutat_kategorie": "gewuerze",
+        "menge": 2,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Nelken",
+        "zutat_kategorie": "gewuerze",
+        "menge": 5,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Rotwein mit Orangensaft mischen"
+      },
+      {
+        "schritt": 2,
+        "text": "Mit Zimtstange und Nelken würzen"
+      },
+      {
+        "schritt": 3,
+        "text": "Erhitzen aber nicht kochen lassen"
+      },
+      {
+        "schritt": 4,
+        "text": "Zucker auflösen"
+      },
+      {
+        "schritt": 5,
+        "text": "In Bowlegefäß füllen und mit Lorbeer und Orange garnieren"
+      }
+    ]
+  },
+  {
+    "id": "spätzle-mit-käsesauce",
+    "title": "Spätzle mit Käsesauce",
+    "beschreibung": "Alternative zu Käsespätzle - flüssige Variante",
+    "kategorie": "abendessen",
+    "unterkategorie": "nudeln",
+    "tags": [
+      "schwaben",
+      "klassiker",
+      "vegetarisch"
+    ],
+    "zubereitungszeit_min": 30,
+    "schwierigkeit": "mittel",
+    "portionen": 4,
+    "kcal": 520,
+    "protein_g": 20.5,
+    "kohlenhydrate_g": 58.3,
+    "fett_g": 22.1,
+    "ballaststoffe_g": 2.8,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "gluten",
+      "eier",
+      "milch"
+    ],
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Spätzle",
+        "zutat_kategorie": "nudeln",
+        "menge": 600,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "fertig"
+      },
+      {
+        "zutat_name": "Emmentaler",
+        "zutat_kategorie": "kaese",
+        "menge": 200,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "gerieben"
+      },
+      {
+        "zutat_name": "Butter",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 40,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Mehl",
+        "zutat_kategorie": "getreide",
+        "menge": 30,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Milch",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 400,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Muskatnuss",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "prise",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Butter und Mehl zu Roux verrühren"
+      },
+      {
+        "schritt": 2,
+        "text": "Milch langsam einrühren, Sauce köcheln"
+      },
+      {
+        "schritt": 3,
+        "text": "Käse einrühren bis cremig"
+      },
+      {
+        "schritt": 4,
+        "text": "Spätzle nach Anleitung kochen"
+      },
+      {
+        "schritt": 5,
+        "text": "Spätzle auf Teller, Käsesauce darüber gießen"
+      }
+    ]
+  },
+  {
+    "id": "kartoffelsalat-süddeutsch",
+    "title": "Kartoffelsalat Süddeutsch",
+    "beschreibung": "Warme Variante mit Brühe statt Mayo",
+    "kategorie": "snack",
+    "unterkategorie": "salat",
+    "tags": [
+      "klassiker",
+      "bayern",
+      "vegetarisch"
+    ],
+    "zubereitungszeit_min": 35,
+    "schwierigkeit": "einfach",
+    "portionen": 6,
+    "kcal": 200,
+    "protein_g": 5.2,
+    "kohlenhydrate_g": 28.5,
+    "fett_g": 7.3,
+    "ballaststoffe_g": 2.1,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": null,
+    "saison": [
+      "ganzjaehrig"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Kartoffeln",
+        "zutat_kategorie": "gemuese",
+        "menge": 1000,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "festkochend"
+      },
+      {
+        "zutat_name": "Gemüsebrühe",
+        "zutat_kategorie": "gewuerze",
+        "menge": 300,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Essig",
+        "zutat_kategorie": "saucen",
+        "menge": 80,
+        "einheit": "ml",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Öl",
+        "zutat_kategorie": "oel",
+        "menge": 3,
+        "einheit": "el",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Schnittlauch",
+        "zutat_kategorie": "kraut",
+        "menge": 30,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "gehackt"
+      },
+      {
+        "zutat_name": "Radieschen",
+        "zutat_kategorie": "gemuese",
+        "menge": 100,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "in Scheiben"
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Kartoffeln kochen und in Scheiben schneiden"
+      },
+      {
+        "schritt": 2,
+        "text": "Brühe, Essig und Öl vermischen und warm über Kartoffeln gießen"
+      },
+      {
+        "schritt": 3,
+        "text": "Durchziehen lassen"
+      },
+      {
+        "schritt": 4,
+        "text": "Schnittlauch und Radieschen hinzufügen"
+      }
+    ]
+  },
+  {
+    "id": "apfelkuchen",
+    "title": "Apfelkuchen",
+    "beschreibung": "Klassischer deutscher Apfelkuchen mit Puderzucker",
+    "kategorie": "dessert",
+    "unterkategorie": "kuchen",
+    "tags": [
+      "klassiker",
+      "herbst",
+      "vegetarisch"
+    ],
+    "zubereitungszeit_min": 60,
+    "schwierigkeit": "mittel",
+    "portionen": 8,
+    "kcal": 280,
+    "protein_g": 4.5,
+    "kohlenhydrate_g": 38.2,
+    "fett_g": 12.1,
+    "ballaststoffe_g": 2.3,
+    "ernaehrungsformen": [
+      "vegetarisch"
+    ],
+    "allergene": [
+      "gluten",
+      "eier",
+      "milch"
+    ],
+    "saison": [
+      "herbst",
+      "winter"
+    ],
+    "zutaten": [
+      {
+        "zutat_name": "Butter",
+        "zutat_kategorie": "milchprodukte",
+        "menge": 150,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zucker",
+        "zutat_kategorie": "suessmittel",
+        "menge": 150,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Eier",
+        "zutat_kategorie": "eier",
+        "menge": 3,
+        "einheit": "stk",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Mehl",
+        "zutat_kategorie": "getreide",
+        "menge": 250,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Äpfel",
+        "zutat_kategorie": "obst",
+        "menge": 800,
+        "einheit": "g",
+        "ist_optional": false,
+        "notiz": "geschält"
+      },
+      {
+        "zutat_name": "Backpulver",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      },
+      {
+        "zutat_name": "Zimt",
+        "zutat_kategorie": "gewuerze",
+        "menge": 1,
+        "einheit": "tl",
+        "ist_optional": false,
+        "notiz": null
+      }
+    ],
+    "zubereitung_schritte": [
+      {
+        "schritt": 1,
+        "text": "Butter und Zucker cremig schlagen"
+      },
+      {
+        "schritt": 2,
+        "text": "Eier einzeln einschlagen"
+      },
+      {
+        "schritt": 3,
+        "text": "Mehl mit Backpulver und Zimt vermischen und unterheben"
+      },
+      {
+        "schritt": 4,
+        "text": "Äpfel schälen und in Spalten schneiden"
+      },
+      {
+        "schritt": 5,
+        "text": "In Kuchenform füllen und Äpfel darin verteilen"
+      },
+      {
+        "schritt": 6,
+        "text": "Bei 180°C 50 Minuten backen"
+      },
+      {
+        "schritt": 7,
+        "text": "Mit Puderzucker bestäuben"
+      }
+    ]
+  }
+]

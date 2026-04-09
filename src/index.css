@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  @apply bg-background font-sans antialiased text-dark;
+  margin: 0;
+  background-color: #F5F5F0;
+}
+
+#root {
+  @apply min-h-screen;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* Smooth transitions globally */
+button, a, input {
+  transition: all 0.2s ease;
+}
+
+/* Hide scrollbar but allow scroll */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #f0f0ec 25%, #e8e8e3 50%, #f0f0ec 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* Confetti animation */
+@keyframes confettiFall {
+  0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) translateX(var(--drift, 0px)) rotate(720deg); opacity: 0; }
+}
+
+/* Spin wheel pointer bounce */
+.animate-pointer-bounce {
+  animation: pointerBounce 0.15s ease-in-out infinite alternate;
+}
+@keyframes pointerBounce {
+  0% { transform: translateX(-50%) rotate(-3deg); }
+  100% { transform: translateX(-50%) rotate(3deg); }
+}
+
+/* Subtle pulse for spin button */
+.animate-pulse-subtle {
+  animation: pulseSubtle 2s ease-in-out infinite;
+}
+@keyframes pulseSubtle {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(2,131,80,0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(2,131,80,0); }
+}
+
+/* Result card slide up */
+.animate-result-slide {
+  animation: resultSlide 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes resultSlide {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Logo bounce animation for loading screens */
+@keyframes logoBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.animate-logo-bounce {
+  animation: logoBounce 1.2s ease-in-out infinite;
+}
+
+/* Thin loading bar animation */
+@keyframes loadingBar {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(0%); }
+  100% { transform: translateX(100%); }
+}
+.animate-loading-bar {
+  animation: loadingBar 1.5s ease-in-out infinite;
+}
+
+/* Onboarding slide animations */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Range slider styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #EBEBEB;
+  border-radius: 100px;
+  height: 6px;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #028350;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #028350;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}

@@ -1,0 +1,24 @@
+{
+  "name": "MealDeal - Spare beim Kochen",
+  "short_name": "MealDeal",
+  "description": "Finde die besten Supermarkt-Angebote und spare beim Kochen.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F5F0",
+  "theme_color": "#028350",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

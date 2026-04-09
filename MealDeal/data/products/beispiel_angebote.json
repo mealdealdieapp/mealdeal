@@ -1,0 +1,195 @@
+[
+  {
+    "name": "Kerrygold Irische Butter 250g",
+    "produktkategorie": "butter",
+    "supermarkt": "REWE",
+    "preis": 1.89,
+    "uvp_preis": 2.49,
+    "rabatt_prozent": 24.1
+  },
+  {
+    "name": "Müller Buttermilch 500ml",
+    "produktkategorie": "buttermilch",
+    "supermarkt": "REWE",
+    "preis": 0.79
+  },
+  {
+    "name": "Barilla Spaghetti No.5 500g",
+    "produktkategorie": "nudeln",
+    "supermarkt": "LIDL",
+    "preis": 0.99,
+    "uvp_preis": 1.49,
+    "rabatt_prozent": 33.6
+  },
+  {
+    "name": "Ja! Hackfleisch gemischt 500g",
+    "produktkategorie": "hackfleisch",
+    "supermarkt": "REWE",
+    "preis": 3.49,
+    "uvp_preis": 4.99,
+    "rabatt_prozent": 30.1
+  },
+  {
+    "name": "Bio Vollmilch 3,5% 1L",
+    "produktkategorie": "milch",
+    "supermarkt": "ALDI",
+    "preis": 1.15
+  },
+  {
+    "name": "Erdnussbutter crunchy 350g",
+    "produktkategorie": "erdnussbutter",
+    "supermarkt": "LIDL",
+    "preis": 2.49
+  },
+  {
+    "name": "Gouda jung 200g",
+    "produktkategorie": "kaese",
+    "supermarkt": "ALDI",
+    "preis": 1.49,
+    "uvp_preis": 1.99,
+    "rabatt_prozent": 25.1
+  },
+  {
+    "name": "Zwiebeln 1kg Netz",
+    "produktkategorie": "zwiebel",
+    "supermarkt": "LIDL",
+    "preis": 0.99
+  },
+  {
+    "name": "Bio Karotten 1kg",
+    "produktkategorie": "karotte",
+    "supermarkt": "ALDI",
+    "preis": 1.29
+  },
+  {
+    "name": "Passierte Tomaten 500ml",
+    "produktkategorie": "passierte_tomaten",
+    "supermarkt": "LIDL",
+    "preis": 0.49
+  },
+  {
+    "name": "Knoblauch 3er Pack",
+    "produktkategorie": "knoblauch",
+    "supermarkt": "PENNY",
+    "preis": 0.89
+  },
+  {
+    "name": "Sahne 200ml",
+    "produktkategorie": "sahne",
+    "supermarkt": "REWE",
+    "preis": 0.69
+  },
+  {
+    "name": "Emmentaler gerieben 200g",
+    "produktkategorie": "kaese",
+    "supermarkt": "EDEKA",
+    "preis": 1.79
+  },
+  {
+    "name": "Olivenöl extra vergine 500ml",
+    "produktkategorie": "oel",
+    "supermarkt": "LIDL",
+    "preis": 3.49,
+    "uvp_preis": 4.99
+  },
+  {
+    "name": "Bio Eier Freiland 10 Stück",
+    "produktkategorie": "eier",
+    "supermarkt": "REWE",
+    "preis": 2.99,
+    "uvp_preis": 3.69,
+    "rabatt_prozent": 19.0
+  },
+  {
+    "name": "Weizenmehl Type 405 1kg",
+    "produktkategorie": "mehl",
+    "supermarkt": "ALDI",
+    "preis": 0.59
+  },
+  {
+    "name": "Zucker 1kg",
+    "produktkategorie": "zucker",
+    "supermarkt": "LIDL",
+    "preis": 0.99
+  },
+  {
+    "name": "Maggi Fix Bolognese",
+    "produktkategorie": "sonstiges",
+    "supermarkt": "REWE",
+    "preis": 0.69
+  },
+  {
+    "name": "Kartoffeln festkochend 2,5kg",
+    "produktkategorie": "kartoffel",
+    "supermarkt": "ALDI",
+    "preis": 1.99
+  },
+  {
+    "name": "Rispentomaten 500g",
+    "produktkategorie": "tomate",
+    "supermarkt": "EDEKA",
+    "preis": 1.49
+  },
+  {
+    "name": "Paprika Mix 500g",
+    "produktkategorie": "paprika",
+    "supermarkt": "LIDL",
+    "preis": 1.99
+  },
+  {
+    "name": "Hähnchenbrust 500g",
+    "produktkategorie": "haehnchen",
+    "supermarkt": "ALDI",
+    "preis": 3.99,
+    "uvp_preis": 5.99,
+    "rabatt_prozent": 33.4
+  },
+  {
+    "name": "Schweineschnitzel 400g",
+    "produktkategorie": "schweinefleisch",
+    "supermarkt": "LIDL",
+    "preis": 3.29
+  },
+  {
+    "name": "Magerquark 500g",
+    "produktkategorie": "quark",
+    "supermarkt": "ALDI",
+    "preis": 0.79
+  },
+  {
+    "name": "Dr. Oetker Käsekuchen Backmischung",
+    "produktkategorie": "backmischung",
+    "supermarkt": "EDEKA",
+    "preis": 2.99
+  },
+  {
+    "name": "Bananen 1kg",
+    "produktkategorie": "banane",
+    "supermarkt": "PENNY",
+    "preis": 1.19
+  },
+  {
+    "name": "Basmati Reis 1kg",
+    "produktkategorie": "reis",
+    "supermarkt": "LIDL",
+    "preis": 1.99
+  },
+  {
+    "name": "Joghurt Natur 500g",
+    "produktkategorie": "joghurt",
+    "supermarkt": "ALDI",
+    "preis": 0.59
+  },
+  {
+    "name": "Rama Margarine 500g",
+    "produktkategorie": "margarine",
+    "supermarkt": "PENNY",
+    "preis": 1.29
+  },
+  {
+    "name": "Apfelsaft 1L",
+    "produktkategorie": "saft",
+    "supermarkt": "REWE",
+    "preis": 0.99
+  }
+]

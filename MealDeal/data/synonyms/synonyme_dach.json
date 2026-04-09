@@ -1,0 +1,1391 @@
+[
+  {
+    "standardbegriff": "Butter",
+    "synonyme": ["Butter", "Speisebutter", "Süßrahmbutter"],
+    "region_hinweise": {},
+    "ausschluesse": ["Buttermilch", "Erdnussbutter", "Butterschmalz", "Butteröl", "Butterkäse", "Butterkaese"]
+  },
+  {
+    "standardbegriff": "Butterschmalz",
+    "synonyme": ["Butterschmalz", "Schmalz", "Butteröl", "Schweinefett"],
+    "region_hinweise": {},
+    "ausschluesse": ["Butter", "Margarine"]
+  },
+  {
+    "standardbegriff": "Buttermilch",
+    "synonyme": ["Buttermilch", "Molke"],
+    "region_hinweise": {},
+    "ausschluesse": ["Butter", "Milch", "Sahne"]
+  },
+  {
+    "standardbegriff": "Milch",
+    "synonyme": ["Milch", "Kuhmilch", "Trinkmilch", "Frischmilch", "Vollmilch", "Magermilch", "Halbfettmilch"],
+    "region_hinweise": {},
+    "ausschluesse": ["Buttermilch", "Kokosmilch", "Mandelmilch", "Sojamilch", "Haferdrink", "Reismilch"]
+  },
+  {
+    "standardbegriff": "Sahne",
+    "synonyme": ["Sahne", "Schlagsahne", "Schlagrahm", "Schlagcreme", "Rahm", "Creme", "Süßrahm", "Schlagobers"],
+    "region_hinweise": {
+      "Rahm": "ch",
+      "Schlagobers": "at",
+      "Schlagrahm": "at"
+    },
+    "ausschluesse": ["Sahnetorte", "Sahnecreme", "Sour Cream", "Crème fraîche", "Schmand"]
+  },
+  {
+    "standardbegriff": "Saure Sahne",
+    "synonyme": ["Saure Sahne", "Sour Cream", "Sauerrahm", "Rahmsauerrahm"],
+    "region_hinweise": {},
+    "ausschluesse": ["Joghurt", "Schmand", "Crème fraîche"]
+  },
+  {
+    "standardbegriff": "Crème fraîche",
+    "synonyme": ["Crème fraîche", "Creme Fraiche", "Crème Fraîche", "Sauerrahm"],
+    "region_hinweise": {},
+    "ausschluesse": ["Sahne", "Schmand", "Saure Sahne"]
+  },
+  {
+    "standardbegriff": "Schmand",
+    "synonyme": ["Schmand", "Schmant"],
+    "region_hinweise": {},
+    "ausschluesse": ["Sahne", "Saure Sahne", "Crème fraîche"]
+  },
+  {
+    "standardbegriff": "Joghurt",
+    "synonyme": ["Joghurt", "Jogurt", "Joghurt", "Naturjoghurt", "Vollmilchjoghurt", "Fruchtjoghurt"],
+    "region_hinweise": {},
+    "ausschluesse": ["Griechischer Joghurt", "Kefir", "Ayran"]
+  },
+  {
+    "standardbegriff": "Griechischer Joghurt",
+    "synonyme": ["Griechischer Joghurt", "Strained Joghurt"],
+    "region_hinweise": {},
+    "ausschluesse": ["Joghurt", "Quark"]
+  },
+  {
+    "standardbegriff": "Quark",
+    "synonyme": ["Quark", "Topfen", "Quarkzubereitung"],
+    "region_hinweise": {
+      "Topfen": "at"
+    },
+    "ausschluesse": ["Käse", "Joghurt", "Schmand"]
+  },
+  {
+    "standardbegriff": "Käse",
+    "synonyme": ["Käse", "Hartkäse", "Schnittkäse", "Weichkäse"],
+    "region_hinweise": {},
+    "ausschluesse": ["Käsekuchen", "Käsespätzle", "Käsesoße"]
+  },
+  {
+    "standardbegriff": "Emmental",
+    "synonyme": ["Emmental", "Emmentaler"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Greyerzer",
+    "synonyme": ["Greyerzer", "Gruyère"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Appenzeller",
+    "synonyme": ["Appenzeller"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Edamer",
+    "synonyme": ["Edamer", "Edam"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Camembert",
+    "synonyme": ["Camembert"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Brie",
+    "synonyme": ["Brie"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Mozzarella",
+    "synonyme": ["Mozzarella", "Mozarella"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Parmesan",
+    "synonyme": ["Parmesan", "Parmigiano Reggiano"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Feta",
+    "synonyme": ["Feta", "Schafskäse"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Gorgonzola",
+    "synonyme": ["Gorgonzola", "Blauschimmelkäse"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Ei",
+    "synonyme": ["Ei", "Eier", "Hühnerei", "Hühnereid"],
+    "region_hinweise": {},
+    "ausschluesse": ["Eierlikör", "Eiernudeln", "Eierauflauf"]
+  },
+  {
+    "standardbegriff": "Hackfleisch",
+    "synonyme": ["Hackfleisch", "Hackmasse", "Faschiertes", "Gehacktes", "Gehackstes"],
+    "region_hinweise": {
+      "Faschiertes": "at"
+    },
+    "ausschluesse": ["Fleischwurst", "Fleischpastetchen"]
+  },
+  {
+    "standardbegriff": "Rinderhackfleisch",
+    "synonyme": ["Rinderhackfleisch", "Rinderhack", "Rinderfaschiertes"],
+    "region_hinweise": {
+      "Rinderfaschiertes": "at"
+    },
+    "ausschluesse": ["Hackfleisch", "Schweinehack"]
+  },
+  {
+    "standardbegriff": "Schweinehackfleisch",
+    "synonyme": ["Schweinehackfleisch", "Schweinehack", "Schweinefaschiertes"],
+    "region_hinweise": {
+      "Schweinefaschiertes": "at"
+    },
+    "ausschluesse": ["Hackfleisch", "Rinderhack"]
+  },
+  {
+    "standardbegriff": "Hähnchen",
+    "synonyme": ["Hähnchen", "Huhn", "Hendl", "Chicken", "Poulet", "Junghuhn"],
+    "region_hinweise": {
+      "Hendl": "at",
+      "Poulet": "ch"
+    },
+    "ausschluesse": ["Hähnchenbrust", "Hähnchenschenkel", "Hähnchenbockwurst"]
+  },
+  {
+    "standardbegriff": "Hähnchenbrust",
+    "synonyme": ["Hähnchenbrust", "Hühnerbrust"],
+    "region_hinweise": {},
+    "ausschluesse": ["Hähnchen", "Hähnchenschenkel"]
+  },
+  {
+    "standardbegriff": "Hähnchenschenkel",
+    "synonyme": ["Hähnchenschenkel", "Hähnchenkeulen"],
+    "region_hinweise": {},
+    "ausschluesse": ["Hähnchen", "Hähnchenbrust"]
+  },
+  {
+    "standardbegriff": "Rind",
+    "synonyme": ["Rind", "Rindfleisch", "Rindersteak", "Hochrippe"],
+    "region_hinweise": {},
+    "ausschluesse": ["Rinderhack", "Rinderbraten", "Rinderbratwurst"]
+  },
+  {
+    "standardbegriff": "Rinderbraten",
+    "synonyme": ["Rinderbraten", "Schmorbraten", "Langbraten"],
+    "region_hinweise": {},
+    "ausschluesse": ["Rind", "Steak"]
+  },
+  {
+    "standardbegriff": "Rindfleisch",
+    "synonyme": ["Rindfleisch", "Rind", "Kalbfleisch"],
+    "region_hinweise": {},
+    "ausschluesse": ["Rinderbraten", "Rindfleischwurst"]
+  },
+  {
+    "standardbegriff": "Schweinefleisch",
+    "synonyme": ["Schweinefleisch", "Schwein", "Schweineschnitzel", "Kotlett"],
+    "region_hinweise": {},
+    "ausschluesse": ["Schweinehack", "Schweinenacken", "Schweinewurst"]
+  },
+  {
+    "standardbegriff": "Putenfleisch",
+    "synonyme": ["Putenfleisch", "Putenbrust", "Putenbraten"],
+    "region_hinweise": {},
+    "ausschluesse": ["Putenbratwurst"]
+  },
+  {
+    "standardbegriff": "Lamm",
+    "synonyme": ["Lamm", "Lammfleisch", "Lammrücken"],
+    "region_hinweise": {},
+    "ausschluesse": ["Lammbratwurst"]
+  },
+  {
+    "standardbegriff": "Bratwurst",
+    "synonyme": ["Bratwurst", "Rostbratwurst", "Nürnberger Bratwurst", "Thüringer Bratwurst"],
+    "region_hinweise": {},
+    "ausschluesse": ["Leberwurst", "Blutwurst"]
+  },
+  {
+    "standardbegriff": "Leberwurst",
+    "synonyme": ["Leberwurst", "Braunschweiger"],
+    "region_hinweise": {},
+    "ausschluesse": ["Bratwurst", "Blutwurst"]
+  },
+  {
+    "standardbegriff": "Blutwurst",
+    "synonyme": ["Blutwurst", "Blunze", "Schwarzwurst"],
+    "region_hinweise": {
+      "Blunze": "at"
+    },
+    "ausschluesse": ["Bratwurst", "Leberwurst"]
+  },
+  {
+    "standardbegriff": "Knackwurst",
+    "synonyme": ["Knackwurst", "Knockwurst"],
+    "region_hinweise": {},
+    "ausschluesse": ["Bratwurst"]
+  },
+  {
+    "standardbegriff": "Mortadella",
+    "synonyme": ["Mortadella", "Mortadellawurst"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Speck",
+    "synonyme": ["Speck", "Bauchspeck", "Frühstücksspeck", "Pancetta"],
+    "region_hinweise": {},
+    "ausschluesse": ["Speckknödel"]
+  },
+  {
+    "standardbegriff": "Schinken",
+    "synonyme": ["Schinken", "Kochschinken", "Rohschinken", "Parmaschinken", "Serranoschinken"],
+    "region_hinweise": {},
+    "ausschluesse": ["Schinkenwurst"]
+  },
+  {
+    "standardbegriff": "Dorsch",
+    "synonyme": ["Dorsch", "Kabeljau", "Kabliau"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Forelle",
+    "synonyme": ["Forelle", "Bachforelle", "Regenbogenforelle"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Lachs",
+    "synonyme": ["Lachs", "Lachsfisch", "Salm"],
+    "region_hinweise": {
+      "Salm": "at"
+    },
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Hering",
+    "synonyme": ["Hering", "Heringsfisch", "Matjes"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Thunfisch",
+    "synonyme": ["Thunfisch", "Tuna"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Muscheln",
+    "synonyme": ["Muscheln", "Miesmuschel"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Garnelen",
+    "synonyme": ["Garnelen", "Krabben", "Shrimps", "Prawns"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Kartoffeln",
+    "synonyme": ["Kartoffeln", "Kartoffel", "Erdäpfel", "Grundbirne", "Speisekartoffeln", "Pellkartoffeln"],
+    "region_hinweise": {
+      "Erdäpfel": "at",
+      "Grundbirne": "ch"
+    },
+    "ausschluesse": ["Kartoffelsalat", "Kartoffelpuffer", "Kartoffelmehl"]
+  },
+  {
+    "standardbegriff": "Zwiebeln",
+    "synonyme": ["Zwiebeln", "Zwiebel", "Speisezwiebeln", "Gemüsezwiebel"],
+    "region_hinweise": {},
+    "ausschluesse": ["Zwiebelsud", "Zwiebelringe"]
+  },
+  {
+    "standardbegriff": "Knoblauch",
+    "synonyme": ["Knoblauch", "Knoflach"],
+    "region_hinweise": {
+      "Knoflach": "at"
+    },
+    "ausschluesse": ["Knoblauchöl", "Knoblauchwurst"]
+  },
+  {
+    "standardbegriff": "Tomaten",
+    "synonyme": ["Tomaten", "Tomate", "Paradeiser", "Liebesapfel", "Tomatenfrucht"],
+    "region_hinweise": {
+      "Paradeiser": "at"
+    },
+    "ausschluesse": ["Tomatensaft", "Tomatensoße", "Tomatenpüree", "Tomatenketchup"]
+  },
+  {
+    "standardbegriff": "Tomatensauce",
+    "synonyme": ["Tomatensauce", "Tomatensoße", "Tomatensud", "Passata"],
+    "region_hinweise": {},
+    "ausschluesse": ["Tomaten", "Tomatenpüree", "Tomatenketchup"]
+  },
+  {
+    "standardbegriff": "Tomatenpüree",
+    "synonyme": ["Tomatenpüree", "Tomatenpaste", "Tomatenmark"],
+    "region_hinweise": {},
+    "ausschluesse": ["Tomaten", "Tomatensauce"]
+  },
+  {
+    "standardbegriff": "Salat",
+    "synonyme": ["Salat", "Salatgemüse", "Blattsalat"],
+    "region_hinweise": {},
+    "ausschluesse": ["Salatsoße", "Salatdressing"]
+  },
+  {
+    "standardbegriff": "Kopfsalat",
+    "synonyme": ["Kopfsalat", "Häuptelsalat", "Glattblattiger Salat"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Rucola",
+    "synonyme": ["Rucola", "Rauke", "Rukola"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Spinat",
+    "synonyme": ["Spinat", "Blattspina"],
+    "region_hinweise": {},
+    "ausschluesse": ["Spinatsoße"]
+  },
+  {
+    "standardbegriff": "Brokkoli",
+    "synonyme": ["Brokkoli", "Brokoli"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Blumenkohl",
+    "synonyme": ["Blumenkohl", "Karfiol", "Blütenkohl"],
+    "region_hinweise": {
+      "Karfiol": "at"
+    },
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Grüne Bohnen",
+    "synonyme": ["Grüne Bohnen", "Fisolen", "Grünbohnen", "Fasolen"],
+    "region_hinweise": {
+      "Fisolen": "at",
+      "Fasolen": "at"
+    },
+    "ausschluesse": ["Bohnensalat"]
+  },
+  {
+    "standardbegriff": "Zwiebeln",
+    "synonyme": ["Zwiebeln", "Röstibohnen"],
+    "region_hinweise": {
+      "Röstibohnen": "ch"
+    },
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Karotten",
+    "synonyme": ["Karotten", "Möhren", "Karottchen", "Rüebli", "Wurzelwerk"],
+    "region_hinweise": {
+      "Rüebli": "ch"
+    },
+    "ausschluesse": ["Karottensud", "Karottenmarmelade"]
+  },
+  {
+    "standardbegriff": "Zucchini",
+    "synonyme": ["Zucchini", "Zuchini", "Zücchetti", "Courgettes"],
+    "region_hinweise": {
+      "Zücchetti": "ch"
+    },
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Kürbis",
+    "synonyme": ["Kürbis", "Hokkaido"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Paprika",
+    "synonyme": ["Paprika", "Paprikagemüse", "Paprikachoten"],
+    "region_hinweise": {},
+    "ausschluesse": ["Paprikapulver", "Paprikasoße"]
+  },
+  {
+    "standardbegriff": "Aubergine",
+    "synonyme": ["Aubergine", "Eierfrucht"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Gurke",
+    "synonyme": ["Gurke", "Salatgurke", "Gurkenfrucht"],
+    "region_hinweise": {},
+    "ausschluesse": ["Gurkensud", "Sauergurkenglas"]
+  },
+  {
+    "standardbegriff": "Apfel",
+    "synonyme": ["Apfel", "Äpfel", "Tafelapfel"],
+    "region_hinweise": {},
+    "ausschluesse": ["Apfelsaft", "Apfelmus", "Apfelwein"]
+  },
+  {
+    "standardbegriff": "Aprikose",
+    "synonyme": ["Aprikose", "Marille", "Aprikosenfrucht"],
+    "region_hinweise": {
+      "Marille": "at"
+    },
+    "ausschluesse": ["Aprikosenmarmelade"]
+  },
+  {
+    "standardbegriff": "Birne",
+    "synonyme": ["Birne", "Birnenfrucht"],
+    "region_hinweise": {},
+    "ausschluesse": ["Birnenpuree"]
+  },
+  {
+    "standardbegriff": "Erdbeere",
+    "synonyme": ["Erdbeere", "Walderdbeere"],
+    "region_hinweise": {},
+    "ausschluesse": ["Erdbeermarmelade", "Erdbeerpüree"]
+  },
+  {
+    "standardbegriff": "Himbeere",
+    "synonyme": ["Himbeere", "Rubine"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Johannisbeere",
+    "synonyme": ["Johannisbeere", "Ribisel", "Schwarze Johannisbeere"],
+    "region_hinweise": {
+      "Ribisel": "at"
+    },
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Brombeere",
+    "synonyme": ["Brombeere", "Brombeerkern"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Kirsche",
+    "synonyme": ["Kirsche", "Süßkirsche", "Sauerkirsche"],
+    "region_hinweise": {},
+    "ausschluesse": ["Kirschensaft"]
+  },
+  {
+    "standardbegriff": "Zitrone",
+    "synonyme": ["Zitrone", "Zitronenfrucht"],
+    "region_hinweise": {},
+    "ausschluesse": ["Zitronensaft", "Zitronenöl"]
+  },
+  {
+    "standardbegriff": "Orange",
+    "synonyme": ["Orange", "Apfelsine", "Orangenfrucht"],
+    "region_hinweise": {},
+    "ausschluesse": ["Orangensaft", "Orangenöl"]
+  },
+  {
+    "standardbegriff": "Banane",
+    "synonyme": ["Banane", "Bananenfrucht"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Mehl",
+    "synonyme": ["Mehl", "Weizenmehl", "Roggenmehl", "Mahlprodukt"],
+    "region_hinweise": {},
+    "ausschluesse": ["Mehlschwitze", "Mehlpudding"]
+  },
+  {
+    "standardbegriff": "Zucker",
+    "synonyme": ["Zucker", "Kristallzucker", "Rübenzucker", "Rohrohrzucker"],
+    "region_hinweise": {},
+    "ausschluesse": ["Zuckersud", "Zuckersirup"]
+  },
+  {
+    "standardbegriff": "Honig",
+    "synonyme": ["Honig", "Imkerhonig", "Bienenhonig"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Hefe",
+    "synonyme": ["Hefe", "Bäckerhefe", "Trockenhefe", "Frischhefe"],
+    "region_hinweise": {},
+    "ausschluesse": ["Hefeteig"]
+  },
+  {
+    "standardbegriff": "Backpulver",
+    "synonyme": ["Backpulver", "Backtriebmittel", "Triebmittel"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Natron",
+    "synonyme": ["Natron", "Natriumcarbonat", "Backsoda"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Vanille",
+    "synonyme": ["Vanille", "Vanilleschote", "Vanilleextrakt"],
+    "region_hinweise": {},
+    "ausschluesse": ["Vanillinzucker", "Vanillecrem"]
+  },
+  {
+    "standardbegriff": "Kakaopulver",
+    "synonyme": ["Kakaopulver", "Kakao", "Kakaopulver ungezuckert"],
+    "region_hinweise": {},
+    "ausschluesse": ["Kakaobutter"]
+  },
+  {
+    "standardbegriff": "Öl",
+    "synonyme": ["Öl", "Speiseöl", "Kochöl"],
+    "region_hinweise": {},
+    "ausschluesse": ["Motoröl"]
+  },
+  {
+    "standardbegriff": "Olivenöl",
+    "synonyme": ["Olivenöl", "Olivenöl nativ"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Sonnenblumenöl",
+    "synonyme": ["Sonnenblumenöl", "Sonnenblumenöl nativ"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Rapsöl",
+    "synonyme": ["Rapsöl", "Rapsöl nativ", "Leinöl"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Sesamöl",
+    "synonyme": ["Sesamöl"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Essig",
+    "synonyme": ["Essig", "Branntweinessig", "Weinessig", "Obstessig"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Senf",
+    "synonyme": ["Senf", "Mittelschärfe Senf", "Scharfer Senf", "Süßer Senf"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Ketchup",
+    "synonyme": ["Ketchup", "Tomaten Ketchup", "Catsup"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Mayonnaise",
+    "synonyme": ["Mayonnaise", "Mayo", "Majonäse"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Sojasauce",
+    "synonyme": ["Sojasauce", "Sojasoße", "Soy Sauce"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Worcestersauce",
+    "synonyme": ["Worcestersauce", "Worcestersoße"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Pasta",
+    "synonyme": ["Pasta", "Nudeln", "Nüdeli", "Makkaroni", "Spaghetti", "Fettuccine"],
+    "region_hinweise": {
+      "Nüdeli": "ch"
+    },
+    "ausschluesse": ["Nudelsalat", "Nudelauflauf"]
+  },
+  {
+    "standardbegriff": "Reis",
+    "synonyme": ["Reis", "Langkornreis", "Risotto Reis", "Arborio"],
+    "region_hinweise": {},
+    "ausschluesse": ["Reismehl", "Reiskleie"]
+  },
+  {
+    "standardbegriff": "Quinoa",
+    "synonyme": ["Quinoa"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Couscous",
+    "synonyme": ["Couscous", "Kuskus"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Polenta",
+    "synonyme": ["Polenta", "Maisgrieß"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Paprikapulver",
+    "synonyme": ["Paprikapulver", "Paprika", "Rosenpaprika"],
+    "region_hinweise": {},
+    "ausschluesse": ["Paprika Chili"]
+  },
+  {
+    "standardbegriff": "Salz",
+    "synonyme": ["Salz", "Speisesalz", "Meersalz"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Pfeffer",
+    "synonyme": ["Pfeffer", "Schwarzer Pfeffer", "Pfefferkörner"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Muskatnuss",
+    "synonyme": ["Muskatnuss", "Muskat"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Zimt",
+    "synonyme": ["Zimt", "Zimtrinde"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Anis",
+    "synonyme": ["Anis", "Anisfrüchte"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Kreuzkümmel",
+    "synonyme": ["Kreuzkümmel", "Kümmel"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Currypulver",
+    "synonyme": ["Currypulver", "Curry"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Chili",
+    "synonyme": ["Chili", "Chilipulver", "Scharfer Chili"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Ingwer",
+    "synonyme": ["Ingwer", "Ingwerwurzel", "Frischer Ingwer"],
+    "region_hinweise": {},
+    "ausschluesse": ["Ingwerpulver", "Eingelegter Ingwer"]
+  },
+  {
+    "standardbegriff": "Knoblauch",
+    "synonyme": ["Knoblauch", "Knoblauchzehe"],
+    "region_hinweise": {},
+    "ausschluesse": ["Knoblauchpulver"]
+  },
+  {
+    "standardbegriff": "Petersilie",
+    "synonyme": ["Petersilie", "Peterling", "Frische Petersilie"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Basilikum",
+    "synonyme": ["Basilikum", "Basilienkraut"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Schnittlauch",
+    "synonyme": ["Schnittlauch", "Schnittlauchröhre"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Dill",
+    "synonyme": ["Dill", "Dillkraut", "Dillfenchel"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Oregano",
+    "synonyme": ["Oregano", "Oreganokraut"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Thymian",
+    "synonyme": ["Thymian", "Thymiankraut"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Rosmarin",
+    "synonyme": ["Rosmarin", "Rosmarinkraut"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Salbei",
+    "synonyme": ["Salbei", "Salbeikraut"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Majoran",
+    "synonyme": ["Majoran", "Majorankraut", "Marjoram"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Minze",
+    "synonyme": ["Minze", "Pfefferminze", "Spearmint"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Wasser",
+    "synonyme": ["Wasser", "Trinkwasser", "Mineralwasser"],
+    "region_hinweise": {},
+    "ausschluesse": ["Stärkesirup"]
+  },
+  {
+    "standardbegriff": "Milch",
+    "synonyme": ["Milch", "Frische Milch"],
+    "region_hinweise": {},
+    "ausschluesse": ["Buttermilch", "Kondensmilch"]
+  },
+  {
+    "standardbegriff": "Saft",
+    "synonyme": ["Saft", "Fruchtsaft", "Gemüsesaft"],
+    "region_hinweise": {},
+    "ausschluesse": ["Saftgetränk"]
+  },
+  {
+    "standardbegriff": "Apfelsaft",
+    "synonyme": ["Apfelsaft", "Apfelmost"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Orangensaft",
+    "synonyme": ["Orangensaft", "Frischsaft"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Zitronensaft",
+    "synonyme": ["Zitronensaft", "Frischer Zitronensaft"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Brot",
+    "synonyme": ["Brot", "Weißbrot", "Graubrot", "Vollkornbrot"],
+    "region_hinweise": {},
+    "ausschluesse": ["Brotsuppe", "Brotaufstrich"]
+  },
+  {
+    "standardbegriff": "Brötchen",
+    "synonyme": ["Brötchen", "Semmel", "Weizenbrötchen"],
+    "region_hinweise": {
+      "Semmel": "at"
+    },
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Baguette",
+    "synonyme": ["Baguette", "Stangenbrot"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Ciabatta",
+    "synonyme": ["Ciabatta"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Nussöl",
+    "synonyme": ["Nussöl", "Walnussöl", "Haselnussöl"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Kokosmilch",
+    "synonyme": ["Kokosmilch", "Kokosnussmilch"],
+    "region_hinweise": {},
+    "ausschluesse": ["Milch"]
+  },
+  {
+    "standardbegriff": "Mandelmilch",
+    "synonyme": ["Mandelmilch", "Mandelgetränk"],
+    "region_hinweise": {},
+    "ausschluesse": ["Milch"]
+  },
+  {
+    "standardbegriff": "Sojamilch",
+    "synonyme": ["Sojamilch", "Sojagetränk"],
+    "region_hinweise": {},
+    "ausschluesse": ["Milch"]
+  },
+  {
+    "standardbegriff": "Haferdrink",
+    "synonyme": ["Haferdrink", "Hafermilch"],
+    "region_hinweise": {},
+    "ausschluesse": ["Milch"]
+  },
+  {
+    "standardbegriff": "Kondensmilch",
+    "synonyme": ["Kondensmilch", "Dosenmilch"],
+    "region_hinweise": {},
+    "ausschluesse": ["Milch"]
+  },
+  {
+    "standardbegriff": "Stärkesirup",
+    "synonyme": ["Stärkesirup", "Sirup", "Zuckersirup"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Balsamico",
+    "synonyme": ["Balsamico", "Balsamicoessig"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Rotweinessig",
+    "synonyme": ["Rotweinessig"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Weißweinessig",
+    "synonyme": ["Weißweinessig"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Apfelessig",
+    "synonyme": ["Apfelessig"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Worcesterpulver",
+    "synonyme": ["Worcesterpulver", "Zwiebelwürz"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Instantpulver",
+    "synonyme": ["Instantpulver", "Fleischsoße"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Gemüsebrühe",
+    "synonyme": ["Gemüsebrühe", "Gemüsebouillon", "Gemüsesuppe"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Fleischbrühe",
+    "synonyme": ["Fleischbrühe", "Fleischbouillon"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Hühnerbrühe",
+    "synonyme": ["Hühnerbrühe", "Hühnerbouillon"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Trockenfrüchte",
+    "synonyme": ["Trockenfrüchte", "Rosinen", "Sultaninen", "Datteln"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Nüsse",
+    "synonyme": ["Nüsse", "Mandeln", "Haselnüsse", "Walnüsse", "Pinienkerne"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Gemahlene Mandeln",
+    "synonyme": ["Gemahlene Mandeln", "Mandelmehl"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Erdnussbutter",
+    "synonyme": ["Erdnussbutter", "Peanut Butter"],
+    "region_hinweise": {},
+    "ausschluesse": ["Butter"]
+  },
+  {
+    "standardbegriff": "Tahini",
+    "synonyme": ["Tahini", "Sesammus"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Speiseeis",
+    "synonyme": ["Speiseeis", "Eis", "Eiscreme"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Joghurt",
+    "synonyme": ["Joghurt", "Naturjoghurt"],
+    "region_hinweise": {},
+    "ausschluesse": ["Joghurteis"]
+  },
+  {
+    "standardbegriff": "Konserve",
+    "synonyme": ["Konserve", "Dose", "Büchse", "Konservendose"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Tiefkühlobst",
+    "synonyme": ["Tiefkühlobst", "Gefrorenes Obst"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Tiefkühlgemüse",
+    "synonyme": ["Tiefkühlgemüse", "Gefrorenes Gemüse"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Sauerkraut",
+    "synonyme": ["Sauerkraut", "Sauerampfer", "Gärgemüse"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Oliven",
+    "synonyme": ["Oliven", "Schwarze Oliven", "Grüne Oliven"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Kapern",
+    "synonyme": ["Kapern"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Gurken",
+    "synonyme": ["Gurken", "Salzgurken", "Sauergurkenglas"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Pilze",
+    "synonyme": ["Pilze", "Speisepilze", "Champignons"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Trüffel",
+    "synonyme": ["Trüffel", "Trüffelöl"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Paniermehl",
+    "synonyme": ["Paniermehl", "Semmelbrösel", "Brotkrümel"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Hirseprodukte",
+    "synonyme": ["Hirseprodukte", "Hirse"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Amaranth",
+    "synonyme": ["Amaranth", "Amaranthkorn"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Hafer",
+    "synonyme": ["Hafer", "Haferflocken", "Haferflöckchen"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Roggen",
+    "synonyme": ["Roggen", "Roggenkorn"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Gerste",
+    "synonyme": ["Gerste", "Gerstenkorn"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Stärke",
+    "synonyme": ["Stärke", "Speisestärke", "Maisstärke", "Kartoffelstärke"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Gelatine",
+    "synonyme": ["Gelatine", "Gelantinepulver", "Blattgelatine"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Agar Agar",
+    "synonyme": ["Agar Agar", "Agar", "Algenextrakt"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Päckchen",
+    "synonyme": ["Päckchen", "Paket", "Packung"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Hühnerbrustfilet",
+    "synonyme": ["Hühnerbrustfilet", "Putenbrust", "Hähnchenbrust"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Salzstangen",
+    "synonyme": ["Salzstangen"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Keksbestandteile",
+    "synonyme": ["Keksbestandteile", "Kekskrümel"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Rote Bete",
+    "synonyme": ["Rote Bete", "Rüben", "Beete"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Schwarzwurzel",
+    "synonyme": ["Schwarzwurzel", "Winterspargel"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Kohlrabi",
+    "synonyme": ["Kohlrabi", "Kohlrabie"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Sellerie",
+    "synonyme": ["Sellerie", "Staudensellerie", "Knollensellerie"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Süßwasserfisch",
+    "synonyme": ["Süßwasserfisch", "Flussfisch"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Makrele",
+    "synonyme": ["Makrele"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Seelachs",
+    "synonyme": ["Seelachs", "Pollack"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Heilbutt",
+    "synonyme": ["Heilbutt"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Scholle",
+    "synonyme": ["Scholle", "Seezunge"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Tintenfisch",
+    "synonyme": ["Tintenfisch", "Kalmar", "Squid"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Austern",
+    "synonyme": ["Austern"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Jakobsmuscheln",
+    "synonyme": ["Jakobsmuscheln"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Linsen",
+    "synonyme": ["Linsen", "Linsengemüse"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Kichererbsen",
+    "synonyme": ["Kichererbsen", "Chickpeas", "Garbanzo"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Weiße Bohnen",
+    "synonyme": ["Weiße Bohnen", "Haricot"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Rote Bohnen",
+    "synonyme": ["Rote Bohnen", "Kidney Bohnen"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Kohl",
+    "synonyme": ["Kohl", "Rotkohl", "Weißkohl", "Grünkohl"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Porree",
+    "synonyme": ["Porree", "Lauch", "Porre"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Fenchel",
+    "synonyme": ["Fenchel", "Fenchelpflanze"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Artischoke",
+    "synonyme": ["Artischoke"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Spargel",
+    "synonyme": ["Spargel", "Weißspargel", "Grünspargel"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Avocado",
+    "synonyme": ["Avocado", "Alligatorbirne"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Kiwi",
+    "synonyme": ["Kiwi", "Kiwifrucht"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Mango",
+    "synonyme": ["Mango", "Mangofrucht"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Ananas",
+    "synonyme": ["Ananas", "Ananaskrone"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Kokosnuss",
+    "synonyme": ["Kokosnuss", "Kokosfrucht"],
+    "region_hinweise": {},
+    "ausschluesse": ["Kokosmilch", "Kokosfett"]
+  },
+  {
+    "standardbegriff": "Feige",
+    "synonyme": ["Feige", "Feigenfrucht"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Dattel",
+    "synonyme": ["Dattel", "Dadel"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Erdnuss",
+    "synonyme": ["Erdnuss", "Arachide"],
+    "region_hinweise": {},
+    "ausschluesse": ["Erdnussbutter"]
+  },
+  {
+    "standardbegriff": "Kokosfett",
+    "synonyme": ["Kokosfett", "Kokosöl"],
+    "region_hinweise": {},
+    "ausschluesse": ["Kokosmilch"]
+  },
+  {
+    "standardbegriff": "Gewürznelke",
+    "synonyme": ["Gewürznelke", "Nelke"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Kardamom",
+    "synonyme": ["Kardamom"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Vanillezucker",
+    "synonyme": ["Vanillezucker"],
+    "region_hinweise": {},
+    "ausschluesse": ["Vanille", "Zucker"]
+  },
+  {
+    "standardbegriff": "Puderzucker",
+    "synonyme": ["Puderzucker", "Konfektionärzucker", "Staubzucker"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Rohrzucker",
+    "synonyme": ["Rohrzucker", "Rohrohrzucker"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Ahornsirup",
+    "synonyme": ["Ahornsirup", "Maple Sirup"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Agavendicksaft",
+    "synonyme": ["Agavendicksaft", "Agavennektar"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Reissirup",
+    "synonyme": ["Reissirup", "Reismalz"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Melasse",
+    "synonyme": ["Melasse", "Melassesirup"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Kastanien",
+    "synonyme": ["Kastanien", "Esskastanie"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Pistazien",
+    "synonyme": ["Pistazien", "Pistazie"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Macadamia",
+    "synonyme": ["Macadamia"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Paranuss",
+    "synonyme": ["Paranuss", "Brasilnuss"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  },
+  {
+    "standardbegriff": "Maronen",
+    "synonyme": ["Maronen", "Esskastanie"],
+    "region_hinweise": {},
+    "ausschluesse": []
+  }
+]
