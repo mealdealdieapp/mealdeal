@@ -4,7 +4,7 @@ import { Portal } from '../ui/Portal'
 import { RecipeDetail } from '../recipes/RecipeDetail'
 import { useOfferRecipes } from '../../hooks/useOfferRecipes'
 import { useAddToShopping } from '../../hooks/useAddToShopping'
-import { IMAGE_BASE_URL } from '../../lib/mealConfig'
+import { OptimizedImage } from '../ui/OptimizedImage'
 import type { Recipe } from '../../types/app.types'
 
 interface OfferRecipesSheetProps {
@@ -70,9 +70,6 @@ export function OfferRecipesSheet({ offerName, offerCategory, onClose }: OfferRe
                 </p>
 
                 {matches.map(({ recipe, missingIngredients, totalIngredients }) => {
-                  const imgUrl = recipe.image_url
-                    ? `${IMAGE_BASE_URL}${encodeURIComponent(recipe.image_url)}`
-                    : null
                   const haveCount = totalIngredients - missingIngredients.length
                   const isAdded = addedRecipeId === recipe.id
 
@@ -87,13 +84,14 @@ export function OfferRecipesSheet({ offerName, offerCategory, onClose }: OfferRe
                         onClick={() => setOpenRecipe(recipe)}
                         className="w-full flex items-center gap-3 p-3 text-left active:bg-background transition-colors"
                       >
-                        <div className="w-14 h-14 rounded-[12px] bg-background flex items-center justify-center shrink-0 overflow-hidden">
-                          {imgUrl ? (
-                            <img src={imgUrl} alt="" className="w-full h-full object-cover" loading="lazy" />
-                          ) : (
-                            <span className="text-[24px]">{recipe.emoji ?? '🍽️'}</span>
-                          )}
-                        </div>
+                        <OptimizedImage
+                          src={recipe.image_url}
+                          alt={recipe.name}
+                          size="thumb"
+                          fallback={recipe.emoji ?? '🍽️'}
+                          className="w-14 h-14 shrink-0"
+                          style={{ borderRadius: '12px' }}
+                        />
                         <div className="flex-1 min-w-0">
                           <span className="text-[13px] font-semibold text-dark block truncate">{recipe.name}</span>
                           <div className="flex items-center gap-2 mt-1">

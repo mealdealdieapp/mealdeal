@@ -2,73 +2,73 @@ export const MEAL_CONFIG: Record<string, { label: string; emoji: string; image: 
   breakfast: {
     label: 'Frühstück',
     emoji: '🌅',
-    image: 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=400&q=70&auto=format&fit=crop',
   },
   lunch: {
     label: 'Mittagessen',
     emoji: '☀️',
-    image: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=70&auto=format&fit=crop',
   },
   dinner: {
     label: 'Abendessen',
     emoji: '🌙',
-    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=70&auto=format&fit=crop',
   },
   snack: {
     label: 'Snacks',
     emoji: '🥨',
-    image: 'https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400&q=70&auto=format&fit=crop',
   },
   dessert: {
     label: 'Dessert',
     emoji: '🍰',
-    image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=70&auto=format&fit=crop',
   },
   salad: {
     label: 'Salate',
     emoji: '🥗',
-    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=70&auto=format&fit=crop',
   },
   soup: {
     label: 'Suppen',
     emoji: '🍲',
-    image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=70&auto=format&fit=crop',
   },
   baking: {
     label: 'Backen',
     emoji: '🥐',
-    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&q=70&auto=format&fit=crop',
   },
   date_night: {
     label: 'Date Night',
     emoji: '🕯️',
-    image: 'https://images.unsplash.com/photo-1770678724670-e96395edf4ac?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1770678724670-e96395edf4ac?w=400&q=70&auto=format&fit=crop',
   },
   cocktail: {
     label: 'Cocktails & Drinks',
     emoji: '🍹',
-    image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&q=70&auto=format&fit=crop',
   },
   // Virtual categories (derived from recipe properties, not meal field)
   quick: {
     label: 'Unter 15 Min',
     emoji: '⚡',
-    image: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=400&q=70&auto=format&fit=crop',
   },
   budget: {
     label: 'Günstig diese Woche',
     emoji: '💰',
-    image: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=400&q=70&auto=format&fit=crop',
   },
   meal_prep: {
     label: 'Meal Prep',
     emoji: '📦',
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=70&auto=format&fit=crop',
   },
   other: {
     label: 'Sonstiges',
     emoji: '🍽️',
-    image: 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=400&q=70&auto=format&fit=crop',
   },
 }
 

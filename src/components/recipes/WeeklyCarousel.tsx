@@ -1,7 +1,7 @@
-import { useState } from 'react'
 import { useWeeklyRecipes } from '../../hooks/useWeeklyRecipes'
 import { Flame } from 'lucide-react'
 import type { Recipe } from '../../types/app.types'
+import { OptimizedImage } from '../ui/OptimizedImage'
 
 interface Props {
   onOpen: (recipe: Recipe) => void
@@ -31,8 +31,6 @@ export function WeeklyCarousel({ onOpen }: Props) {
 }
 
 function WeeklyCard({ recipe, onOpen }: { recipe: Recipe; onOpen: (r: Recipe) => void }) {
-  const [imgFailed, setImgFailed] = useState(false)
-
   return (
     <button
       onClick={() => onOpen(recipe)}
@@ -42,19 +40,14 @@ function WeeklyCard({ recipe, onOpen }: { recipe: Recipe; onOpen: (r: Recipe) =>
         className="relative w-full h-[140px] overflow-hidden"
         style={{ borderRadius: '16px' }}
       >
-        {recipe.image_url && !imgFailed ? (
-          <img
-            src={recipe.image_url}
-            alt={recipe.name}
-            className="absolute inset-0 w-full h-full object-cover"
-            loading="lazy"
-            onError={() => setImgFailed(true)}
-          />
-        ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
-            <span className="text-[48px]">{recipe.emoji}</span>
-          </div>
-        )}
+        {/* Optimiertes Bild: 200x140 statt volle Auflösung */}
+        <OptimizedImage
+          src={recipe.image_url}
+          alt={recipe.name}
+          size="card"
+          fallback={recipe.emoji ?? '🍽️'}
+          className="absolute inset-0 w-full h-full"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
         {/* Badge */}

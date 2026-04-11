@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { Heart, Sparkles, Tag } from 'lucide-react'
 import type { ScoredRecipe } from '../../hooks/useRecipes'
-import { IMAGE_BASE_URL } from '../../lib/mealConfig'
+import { OptimizedImage } from '../ui/OptimizedImage'
 
 interface RecipeCardProps {
   recipe: ScoredRecipe
@@ -11,11 +11,6 @@ interface RecipeCardProps {
 }
 
 export const RecipeCard = memo(function RecipeCard({ recipe, onOpen, onToggleSave, isSaved }: RecipeCardProps) {
-  const imageUrl = recipe.image_url
-    ? recipe.image_url.startsWith('ext:')
-      ? recipe.image_url.slice(4)
-      : `${IMAGE_BASE_URL}${encodeURIComponent(recipe.image_url)}`
-    : null
   // Dynamische Ersparnis aus aktuellen Angeboten (nicht statischer DB-Wert)
   const savedAmount = recipe.dynamicSaved ?? 0
   const hasSavings = savedAmount > 0
@@ -29,14 +24,15 @@ export const RecipeCard = memo(function RecipeCard({ recipe, onOpen, onToggleSav
       className="w-full bg-white p-3 flex items-start gap-3 text-left active:scale-[0.98] transition-transform relative overflow-hidden cursor-pointer"
       style={{ borderRadius: '16px', border: '1.5px solid #EBEBEB' }}
     >
-      {/* Image */}
-      <div className="w-[80px] h-[80px] overflow-hidden shrink-0 bg-background flex items-center justify-center" style={{ borderRadius: '10px' }}>
-        {imageUrl ? (
-          <img src={imageUrl} alt={recipe.name} className="w-full h-full object-cover" loading="lazy" />
-        ) : (
-          <span className="text-[36px]">{recipe.emoji ?? '🍽️'}</span>
-        )}
-      </div>
+      {/* Image — optimiert: 80x80 Thumbnail statt volle Bildgröße */}
+      <OptimizedImage
+        src={recipe.image_url}
+        alt={recipe.name}
+        size="thumb"
+        fallback={recipe.emoji ?? '🍽️'}
+        className="w-[80px] h-[80px] shrink-0"
+        style={{ borderRadius: '10px' }}
+      />
 
       {/* Info */}
       <div className="flex-1 min-w-0 py-0.5">

@@ -11,7 +11,7 @@ import { usePurchaseLog } from '../hooks/usePurchaseLog'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../lib/supabase'
 import { useAppStore } from '../store/useAppStore'
-import { IMAGE_BASE_URL } from '../lib/mealConfig'
+import { OptimizedImage } from '../components/ui/OptimizedImage'
 import { RecipeDetail } from '../components/recipes/RecipeDetail'
 import { RecipeCard } from '../components/recipes/RecipeCard'
 import { useSavedRecipes } from '../hooks/useSavedRecipes'
@@ -362,13 +362,17 @@ function MyRecipesPage() {
       ) : (
         <div className="space-y-2">
           {myRecipes.map((r) => {
-            const imgUrl = r.image_url ? `${IMAGE_BASE_URL}${encodeURIComponent(r.image_url)}` : null
             return (
               <div key={r.id} className="bg-white rounded-card p-3 flex items-center gap-3 active:scale-[0.98] transition-transform" style={{ border: '1.5px solid #EBEBEB' }}
                 onClick={() => setOpenRecipe(customToRecipe(r))}>
-                <div className="w-12 h-12 rounded-[10px] bg-background flex items-center justify-center shrink-0 overflow-hidden">
-                  {imgUrl ? <img src={imgUrl} alt="" className="w-full h-full object-cover" loading="lazy" /> : <span className="text-[22px]">{r.emoji ?? '🍽️'}</span>}
-                </div>
+                <OptimizedImage
+                  src={r.image_url}
+                  alt={r.name}
+                  size="thumb"
+                  fallback={r.emoji ?? '🍽️'}
+                  className="w-12 h-12 shrink-0"
+                  style={{ borderRadius: '10px' }}
+                />
                 <div className="flex-1 min-w-0">
                   <span className="text-[13px] font-semibold text-dark block truncate">{r.name}</span>
                   <div className="flex items-center gap-2 mt-0.5 text-[10px] text-muted">

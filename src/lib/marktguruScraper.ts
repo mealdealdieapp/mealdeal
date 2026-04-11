@@ -229,6 +229,9 @@ function mapCategory(catName: string, productName: string): string {
   return 'Sonstiges Lebensmittel'
 }
 
+// ===== Marktguru API Config =====
+const MARKTGURU_API_KEY = '8Kk+pmbf7TgJ9nVj2cXeA7P5zBGv8iuutVVMRfOfvNE='
+
 // ===== Rate Limiting =====
 const SCRAPE_COOLDOWN_MS = 6 * 60 * 60 * 1000 // 6 Stunden
 const MAX_API_CALLS_PER_SCRAPE = 12 // Max 12 API calls pro Scrape (2 Industrien × 6 Seiten)
@@ -303,7 +306,7 @@ export async function scrapeOffersForPlz(
 
     console.log(`[MealDeal] Starte Scrape für PLZ ${plz}`)
 
-    // Fetch von Marktguru via Vite Proxy
+    // Fetch von Marktguru API (via Proxy auf Vercel, direkt lokal)
     const allOffers: MarktguruRawOffer[] = []
     let apiCalls = 0
 
@@ -314,7 +317,12 @@ export async function scrapeOffersForPlz(
 
         try {
           apiCalls++
-          const response = await fetch(url)
+          const response = await fetch(url, {
+            headers: {
+              'x-apikey': MARKTGURU_API_KEY,
+              'Accept': 'application/json',
+            },
+          })
           if (!response.ok) break
 
           const raw = await response.json()

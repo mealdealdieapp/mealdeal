@@ -5,7 +5,7 @@ import { useRecipeDetail } from '../../hooks/useRecipeDetail'
 import { useAddToShopping } from '../../hooks/useAddToShopping'
 import { useWeeklyPlan, DAYS, MEALS } from '../../hooks/useWeeklyPlan'
 import { recipeToPlanRecipe } from '../weekly/RecipePicker'
-import { IMAGE_BASE_URL } from '../../lib/mealConfig'
+import { OptimizedImage } from '../ui/OptimizedImage'
 import { Portal } from '../ui/Portal'
 import type { DayKey, MealKey } from '../../hooks/useWeeklyPlan'
 
@@ -24,12 +24,6 @@ export function RecipeDetail({ recipe, onClose }: RecipeDetailProps) {
   const { addToSlot, getSlotRecipes, today } = useWeeklyPlan()
   const [toast, setToast] = useState<string | null>(null)
   const [showPlanPicker, setShowPlanPicker] = useState(false)
-
-  const imageUrl = recipe.image_url
-    ? recipe.image_url.startsWith('ext:')
-      ? recipe.image_url.slice(4)
-      : `${IMAGE_BASE_URL}${encodeURIComponent(recipe.image_url)}`
-    : null
 
   const handleAddToShopping = () => {
     if (ingredients.length === 0) return
@@ -66,15 +60,15 @@ export function RecipeDetail({ recipe, onClose }: RecipeDetailProps) {
 
           {/* Scrollable */}
           <div className="flex-1 overflow-y-auto overscroll-contain">
-            {/* Image */}
-            <div className="relative h-[220px] bg-background mx-4 rounded-[16px] overflow-hidden">
-              {imageUrl ? (
-                <img src={imageUrl} alt={recipe.name} className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-[64px]">{recipe.emoji ?? '🍽️'}</span>
-                </div>
-              )}
+            {/* Image — optimiert: Hero-Größe 480x280 statt volle Auflösung */}
+            <div className="relative h-[220px] mx-4 rounded-[16px] overflow-hidden">
+              <OptimizedImage
+                src={recipe.image_url}
+                alt={recipe.name}
+                size="hero"
+                fallback={recipe.emoji ?? '🍽️'}
+                className="w-full h-full"
+              />
               <button
                 onClick={onClose}
                 className="absolute top-3 right-3 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center"

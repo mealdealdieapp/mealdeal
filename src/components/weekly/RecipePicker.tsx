@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { X, Search, Clock, Sparkles } from 'lucide-react'
 import { useRecipes } from '../../hooks/useRecipes'
 import { supabase } from '../../lib/supabase'
-import { IMAGE_BASE_URL } from '../../lib/mealConfig'
+import { OptimizedImage } from '../ui/OptimizedImage'
 import { Portal } from '../ui/Portal'
 import type { MealKey, PlanRecipe } from '../../hooks/useWeeklyPlan'
 import type { Recipe } from '../../types/app.types'
@@ -119,9 +119,6 @@ export function RecipePicker({ meal, onSelect, onClose }: RecipePickerProps) {
             ) : (
               <div className="space-y-1">
                 {filtered.map((recipe) => {
-                  const imgUrl = recipe.image_url
-                    ? `${IMAGE_BASE_URL}${encodeURIComponent(recipe.image_url)}`
-                    : null
                   const isLoading = loading === recipe.id
                   return (
                     <button
@@ -130,13 +127,14 @@ export function RecipePicker({ meal, onSelect, onClose }: RecipePickerProps) {
                       disabled={!!loading}
                       className="w-full flex items-center gap-3 p-2.5 rounded-[12px] text-left active:bg-background transition-colors disabled:opacity-60"
                     >
-                      <div className="w-12 h-12 rounded-[8px] overflow-hidden bg-background shrink-0 flex items-center justify-center">
-                        {imgUrl ? (
-                          <img src={imgUrl} alt="" className="w-full h-full object-cover" loading="lazy" />
-                        ) : (
-                          <span className="text-[22px]">{recipe.emoji ?? '🍽️'}</span>
-                        )}
-                      </div>
+                      <OptimizedImage
+                        src={recipe.image_url}
+                        alt={recipe.name}
+                        size="thumb"
+                        fallback={recipe.emoji ?? '🍽️'}
+                        className="w-12 h-12 shrink-0"
+                        style={{ borderRadius: '8px' }}
+                      />
                       <div className="flex-1 min-w-0">
                         <span className="text-[13px] font-semibold text-dark block truncate">{recipe.name}</span>
                         <div className="flex items-center gap-2 mt-0.5">

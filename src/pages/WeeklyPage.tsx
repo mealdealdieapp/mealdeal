@@ -11,7 +11,7 @@ import { useAppStore } from '../store/useAppStore'
 import { useOffers } from '../hooks/useOffers'
 import { useSynonyms } from '../hooks/useSynonyms'
 import { matchIngredientToOffer } from '../lib/offerMatching'
-import { IMAGE_BASE_URL } from '../lib/mealConfig'
+import { OptimizedImage } from '../components/ui/OptimizedImage'
 import { Portal } from '../components/ui/Portal'
 import { ErrorState } from '../components/ui/ErrorState'
 import type { DayKey, MealKey, PlanRecipe } from '../hooks/useWeeklyPlan'
@@ -299,12 +299,16 @@ function MealSection({ meal, recipes, onAdd, onRemove }: {
       ) : (
         <div className="space-y-1">
           {recipes.map((recipe, i) => {
-            const imgUrl = recipe.image_url ? `${IMAGE_BASE_URL}${encodeURIComponent(recipe.image_url)}` : null
             return (
               <div key={`${recipe.id}-${i}`} className="flex items-center gap-2.5 py-1.5">
-                <div className="w-9 h-9 rounded-[7px] overflow-hidden bg-background shrink-0 flex items-center justify-center">
-                  {imgUrl ? <img src={imgUrl} alt="" className="w-full h-full object-cover" loading="lazy" /> : <span className="text-[16px]">{recipe.emoji ?? '🍽️'}</span>}
-                </div>
+                <OptimizedImage
+                  src={recipe.image_url}
+                  alt={recipe.name}
+                  size="thumb"
+                  fallback={recipe.emoji ?? '🍽️'}
+                  className="w-9 h-9 shrink-0"
+                  style={{ borderRadius: '7px' }}
+                />
                 <div className="flex-1 min-w-0">
                   <span className="text-[12px] font-semibold text-dark block truncate">{recipe.name}</span>
                   <div className="flex items-center gap-1.5 text-[9px] text-muted">
