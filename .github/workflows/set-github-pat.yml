@@ -39,11 +39,13 @@ jobs:
 
           echo "🔐 Setze GitHub PAT als DB-Setting..."
 
-          # Token als Parameter via psql variable übergeben (sicher, nicht im Command Log)
+          # Escape single quotes in PAT (Postgres string escaping)
+          ESCAPED_PAT=$(printf '%s' "$GH_PAT" | sed "s/'/''/g")
+
+          # ALTER DATABASE ausführen (GitHub maskiert Secrets automatisch in Logs)
           psql "$DB_URL" \
             --set ON_ERROR_STOP=1 \
-            -v pat="$GH_PAT" \
-            -c "ALTER DATABASE postgres SET app.github_pat = :'pat';"
+            -c "ALTER DATABASE postgres SET app.github_pat = '$ESCAPED_PAT';"
 
           echo ""
           echo "✅ GitHub PAT erfolgreich in DB gespeichert"
