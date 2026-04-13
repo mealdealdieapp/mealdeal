@@ -1,0 +1,60 @@
+name: GitHub PAT für Supabase setzen
+
+# Einmalig auszuführen nach Setup: Speichert den GitHub Personal Access Token
+# als Datenbank-Setting in Supabase, damit der Trigger GitHub API aufrufen kann.
+#
+# Voraussetzungen:
+#   - Secret GH_PAT_FOR_SUPABASE muss in GitHub Secrets gesetzt sein
+#   - Secret SUPABASE_DB_URL muss gesetzt sein
+#   - setup-ondemand-trigger.sql muss bereits ausgeführt worden sein
+
+on:
+  workflow_dispatch:
+
+jobs:
+  set-pat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Install PostgreSQL Client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Set GitHub PAT as DB Setting
+        env:
+          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          GH_PAT: ${{ secrets.GH_PAT_FOR_SUPABASE }}
+        run: |
+          if [ -z "$DB_URL" ]; then
+            echo "❌ Secret SUPABASE_DB_URL ist nicht gesetzt"
+            exit 1
+          fi
+
+          if [ -z "$GH_PAT" ]; then
+            echo "❌ Secret GH_PAT_FOR_SUPABASE ist nicht gesetzt"
+            echo "   Setze es unter: Settings → Secrets and variables → Actions"
+            exit 1
+          fi
+
+          echo "🔐 Setze GitHub PAT als DB-Setting..."
+
+          # Token als Parameter via psql variable übergeben (sicher, nicht im Command Log)
+          psql "$DB_URL" \
+            --set ON_ERROR_STOP=1 \
+            -v pat="$GH_PAT" \
+            -c "ALTER DATABASE postgres SET app.github_pat = :'pat';"
+
+          echo ""
+          echo "✅ GitHub PAT erfolgreich in DB gespeichert"
+          echo ""
+          echo "⚠️  WICHTIG: Die neue Einstellung wird erst bei neuen DB-Verbindungen aktiv."
+          echo "   Supabase verwaltet Verbindungen automatisch — innerhalb weniger Minuten greift es."
+
+      - name: Verify Setting
+        env:
+          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          echo "🔍 Prüfe ob Setting gespeichert ist..."
+          RESULT=$(psql "$DB_URL" -t -c "SELECT CASE WHEN current_setting('app.github_pat', true) IS NOT NULL AND current_setting('app.github_pat', true) <> '' THEN 'OK' ELSE 'NOT SET' END;")
+          echo "Status: $RESULT"

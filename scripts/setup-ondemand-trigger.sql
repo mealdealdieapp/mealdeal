@@ -95,22 +95,14 @@ EXECUTE FUNCTION trigger_scrape_on_plz_change();
 
 
 -- ============================================================================
--- GITHUB PAT ALS DB-SETTING SPEICHERN
--- ============================================================================
--- WICHTIG: Ersetze DEIN_GITHUB_PAT mit deinem echten Personal Access Token!
--- Der Token wird verschlüsselt in den Datenbank-Settings gespeichert.
--- ============================================================================
-
-ALTER DATABASE postgres SET app.github_pat = 'DEIN_GITHUB_PAT';
-
-
--- ============================================================================
 -- FERTIG!
 -- ============================================================================
--- Ab jetzt triggert jede neue Registrierung automatisch einen Scrape
--- für die PLZ des neuen Users.
+-- Trigger + Function sind angelegt.
 --
--- TEST:
+-- Der GitHub PAT wird über einen separaten Workflow gesetzt:
+-- → GitHub Actions → "GitHub PAT für Supabase setzen" → Run workflow
+--
+-- TEST danach:
 -- 1. Neuen User registrieren in App
 -- 2. Innerhalb 10 Sekunden: GitHub Action "On-Demand PLZ Scrape" startet
 -- 3. Telegram-Nachricht: "Neuer User registriert - PLZ XXX wurde gescraped"
