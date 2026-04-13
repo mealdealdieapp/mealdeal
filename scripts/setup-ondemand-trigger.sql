@@ -5,8 +5,8 @@
 -- GitHub Actions triggert, damit sofort für die neue PLZ gescraped wird.
 --
 -- ANLEITUNG:
--- 1. WICHTIG: Ersetze DEIN_GITHUB_PAT ganz unten mit deinem echten Token!
--- 2. Diese Datei via DB-Migration Workflow ausführen
+-- 1. Diese Datei via DB-Migration Workflow ausführen
+-- 2. Danach: "GitHub PAT für Supabase setzen" Workflow ausführen
 -- ============================================================================
 
 -- --- pg_net Extension aktivieren ---
@@ -14,13 +14,31 @@
 CREATE EXTENSION IF NOT EXISTS pg_net;
 
 
+-- --- app_config Tabelle für Secrets ---
+-- Speichert den GitHub PAT (wird vom Trigger gelesen)
+CREATE TABLE IF NOT EXISTS public.app_config (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL,
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- RLS: Komplett sperren — nur Service Role darf lesen/schreiben
+ALTER TABLE public.app_config ENABLE ROW LEVEL SECURITY;
+
+-- Keine Policies = niemand außer Service Role kommt dran
+DROP POLICY IF EXISTS "app_config_deny_all" ON public.app_config;
+
+
 -- --- Trigger-Function ---
 -- Schickt einen repository_dispatch an GitHub wenn neuer User registriert
 CREATE OR REPLACE FUNCTION trigger_scrape_on_new_plz()
 RETURNS TRIGGER AS $$
 DECLARE
-  github_pat TEXT := current_setting('app.github_pat', true);
+  github_pat TEXT;
 BEGIN
+  -- PAT aus app_config Tabelle lesen
+  SELECT value INTO github_pat FROM public.app_config WHERE key = 'github_pat' LIMIT 1;
+
   -- Nur feuern wenn PLZ vorhanden UND Token gesetzt
   IF NEW.plz IS NOT NULL AND github_pat IS NOT NULL AND github_pat <> '' THEN
     PERFORM net.http_post(
@@ -45,7 +63,7 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 
--- --- Trigger auf user_profiles ---
+-- --- Trigger auf user_profiles (INSERT) ---
 DROP TRIGGER IF EXISTS on_new_user_scrape ON public.user_profiles;
 CREATE TRIGGER on_new_user_scrape
 AFTER INSERT ON public.user_profiles
@@ -55,12 +73,13 @@ EXECUTE FUNCTION trigger_scrape_on_new_plz();
 
 
 -- --- Optional: Auch bei PLZ-Änderung triggern ---
--- Falls User seine PLZ im Profil ändert, nochmal scrapen
 CREATE OR REPLACE FUNCTION trigger_scrape_on_plz_change()
 RETURNS TRIGGER AS $$
 DECLARE
-  github_pat TEXT := current_setting('app.github_pat', true);
+  github_pat TEXT;
 BEGIN
+  SELECT value INTO github_pat FROM public.app_config WHERE key = 'github_pat' LIMIT 1;
+
   IF NEW.plz IS NOT NULL
      AND NEW.plz <> OLD.plz
      AND github_pat IS NOT NULL

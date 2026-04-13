@@ -37,26 +37,23 @@ jobs:
             exit 1
           fi
 
-          echo "🔐 Setze GitHub PAT als DB-Setting..."
+          echo "🔐 Speichere GitHub PAT in app_config Tabelle..."
 
           # Escape single quotes in PAT (Postgres string escaping)
           ESCAPED_PAT=$(printf '%s' "$GH_PAT" | sed "s/'/''/g")
 
-          # ALTER DATABASE ausführen (GitHub maskiert Secrets automatisch in Logs)
+          # UPSERT in app_config (GitHub maskiert Secrets automatisch in Logs)
           psql "$DB_URL" \
             --set ON_ERROR_STOP=1 \
-            -c "ALTER DATABASE postgres SET app.github_pat = '$ESCAPED_PAT';"
+            -c "INSERT INTO public.app_config (key, value, updated_at) VALUES ('github_pat', '$ESCAPED_PAT', NOW()) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = NOW();"
 
           echo ""
-          echo "✅ GitHub PAT erfolgreich in DB gespeichert"
-          echo ""
-          echo "⚠️  WICHTIG: Die neue Einstellung wird erst bei neuen DB-Verbindungen aktiv."
-          echo "   Supabase verwaltet Verbindungen automatisch — innerhalb weniger Minuten greift es."
+          echo "✅ GitHub PAT erfolgreich in app_config Tabelle gespeichert"
 
       - name: Verify Setting
         env:
           DB_URL: ${{ secrets.SUPABASE_DB_URL }}
         run: |
-          echo "🔍 Prüfe ob Setting gespeichert ist..."
-          RESULT=$(psql "$DB_URL" -t -c "SELECT CASE WHEN current_setting('app.github_pat', true) IS NOT NULL AND current_setting('app.github_pat', true) <> '' THEN 'OK' ELSE 'NOT SET' END;")
-          echo "Status: $RESULT"
+          echo "🔍 Prüfe ob PAT gespeichert ist..."
+          RESULT=$(psql "$DB_URL" -t -c "SELECT CASE WHEN value IS NOT NULL AND value <> '' THEN 'OK (' || LENGTH(value) || ' Zeichen)' ELSE 'NOT SET' END FROM public.app_config WHERE key = 'github_pat';")
+          echo "Status:$RESULT"
