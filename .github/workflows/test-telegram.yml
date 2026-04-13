@@ -1,0 +1,33 @@
+name: Test Telegram Benachrichtigung
+
+# Manuell auslösbar zum Testen ob Telegram-Setup funktioniert
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Test Message to Telegram
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ -z "$BOT_TOKEN" ] || [ -z "$CHAT_ID" ]; then
+            echo "❌ TELEGRAM_BOT_TOKEN oder TELEGRAM_CHAT_ID nicht als Secret gesetzt!"
+            exit 1
+          fi
+
+          RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            --data-urlencode "chat_id=${CHAT_ID}" \
+            --data-urlencode "parse_mode=HTML" \
+            --data-urlencode "text=🎉 <b>Telegram-Benachrichtigung funktioniert!</b>%0A%0ADein MealDeal-Bot ist einsatzbereit.%0AAb jetzt bekommst du automatisch Bescheid wenn:%0A✅ Samstag-Scrape fertig ist%0A❌ Ein Workflow fehlschlägt%0A🍳 Neue Rezepte generiert wurden")
+
+          echo "Telegram Response: $RESPONSE"
+
+          if echo "$RESPONSE" | grep -q '"ok":true'; then
+            echo "✅ Testnachricht erfolgreich gesendet!"
+          else
+            echo "❌ Fehler beim Senden!"
+            exit 1
+          fi

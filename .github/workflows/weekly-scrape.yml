@@ -30,6 +30,7 @@ jobs:
         run: npm ci --omit=dev || npm install --omit=dev
 
       - name: Run Weekly Scraper
+        id: scrape
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
@@ -40,3 +41,25 @@ jobs:
           else
             node scripts/weekly-scrape.mjs
           fi
+
+      - name: Notify Telegram on Success
+        if: success()
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            --data-urlencode "chat_id=${CHAT_ID}" \
+            --data-urlencode "parse_mode=HTML" \
+            --data-urlencode "text=✅ <b>Wöchentlicher Scrape erfolgreich</b>%0A%0ANeue Angebote wurden für alle registrierten PLZs geladen.%0A%0A<a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>Logs ansehen</a>"
+
+      - name: Notify Telegram on Failure
+        if: failure()
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            --data-urlencode "chat_id=${CHAT_ID}" \
+            --data-urlencode "parse_mode=HTML" \
+            --data-urlencode "text=❌ <b>Wöchentlicher Scrape FEHLGESCHLAGEN</b>%0A%0ASamstag-Nacht-Scrape hat einen Fehler. Bitte prüfen!%0A%0A<a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>Logs ansehen</a>"
