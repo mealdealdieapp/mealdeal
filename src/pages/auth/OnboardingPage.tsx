@@ -5,6 +5,7 @@ import { supabase } from '../../lib/supabase'
 import { useAppStore } from '../../store/useAppStore'
 import { queryClient } from '../../lib/queryClient'
 import { scrapeOffersForPlz, hasOffersForPlz } from '../../lib/marktguruScraper'
+import { logger } from '../../lib/logger'
 
 const TOTAL_STEPS = 5
 
@@ -102,10 +103,10 @@ export function OnboardingPage() {
         setWelcomeProgress(30)
 
         if (!hasOffers) {
-          console.log('[MealDeal] Starte Scrape für PLZ...')
+          logger.log('Starte Scrape für PLZ...')
           setWelcomeProgress(40)
           const result = await scrapeOffersForPlz(plz, markets)
-          console.log(`[MealDeal] ${result.count} Angebote geladen`)
+          logger.log(`${result.count} Angebote geladen`)
           setWelcomeProgress(90)
         } else {
           setWelcomeProgress(90)

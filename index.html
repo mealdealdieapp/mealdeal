@@ -21,9 +21,17 @@
     <script type="module" src="/src/main.tsx"></script>
     <script>
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').catch(() => {})
-        })
+        // Service Worker NUR in Production registrieren (nicht localhost)
+        if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').catch(() => {})
+          })
+        } else {
+          // In Development: bestehende SW deregistrieren damit kein White Screen passiert
+          navigator.serviceWorker.getRegistrations().then(regs => {
+            regs.forEach(r => r.unregister())
+          })
+        }
       }
     </script>
   </body>

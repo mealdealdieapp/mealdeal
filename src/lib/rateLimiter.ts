@@ -76,9 +76,9 @@ export function canMutateShopping(): boolean {
   return checkRateLimit('shopping_mutation', 30, 60 * 1000)
 }
 
-/** Scrape: Max 2 pro Stunde (zusätzlich zum localStorage-Cooldown) */
+/** Scrape: Max 5 pro Stunde (zusätzlich zum localStorage-Cooldown pro PLZ) */
 export function canScrape(): boolean {
-  return checkRateLimit('scrape', 2, 60 * 60 * 1000)
+  return checkRateLimit('scrape', 5, 60 * 60 * 1000)
 }
 
 /** Custom Recipe Upload: Max 5 pro 10 Minuten */

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-route
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from './lib/queryClient'
 import { supabase } from './lib/supabase'
+import { ErrorBoundary } from './components/ui/ErrorBoundary'
 import { useAppStore } from './store/useAppStore'
 import { useProfile } from './hooks/useProfile'
 import { BottomNav } from './components/layout/BottomNav'
@@ -99,8 +100,12 @@ export default function App() {
       setReady(true)
     })
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session)
+      // Bei Logout oder User-Wechsel: Cache leeren damit keine Daten vom vorherigen User angezeigt werden
+      if (event === 'SIGNED_OUT') {
+        queryClient.clear()
+      }
     })
 
     return () => subscription.unsubscribe()
@@ -109,10 +114,12 @@ export default function App() {
   if (!ready) return <SplashScreen />
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ErrorBoundary>
   )
 }

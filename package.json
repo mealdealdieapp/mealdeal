@@ -7,7 +7,15 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cleanup-offers": "node scripts/cleanup-expired-offers.mjs",
+    "weekly-scrape": "node scripts/weekly-scrape.mjs",
+    "weekly-scrape:dry": "node scripts/weekly-scrape.mjs --dry-run",
+    "health-check": "node scripts/nightly-health-check.mjs",
+    "health-check:readonly": "node scripts/nightly-health-check.mjs --no-fix",
+    "matching-analysis": "node scripts/weekly-matching-analysis.mjs",
+    "generate-recipes": "node scripts/weekly-recipe-generator.mjs",
+    "generate-images": "node scripts/generate-recipe-images.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.99.1",

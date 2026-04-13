@@ -1,5 +1,7 @@
 import { supabase } from './supabase'
 import { canScrape } from './rateLimiter'
+import { getWeekNumber } from './weekNumber'
+import { logger } from './logger'
 
 // ===== Marktguru API Typen (echte API-Struktur) =====
 interface MarktguruAdvertiser {
@@ -37,6 +39,8 @@ interface MarktguruRawOffer {
   price: number
   oldPrice?: number | null
   referencePrice?: number
+  regularPrice?: number
+  discount?: number
   advertisers?: MarktguruAdvertiser[]
   product?: MarktguruProduct
   categories?: MarktguruCategory[]
@@ -229,9 +233,6 @@ function mapCategory(catName: string, productName: string): string {
   return 'Sonstiges Lebensmittel'
 }
 
-// ===== Marktguru API Config =====
-const MARKTGURU_API_KEY = '8Kk+pmbf7TgJ9nVj2cXeA7P5zBGv8iuutVVMRfOfvNE='
-
 // ===== Rate Limiting =====
 const SCRAPE_COOLDOWN_MS = 6 * 60 * 60 * 1000 // 6 Stunden
 const MAX_API_CALLS_PER_SCRAPE = 12 // Max 12 API calls pro Scrape (2 Industrien × 6 Seiten)
@@ -248,7 +249,7 @@ export async function hasOffersForPlz(plz: string): Promise<boolean> {
     .gte('valid_until', today)
 
   if (error) {
-    console.error('Error checking offers:', error)
+    logger.error('Error checking offers:', error)
     return false
   }
   return (count ?? 0) > 20 // Mindestens 20 Angebote = genug
@@ -277,7 +278,7 @@ export async function scrapeOffersForPlz(
 
     // Globales Rate Limit (max 2 Scrapes pro Stunde)
     if (!canScrape()) {
-      console.log('[MealDeal] Globales Rate Limit erreicht')
+      logger.log('Globales Rate Limit erreicht')
       const count = await getOfferCountForPlz(plz)
       return { count }
     }
@@ -290,7 +291,7 @@ export async function scrapeOffersForPlz(
     if (lastScrape) {
       const elapsed = Date.now() - parseInt(lastScrape, 10)
       if (elapsed < SCRAPE_COOLDOWN_MS) {
-        console.log(`[MealDeal] Cooldown aktiv, nächster Scrape in ${Math.round((SCRAPE_COOLDOWN_MS - elapsed) / 60000)} Min`)
+        logger.log(`Cooldown aktiv, nächster Scrape in ${Math.round((SCRAPE_COOLDOWN_MS - elapsed) / 60000)} Min`)
         const count = await getOfferCountForPlz(plz)
         return { count }
       }
@@ -298,13 +299,13 @@ export async function scrapeOffersForPlz(
 
     // Prüfe ob genug Angebote vorhanden
     if (await hasOffersForPlz(plz)) {
-      console.log('[MealDeal] Genug Angebote vorhanden, überspringe Scrape')
+      logger.log('Genug Angebote vorhanden, überspringe Scrape')
       localStorage.setItem(lastScrapeKey, Date.now().toString())
       const count = await getOfferCountForPlz(plz)
       return { count }
     }
 
-    console.log(`[MealDeal] Starte Scrape für PLZ ${plz}`)
+    logger.log(`Starte Scrape für PLZ ${plz}`)
 
     // Fetch von Marktguru API (via Proxy auf Vercel, direkt lokal)
     const allOffers: MarktguruRawOffer[] = []
@@ -319,7 +320,6 @@ export async function scrapeOffersForPlz(
           apiCalls++
           const response = await fetch(url, {
             headers: {
-              'x-apikey': MARKTGURU_API_KEY,
               'Accept': 'application/json',
             },
           })
@@ -374,10 +374,28 @@ export async function scrapeOffersForPlz(
       if (seen.has(fp)) continue
       seen.add(fp)
 
-      const oldPrice = offer.oldPrice ?? null
+      // Originalpreis und Rabatt ermitteln — mehrere Quellen prüfen
+      let oldPrice: number | null = offer.oldPrice ?? offer.referencePrice ?? offer.regularPrice ?? null
       let discount: number | null = null
+
       if (oldPrice && oldPrice > offer.price) {
         discount = Math.round(((oldPrice - offer.price) / oldPrice) * 100)
+      }
+
+      // Falls Marktguru discount liefert aber kein oldPrice, berechne rückwärts
+      if (!oldPrice && offer.discount && offer.discount > 0 && offer.discount < 100) {
+        oldPrice = Math.round((offer.price / (1 - offer.discount / 100)) * 100) / 100
+        discount = Math.round(offer.discount)
+      }
+
+      // Plausibilitäts-Check: Rabatt max 90%, Originalpreis nicht absurd hoch
+      if (discount && (discount > 90 || discount < 1)) {
+        discount = null
+        oldPrice = null
+      }
+      if (oldPrice && oldPrice > offer.price * 10) {
+        oldPrice = null
+        discount = null
       }
 
       let imageUrl: string | null = null
@@ -413,20 +431,49 @@ export async function scrapeOffersForPlz(
         .upsert(batch as never[], { onConflict: 'fingerprint' })
 
       if (error) {
-        console.error(`[MealDeal] Batch ${Math.floor(i / 100)} Fehler:`, error.message)
+        logger.error(`Batch ${Math.floor(i / 100)} Fehler:`, error.message)
       } else {
         saved += batch.length
       }
     }
 
+    // Preishistorie aufbauen — jeden gescrapten Preis für spätere Analyse speichern
+    const weekNum = getWeekNumber()
+    const priceHistoryBatch = offersToInsert
+      .filter(o => o.product_name && o.offer_price)
+      .map(o => ({
+        product_id: o.fingerprint as string,
+        market: o.store as string,
+        price: o.offer_price as number,
+        original_price: o.original_price as number | null,
+        plz: plz,
+        plz_prefix: plzPrefix,
+        valid_from: (o.valid_from as string) || new Date().toISOString().split('T')[0],
+        valid_until: o.valid_until as string,
+        week_number: weekNum,
+        source: 'marktguru',
+      }))
+
+    // Preishistorie in Batches speichern (Fehler sind nicht kritisch)
+    for (let i = 0; i < priceHistoryBatch.length; i += 100) {
+      const batch = priceHistoryBatch.slice(i, i + 100)
+      await supabase
+        .from('price_history')
+        .upsert(batch as never[], { onConflict: 'product_id,market,valid_from' })
+        .then(({ error }) => {
+          if (error && !error.message.includes('duplicate')) {
+            logger.error('Preishistorie Fehler:', error.message)
+          }
+        })
+    }
+
     // Cooldown setzen
     localStorage.setItem(lastScrapeKey, Date.now().toString())
 
-    console.log(`[MealDeal] ${saved} Angebote gespeichert`)
     return { count: saved }
   } catch (error) {
     const msg = error instanceof Error ? error.message : 'Unknown error'
-    console.error('[MealDeal] Scrape Fehler:', msg)
+    logger.error('Scrape Fehler:', msg)
     return { count: 0, error: msg }
   }
 }

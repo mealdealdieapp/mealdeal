@@ -1,10 +1,21 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../lib/supabase'
 import { useAppStore } from '../store/useAppStore'
+import { useOffers } from './useOffers'
+import { useSynonyms } from './useSynonyms'
+import { matchIngredientToOffer } from '../lib/offerMatching'
 import type { Json } from '../types/database.types'
 import type { PlanRecipe, DayKey, WeekPlan } from './useWeeklyPlan'
 
 const DAYS: DayKey[] = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
+const DEFAULT_CAL_TARGET = 2000
+const CAL_TOLERANCE = 0.15 // ±15% Toleranz pro Tag
+const MEAL_DISTRIBUTION = {
+  breakfast: 0.25,
+  lunch: 0.35,
+  dinner: 0.30,
+  snack: 0.10,
+} as const
 
 interface RawRecipe {
   id: string
@@ -24,26 +35,40 @@ interface RawRecipe {
   diets: string[] | null
 }
 
+interface IngredientInfo {
+  name: string
+  category: string | null
+  amount: number | null
+  unit: string | null
+}
+
 interface GenerateOptions {
-  calTarget: number
+  calTarget?: number
   budget?: number | null
   weekStart: string
 }
 
-// Load ingredients for a recipe
-async function loadIngredients(recipeId: string): Promise<PlanRecipe['ings']> {
+// Lade alle Zutaten für mehrere Rezepte auf einmal (effizienter als einzeln)
+async function loadAllIngredients(recipeIds: string[]): Promise<Map<string, IngredientInfo[]>> {
+  const map = new Map<string, IngredientInfo[]>()
+  if (recipeIds.length === 0) return map
+
   const { data } = await supabase
     .from('recipe_ingredients')
-    .select('amount, unit, ingredients(name, category)')
-    .eq('recipe_id', recipeId)
+    .select('recipe_id, amount, unit, ingredients(name, category)')
+    .in('recipe_id', recipeIds)
 
-  return (data ?? []).map((ri) => {
-    const ing = ri.ingredients as { name: string; category: string | null } | null
-    return { n: ing?.name ?? '', m: ri.amount != null ? String(ri.amount) : '', e: ri.unit ?? '', k: ing?.category ?? '' }
-  }).filter((i) => i.n)
+  for (const row of data ?? []) {
+    const ing = row.ingredients as { name: string; category: string | null } | null
+    if (!ing?.name) continue
+    const list = map.get(row.recipe_id) ?? []
+    list.push({ name: ing.name, category: ing.category, amount: row.amount, unit: row.unit })
+    map.set(row.recipe_id, list)
+  }
+  return map
 }
 
-function toPlanRecipe(r: RawRecipe, ings: PlanRecipe['ings']): PlanRecipe {
+function toPlanRecipe(r: RawRecipe, ings: IngredientInfo[]): PlanRecipe {
   return {
     id: r.id,
     name: r.name,
@@ -58,59 +83,13 @@ function toPlanRecipe(r: RawRecipe, ings: PlanRecipe['ings']): PlanRecipe {
     servings: r.servings,
     saved: r.saved != null ? Number(r.saved) : null,
     cost: r.cost != null ? Number(r.cost) : null,
-    ings,
+    ings: ings.map(i => ({
+      n: i.name,
+      m: i.amount != null ? String(i.amount) : '',
+      e: i.unit ?? '',
+      k: i.category ?? '',
+    })),
   }
-}
-
-// Score a recipe for a specific meal slot considering variety and nutrition
-function scoreRecipe(
-  recipe: RawRecipe,
-  meal: string,
-  _dailyCalSoFar: number,
-  calTarget: number,
-  usedIds: Set<string>,
-  _usedIngredients: Map<string, number>,
-): number {
-  let score = 0
-
-  // 1. Meal type match (breakfast recipes for breakfast, etc.)
-  if (recipe.meal === meal) score += 30
-  else if (meal === 'snack' && recipe.meal === 'breakfast') score += 10
-  else if (meal !== 'snack' && recipe.meal !== 'breakfast') score += 15
-
-  // 2. Calorie fit - how well does this recipe fill the remaining budget?
-  const cal = recipe.calories ?? 0
-  const mealTargets: Record<string, number> = {
-    breakfast: calTarget * 0.25,
-    lunch: calTarget * 0.35,
-    dinner: calTarget * 0.30,
-    snack: calTarget * 0.10,
-  }
-  const idealCal = mealTargets[meal] ?? calTarget * 0.25
-  const calDiff = Math.abs(cal - idealCal)
-  score += Math.max(0, 30 - Math.round(calDiff / 20))
-
-  // 3. Variety - penalize already used recipes
-  if (usedIds.has(recipe.id)) score -= 50
-
-  // 4. Offers/savings bonus
-  const saved = Number(recipe.saved) || 0
-  if (saved > 0) score += Math.min(20, Math.round(saved * 10))
-
-  // 5. Ingredient reuse bonus (Produktverwertung)
-  if (_usedIngredients.size > 0) {
-    // This is a rough estimate since we don't have ingredients loaded yet
-    // We'll give a small bonus for cheaper recipes (likely simpler/shared ingredients)
-    const cost = Number(recipe.cost) || 0
-    if (cost > 0 && cost < 5) score += 5
-  }
-
-  // 6. Budget consideration
-  const cost = Number(recipe.cost) || 0
-  if (cost > 0 && cost <= 3) score += 10
-  else if (cost > 0 && cost <= 5) score += 5
-
-  return score
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -122,17 +101,59 @@ function shuffle<T>(arr: T[]): T[] {
   return a
 }
 
+// Berechne wie viele Zutaten eines Rezepts aktuell im Angebot sind
+function countOfferMatches(
+  recipeIngs: IngredientInfo[],
+  offers: Array<{ id: string; product_name: string; offer_price: number; original_price: number | null; discount_percent: number | null; store: string; category: string | null }>,
+  synonymMap?: Map<string, string[]>,
+): { matchCount: number; totalSaved: number } {
+  let matchCount = 0
+  let totalSaved = 0
+  for (const ing of recipeIngs) {
+    const match = matchIngredientToOffer(
+      { name: ing.name, category: ing.category },
+      offers,
+      synonymMap,
+    )
+    if (match) {
+      matchCount++
+      if (match.originalPrice && match.originalPrice > match.offerPrice) {
+        totalSaved += match.originalPrice - match.offerPrice
+      }
+    }
+  }
+  return { matchCount, totalSaved }
+}
+
+// Zähle überlappende Zutaten zwischen Rezept und bereits verwendeten Zutaten
+function ingredientOverlap(
+  recipeIngs: IngredientInfo[],
+  usedIngredientNames: Set<string>,
+): number {
+  let overlap = 0
+  for (const ing of recipeIngs) {
+    const key = ing.name.toLowerCase().replace(/\s*\([^)]*\)/g, '').trim()
+    if (usedIngredientNames.has(key)) overlap++
+  }
+  return overlap
+}
+
 export function useGeneratePlan() {
   const session = useAppStore((s) => s.session)
   const profile = useAppStore((s) => s.profile)
+  const { offers } = useOffers()
+  const { data: synonymMap } = useSynonyms()
   const queryClient = useQueryClient()
   const userDiets = profile?.diets ?? []
 
   return useMutation({
-    mutationFn: async ({ calTarget, weekStart }: GenerateOptions) => {
+    mutationFn: async ({ calTarget: calTargetInput, budget, weekStart }: GenerateOptions) => {
       if (!session?.user?.id) throw new Error('Not authenticated')
 
-      // 1. Load all public recipes
+      const calTarget = calTargetInput ?? profile?.cal_target ?? DEFAULT_CAL_TARGET
+      const weeklyBudget = budget ?? profile?.budget ?? null
+
+      // 1. Alle öffentlichen Rezepte laden
       const { data: allRecipes, error } = await supabase
         .from('recipes')
         .select('id, name, emoji, calories, protein, carbs, fat, time_minutes, difficulty, image_url, servings, saved, cost, meal, diets')
@@ -141,78 +162,141 @@ export function useGeneratePlan() {
       if (error) throw error
       if (!allRecipes || allRecipes.length === 0) throw new Error('Keine Rezepte verfügbar')
 
-      // 2. Filter by user diet
+      // 2. Nach Ernährung filtern
       let recipes = allRecipes as RawRecipe[]
       for (const diet of userDiets) {
         if (diet === 'vegan') {
-          recipes = recipes.filter((r) => (r.diets ?? []).includes('vegan'))
+          recipes = recipes.filter(r => (r.diets ?? []).includes('vegan'))
         } else if (diet === 'vegetarisch') {
-          recipes = recipes.filter((r) => {
+          recipes = recipes.filter(r => {
             const d = r.diets ?? []
             return d.includes('vegetarisch') || d.includes('vegan')
           })
         }
       }
 
-      if (recipes.length < 3) throw new Error('Zu wenige passende Rezepte')
+      if (recipes.length < 5) throw new Error('Zu wenige passende Rezepte für einen Wochenplan')
 
-      // 3. Separate by meal type
-      const breakfastRecipes = recipes.filter((r) => r.meal === 'breakfast')
-      const snackRecipes = recipes.filter((r) => r.meal === 'snack' || r.meal === 'dessert')
-      const mainRecipes = recipes.filter((r) => r.meal !== 'breakfast' && r.meal !== 'snack' && r.meal !== 'dessert')
+      // 3. Zutaten für ALLE Rezepte vorladen (eine DB-Query statt 28 einzelne)
+      const allRecipeIds = recipes.map(r => r.id)
+      const ingredientMap = await loadAllIngredients(allRecipeIds)
 
-      // 4. Generate plan
+      // 4. Angebots-Score pro Rezept vorberechnen
+      const offerScoreMap = new Map<string, { matchCount: number; totalSaved: number }>()
+      for (const r of recipes) {
+        const ings = ingredientMap.get(r.id) ?? []
+        offerScoreMap.set(r.id, countOfferMatches(ings, offers, synonymMap ?? undefined))
+      }
+
+      // 5. Nach Mahlzeit-Typ gruppieren
+      const breakfastPool = recipes.filter(r => r.meal === 'breakfast')
+      const snackPool = recipes.filter(r => r.meal === 'snack' || r.meal === 'dessert')
+      const mainPool = recipes.filter(r => r.meal !== 'breakfast' && r.meal !== 'snack' && r.meal !== 'dessert')
+
+      // 6. Plan generieren mit Scoring
       const plan: WeekPlan = {}
       const usedIds = new Set<string>()
-      const usedIngredients = new Map<string, number>()
+      const usedIngredientNames = new Set<string>()
+      let totalPlanCost = 0
       const mealsToFill = ['breakfast', 'lunch', 'dinner', 'snack'] as const
 
-      // First pass: pick recipes for all slots
-      const picks: { day: DayKey; meal: string; recipe: RawRecipe }[] = []
+      // Budget pro Tag berechnen (falls Budget vorhanden)
+      const dailyBudget = weeklyBudget ? weeklyBudget / 7 : null
 
       for (const day of DAYS) {
         plan[day] = {}
         let dailyCal = 0
+        let dailyCost = 0
 
         for (const meal of mealsToFill) {
+          // Pool bestimmen (Frühstück, Hauptgerichte, Snacks)
           const pool = meal === 'breakfast'
-            ? (breakfastRecipes.length > 0 ? breakfastRecipes : mainRecipes)
+            ? (breakfastPool.length >= 3 ? breakfastPool : [...breakfastPool, ...mainPool])
             : meal === 'snack'
-            ? (snackRecipes.length > 0 ? snackRecipes : breakfastRecipes.length > 0 ? breakfastRecipes : mainRecipes)
-            : mainRecipes
+            ? (snackPool.length >= 3 ? snackPool : [...snackPool, ...breakfastPool])
+            : mainPool
 
-          const scored = shuffle(pool).map((r) => ({
-            recipe: r,
-            score: scoreRecipe(r, meal, dailyCal, calTarget, usedIds, usedIngredients),
-          }))
+          if (pool.length === 0) continue
+
+          // Ideal-Kalorien für diese Mahlzeit
+          const idealCal = calTarget * MEAL_DISTRIBUTION[meal]
+
+          // Jedes Rezept bewerten
+          const scored = shuffle(pool).map(recipe => {
+            let score = 0
+            const cal = recipe.calories ?? 0
+            const cost = Number(recipe.cost) || 0
+            const offerData = offerScoreMap.get(recipe.id) ?? { matchCount: 0, totalSaved: 0 }
+            const ings = ingredientMap.get(recipe.id) ?? []
+
+            // A. Mahlzeit-Typ Match (30 Punkte)
+            if (recipe.meal === meal) score += 30
+            else if (meal === 'snack' && recipe.meal === 'breakfast') score += 10
+            else if (meal !== 'snack' && recipe.meal !== 'breakfast') score += 15
+
+            // B. Kalorien-Fit (40 Punkte max)
+            const calDiff = Math.abs(cal - idealCal)
+            const calScore = Math.max(0, 40 - Math.round(calDiff / 10))
+            score += calScore
+
+            // C. Abwechslung — bereits genutzte Rezepte stark bestrafen (50 Punkte)
+            if (usedIds.has(recipe.id)) score -= 50
+
+            // D. Angebots-Bonus — Rezepte mit Zutaten im Angebot bevorzugen (25 Punkte max)
+            if (offerData.matchCount > 0) {
+              score += Math.min(25, offerData.matchCount * 8)
+            }
+            if (offerData.totalSaved > 0) {
+              score += Math.min(10, Math.round(offerData.totalSaved * 5))
+            }
+
+            // E. Zutaten-Wiederverwendung — gleiche Zutaten wie bereits geplant (20 Punkte max)
+            const overlap = ingredientOverlap(ings, usedIngredientNames)
+            if (overlap > 0) score += Math.min(20, overlap * 7)
+
+            // F. Budget — günstigere Rezepte bevorzugen wenn Budget knapp (15 Punkte max)
+            if (dailyBudget && cost > 0) {
+              const remainingBudget = dailyBudget - dailyCost
+              if (cost <= remainingBudget) score += 15
+              else if (cost <= remainingBudget * 1.2) score += 5
+              else score -= 10
+            } else if (cost > 0 && cost <= 4) {
+              score += 10
+            }
+
+            return { recipe, score }
+          })
+
+          // Bestes Rezept wählen
           scored.sort((a, b) => b.score - a.score)
-
           const pick = scored[0]
+
           if (pick) {
-            picks.push({ day, meal, recipe: pick.recipe })
+            const ings = ingredientMap.get(pick.recipe.id) ?? []
+            plan[day][meal] = [toPlanRecipe(pick.recipe, ings)]
             usedIds.add(pick.recipe.id)
             dailyCal += pick.recipe.calories ?? 0
+            dailyCost += Number(pick.recipe.cost) || 0
+
+            // Zutaten für Wiederverwendungs-Tracking merken
+            for (const ing of ings) {
+              usedIngredientNames.add(ing.name.toLowerCase().replace(/\s*\([^)]*\)/g, '').trim())
+            }
           }
         }
-      }
 
-      // Second pass: load all ingredients in parallel
-      const ingredientResults = await Promise.all(
-        picks.map((p) => loadIngredients(p.recipe.id))
-      )
-
-      for (let i = 0; i < picks.length; i++) {
-        const { day, meal, recipe } = picks[i]
-        const ings = ingredientResults[i]
-        plan[day][meal] = [toPlanRecipe(recipe, ings)]
-
-        for (const ing of ings) {
-          const key = ing.n.toLowerCase()
-          usedIngredients.set(key, (usedIngredients.get(key) ?? 0) + 1)
+        // Tagescheck: Kalorien in Toleranz?
+        const minCal = calTarget * (1 - CAL_TOLERANCE)
+        const maxCal = calTarget * (1 + CAL_TOLERANCE)
+        if (dailyCal < minCal || dailyCal > maxCal) {
+          // Versuch: Tausche das Gericht mit größter Abweichung
+          // (aktuell als Info loggen, später feintunen)
         }
+
+        totalPlanCost += dailyCost
       }
 
-      // 5. Save to DB
+      // 7. In Supabase speichern
       const { error: saveError } = await supabase.from('weekly_plans').upsert({
         user_id: session.user.id,
         week_start: weekStart,
@@ -221,7 +305,22 @@ export function useGeneratePlan() {
 
       if (saveError) throw saveError
 
-      return plan
+      return {
+        plan,
+        stats: {
+          estimatedCost: Math.round(totalPlanCost * 100) / 100,
+          avgDailyCal: Math.round(
+            DAYS.reduce((sum, day) => {
+              const dayMeals = plan[day] ?? {}
+              return sum + Object.values(dayMeals).reduce((s, meals) => {
+                return s + ((meals as PlanRecipe[])?.[0]?.cal ?? 0)
+              }, 0)
+            }, 0) / 7
+          ),
+          ingredientReuse: usedIngredientNames.size,
+          offerMatches: [...offerScoreMap.values()].filter(v => v.matchCount > 0).length,
+        },
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['weeklyPlan'] })

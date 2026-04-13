@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useEffect } from 'react'
+import { OptimizedImage } from '../components/ui/OptimizedImage'
 import { PageLayout } from '../components/layout/PageLayout'
 import { PageHeader } from '../components/layout/PageHeader'
 import { OfferList } from '../components/offers/OfferList'
@@ -14,6 +15,7 @@ import { OFFER_CATEGORY_CONFIG } from '../lib/offerCategoryConfig'
 import { Search, ArrowLeft, CheckCircle2, RefreshCw, Flame } from 'lucide-react'
 import { getWeekNumber } from '../lib/weekNumber'
 import { scrapeOffersForPlz } from '../lib/marktguruScraper'
+import { logger } from '../lib/logger'
 import { queryClient } from '../lib/queryClient'
 import type { Offer } from '../types/app.types'
 import type { CategoryGroup } from '../hooks/useOffers'
@@ -40,18 +42,18 @@ export function OffersPage() {
     if (offers.length > 0) return
 
     // Keine Angebote gefunden → automatisch scrapen
-    console.log('[MealDeal] Keine Angebote für PLZ', profile.plz, '– starte Auto-Scrape')
+    logger.log('Keine Angebote für PLZ', profile.plz, '– starte Auto-Scrape')
     setScraping(true)
     setAutoScrapeDone(true)
 
     scrapeOffersForPlz(profile.plz, markets)
       .then((result) => {
-        console.log(`[MealDeal] Auto-Scrape: ${result.count} Angebote geladen`)
+        logger.log(`Auto-Scrape: ${result.count} Angebote geladen`)
         queryClient.invalidateQueries({ queryKey: ['offers'] })
         refetch()
       })
       .catch((err) => {
-        console.warn('[MealDeal] Auto-Scrape fehlgeschlagen:', err)
+        logger.warn('Auto-Scrape fehlgeschlagen:', err)
       })
       .finally(() => {
         setScraping(false)
@@ -63,11 +65,11 @@ export function OffersPage() {
     setScraping(true)
     try {
       const result = await scrapeOffersForPlz(profile.plz, markets)
-      console.log(`[MealDeal] ${result.count} Angebote aktualisiert`)
+      logger.log(`${result.count} Angebote aktualisiert`)
       queryClient.invalidateQueries({ queryKey: ['offers'] })
       refetch()
     } catch (err) {
-      console.warn('[MealDeal] Refresh fehlgeschlagen:', err)
+      logger.warn('Refresh fehlgeschlagen:', err)
     } finally {
       setScraping(false)
     }
@@ -252,7 +254,7 @@ export function OffersPage() {
                     >
                       {deal.image_url && (
                         <div className="w-full h-[80px] bg-background relative">
-                          <img src={deal.image_url} alt={deal.product_name} className="w-full h-full object-contain p-2" loading="lazy" />
+                          <OptimizedImage src={deal.image_url} alt={deal.product_name} size="thumb" fallback={deal.emoji ?? '🛒'} className="w-full h-full object-contain p-2" />
                           {deal.discount_percent && (
                             <span className="absolute top-1.5 right-1.5 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-pill">
                               -{deal.discount_percent}%

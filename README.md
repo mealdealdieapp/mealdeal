@@ -1,73 +1,92 @@
-# React + TypeScript + Vite
+# MealDeal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+App die Angebote und Rezepte verbindet. Nutzer bekommen Wochenpläne basierend auf ihrem Budget, ihrer PLZ und was aktuell im Angebot ist.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Frontend:** React 19 + TypeScript + Vite 8 + Tailwind 3
+- **State:** TanStack Query (Server State) + Zustand (UI State)
+- **Backend:** Supabase (Auth, Postgres, Storage)
+- **Routing:** React Router v7
+- **Icons:** Lucide React
+- **Scraping:** Marktguru API (via Vercel Edge Function Proxy)
+- **Hosting:** Vercel
+- **Automation:** GitHub Actions (siehe `docs/SETUP_AUTOMATION.md`)
 
-## React Compiler
+## Entwicklung starten
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Dev-Server läuft auf http://localhost:5173.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Projektstruktur
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+├── src/                         # React-App-Code
+│   ├── components/              # UI-Komponenten
+│   ├── pages/                   # Routes
+│   ├── hooks/                   # Data-Fetching + Custom Hooks
+│   ├── lib/                     # Supabase Client, Scraper, Helpers
+│   ├── store/                   # Zustand Stores
+│   └── types/                   # TypeScript-Typen
+│
+├── public/                      # Statische Assets
+├── api/                         # Vercel Edge Functions (Marktguru-Proxy)
+├── scripts/                     # Automation-Scripts (Node .mjs)
+│   ├── weekly-scrape.mjs                # Wöchentliches Angebots-Scraping
+│   ├── nightly-health-check.mjs         # Täglicher App-Health-Check
+│   ├── weekly-matching-analysis.mjs     # Synonym-Vorschläge
+│   ├── weekly-recipe-generator.mjs      # KI-Rezept-Generator
+│   ├── cleanup-expired-offers.mjs       # Abgelaufene Angebote löschen
+│   ├── generate-recipe-images.mjs       # DALL·E Rezeptbilder
+│   ├── setup-automation-tables.sql      # SQL: Tabellen für Automation
+│   ├── setup-rls-policies.sql           # SQL: RLS-Policies
+│   └── *.sql                             # weitere SQL-Migrationen
+│
+├── .github/workflows/           # GitHub Actions (scheduled jobs)
+├── docs/                        # Dokumentation
+│   ├── SETUP_AUTOMATION.md              # Setup-Anleitung GitHub Actions
+│   ├── AUTOMATION_PLAN.md               # Masterplan Automatisierung
+│   ├── STATUS.md                         # Bestandsaufnahme 
+│   └── SECURITY_CHECKLIST.md            # Security-Checkliste
+│
+├── MealDeal/                    # Business-Docs + Altes Projekt (Expo)
+│   ├── Gesellschaftervertrag_UG_*.docx
+│   ├── Kalkulation_erweitert.xlsx
+│   ├── MEALDEAL_MASTERPLAN.md
+│   └── app|backend|supabase/ (alt)
+│
+├── _archiv/                     # Archiv alter Scripts (vor Cleanup)
+│   ├── alte-scraper/            # Python/JS Scraper (ersetzt durch scripts/)
+│   └── alte-scripte/            # Alte .bat-Dateien
+│
+├── CLAUDE.md                    # Projekt-Regeln für Claude
+└── .env                         # Lokale Umgebungsvariablen (nicht in Git!)
+```
+
+## Wichtige Dokumente
+
+- **`docs/SETUP_AUTOMATION.md`** — Wie du die GitHub-Actions-Automatisierung scharf stellst
+- **`docs/AUTOMATION_PLAN.md`** — Masterplan: Alle Phasen der Automatisierung
+- **`CLAUDE.md`** — Regeln für Claude beim Coden im Projekt
+- **`MealDeal/MEALDEAL_MASTERPLAN.md`** — Business-Masterplan
+
+## Automatisierung (nach Setup)
+
+| Job | Wann | Zweck |
+|-----|------|-------|
+| Scraping | Sa 23:00 UTC | Neue Angebote pro PLZ-Präfix |
+| Health-Check | täglich 03:00 UTC | App-Monitoring + Auto-Fixes |
+| Matching | So 05:00 UTC | Synonym-Vorschläge |
+| Rezepte | So 06:00 UTC | 5 neue saisonale Rezepte |
+
+Siehe `docs/SETUP_AUTOMATION.md` für Setup.
+
+## Deployment
+
+Automatisch via Vercel bei jedem Push auf `main`.
+
+Live: https://mealdeal-ten.vercel.app

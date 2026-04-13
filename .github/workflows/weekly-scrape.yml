@@ -1,0 +1,42 @@
+name: Wöchentliches Angebots-Scraping
+
+# Samstag 23:00 UTC = Sonntag 00:00/01:00 MEZ/MESZ
+# Läuft einmal pro Woche, ideal für Sonntag-Planer die Woche einkaufen
+on:
+  schedule:
+    - cron: '0 23 * * 6'
+  workflow_dispatch:  # Manuell auslösbar über GitHub UI
+    inputs:
+      force:
+        description: 'Ignoriere scraped_this_week (force re-scrape)'
+        required: false
+        default: 'false'
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci --omit=dev || npm install --omit=dev
+
+      - name: Run Weekly Scraper
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          MARKTGURU_API_KEY: ${{ secrets.MARKTGURU_API_KEY }}
+        run: |
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            node scripts/weekly-scrape.mjs --force
+          else
+            node scripts/weekly-scrape.mjs
+          fi

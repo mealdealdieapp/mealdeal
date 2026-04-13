@@ -1,0 +1,68 @@
+name: DB-Migration ausführen
+
+# Manueller Trigger: Gehe zu GitHub → Actions → "DB-Migration ausführen" → Run workflow
+# Wählt eine SQL-Datei aus dem scripts/ Ordner aus und führt sie auf Supabase aus.
+#
+# Voraussetzung: Secret SUPABASE_DB_URL muss gesetzt sein
+# (Format: postgresql://postgres.<ref>:<passwort>@aws-0-<region>.pooler.supabase.com:5432/postgres)
+
+on:
+  workflow_dispatch:
+    inputs:
+      sql_file:
+        description: 'SQL-Datei im scripts/ Ordner (z.B. setup-automation-tables.sql)'
+        required: true
+        default: 'setup-automation-tables.sql'
+        type: choice
+        options:
+          - setup-automation-tables.sql
+          - setup-rls-policies.sql
+          - setup-cleanup-cron.sql
+          - reclassify-offers.sql
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install PostgreSQL Client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Verify SQL file exists
+        run: |
+          if [ ! -f "scripts/${{ github.event.inputs.sql_file }}" ]; then
+            echo "❌ Datei scripts/${{ github.event.inputs.sql_file }} existiert nicht"
+            exit 1
+          fi
+          echo "✅ Datei gefunden: scripts/${{ github.event.inputs.sql_file }}"
+          echo "--- Inhalt (erste 40 Zeilen) ---"
+          head -40 "scripts/${{ github.event.inputs.sql_file }}"
+
+      - name: Run SQL Migration
+        env:
+          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          if [ -z "$DB_URL" ]; then
+            echo "❌ Secret SUPABASE_DB_URL ist nicht gesetzt"
+            echo "   Setze es unter: Settings → Secrets and variables → Actions"
+            exit 1
+          fi
+          echo "🔌 Führe SQL aus: scripts/${{ github.event.inputs.sql_file }}"
+          psql "$DB_URL" \
+            --set ON_ERROR_STOP=1 \
+            --echo-errors \
+            --file "scripts/${{ github.event.inputs.sql_file }}"
+          echo ""
+          echo "✅ Migration erfolgreich"
+
+      - name: Zusammenfassung
+        if: success()
+        run: |
+          echo "### ✅ SQL-Migration erfolgreich" >> $GITHUB_STEP_SUMMARY
+          echo "**Datei:** \`scripts/${{ github.event.inputs.sql_file }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Zeit:** $(date)" >> $GITHUB_STEP_SUMMARY

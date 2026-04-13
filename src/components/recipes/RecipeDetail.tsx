@@ -7,6 +7,7 @@ import { useWeeklyPlan, DAYS, MEALS } from '../../hooks/useWeeklyPlan'
 import { recipeToPlanRecipe } from '../weekly/RecipePicker'
 import { OptimizedImage } from '../ui/OptimizedImage'
 import { Portal } from '../ui/Portal'
+import { logger } from '../../lib/logger'
 import type { DayKey, MealKey } from '../../hooks/useWeeklyPlan'
 
 interface RecipeDetailProps {
@@ -227,7 +228,7 @@ export function RecipeDetail({ recipe, onClose }: RecipeDetailProps) {
                     }
                   )
                 } catch (err) {
-                  console.error('Failed to add to plan:', err)
+                  logger.error('Failed to add to plan:', err)
                 }
                 setShowPlanPicker(false)
               }}

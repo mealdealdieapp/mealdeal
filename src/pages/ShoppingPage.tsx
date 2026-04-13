@@ -7,6 +7,7 @@ import { useAppStore } from '../store/useAppStore'
 import type { ShoppingItemWithOffer, MarketGroup } from '../hooks/useShopping'
 import { Portal } from '../components/ui/Portal'
 import { ErrorState } from '../components/ui/ErrorState'
+import { trackPurchase, FeedbackPopup } from '../components/feedback/FeedbackPopup'
 
 const MARKET_COLORS: Record<string, string> = {
   'REWE': '#CC0000', 'ALDI': '#00569D', 'Netto': '#FDC300',
@@ -22,6 +23,7 @@ export function ShoppingPage() {
   const [newItemStore, setNewItemStore] = useState<string | null>(null)
   const [showConfirm, setShowConfirm] = useState(false)
   const [summary, setSummary] = useState<{ saved: number; cost: number; count: number; notFound: number } | null>(null)
+  const [showFeedback, setShowFeedback] = useState(false)
 
   // Selection mode
   const [selectMode, setSelectMode] = useState(false)
@@ -275,11 +277,19 @@ export function ShoppingPage() {
               {summary.notFound > 0 && (
                 <p className="text-[12px] text-muted mt-3">{summary.notFound} Artikel nicht gefunden</p>
               )}
-              <button onClick={() => setSummary(null)} className="mt-4 w-full py-3 bg-primary text-white font-bold text-[14px] rounded-btn active:bg-green-800">Fertig</button>
+              <button onClick={() => {
+                setSummary(null)
+                // Nach Einkauf prüfen ob Feedback fällig ist
+                const shouldAsk = trackPurchase()
+                if (shouldAsk) setShowFeedback(true)
+              }} className="mt-4 w-full py-3 bg-primary text-white font-bold text-[14px] rounded-btn active:bg-green-800">Fertig</button>
             </div>
           </div>
         </Portal>
       )}
+
+      {/* Feedback Popup */}
+      {showFeedback && <FeedbackPopup onClose={() => setShowFeedback(false)} />}
     </PageLayout>
   )
 }

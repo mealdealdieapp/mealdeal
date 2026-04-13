@@ -901,10 +901,17 @@ export function matchIngredientToOffer(
 
   if (!best) return null
 
+  // Originalpreis sicherstellen: Wenn discount vorhanden aber kein original_price,
+  // berechne rückwärts aus dem Rabatt
+  let originalPrice = best.offer.original_price
+  if (originalPrice == null && best.offer.discount_percent && best.offer.discount_percent > 0) {
+    originalPrice = Math.round((best.offer.offer_price / (1 - best.offer.discount_percent / 100)) * 100) / 100
+  }
+
   return {
     offerId: best.offer.id,
     offerPrice: best.offer.offer_price,
-    originalPrice: best.offer.original_price,
+    originalPrice,
     store: best.offer.store,
     discountPercent: best.offer.discount_percent,
     productName: best.offer.product_name,
