@@ -16,6 +16,7 @@ on:
         type: choice
         options:
           - setup-automation-tables.sql
+          - setup-ondemand-trigger.sql
           - setup-rls-policies.sql
           - setup-cleanup-cron.sql
           - reclassify-offers.sql

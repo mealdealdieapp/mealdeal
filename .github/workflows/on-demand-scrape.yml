@@ -1,0 +1,85 @@
+name: On-Demand PLZ Scrape (Neu-Registrierung)
+
+# Wird von Supabase Webhook getriggert wenn ein neuer User sich registriert
+# Damit User sofort Angebote sehen, nicht bis Samstag warten müssen
+on:
+  # Supabase Webhook triggert via repository_dispatch
+  repository_dispatch:
+    types: [new-user-plz]
+
+  # Manuell auslösbar für Tests oder Nachscrapes
+  workflow_dispatch:
+    inputs:
+      plz:
+        description: 'PLZ (5-stellig) für die gescraped werden soll'
+        required: true
+        type: string
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Extract PLZ
+        id: extract
+        run: |
+          # PLZ aus repository_dispatch ODER workflow_dispatch
+          PLZ="${{ github.event.client_payload.plz }}"
+          if [ -z "$PLZ" ]; then
+            PLZ="${{ github.event.inputs.plz }}"
+          fi
+
+          if [ -z "$PLZ" ]; then
+            echo "❌ Keine PLZ übergeben!"
+            exit 1
+          fi
+
+          # PLZ-Präfix (erste 3 Stellen)
+          PLZ_PREFIX="${PLZ:0:3}"
+
+          echo "plz=$PLZ" >> $GITHUB_OUTPUT
+          echo "plz_prefix=$PLZ_PREFIX" >> $GITHUB_OUTPUT
+          echo "🔍 Scraping für PLZ $PLZ (Präfix: $PLZ_PREFIX)"
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci --omit=dev || npm install --omit=dev
+
+      - name: Run Scraper for specific PLZ
+        id: scrape
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          MARKTGURU_API_KEY: ${{ secrets.MARKTGURU_API_KEY }}
+        run: |
+          node scripts/weekly-scrape.mjs --plz ${{ steps.extract.outputs.plz_prefix }} --force
+
+      - name: Notify Telegram on Success
+        if: success()
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            --data-urlencode "chat_id=${CHAT_ID}" \
+            --data-urlencode "parse_mode=HTML" \
+            --data-urlencode "text=🆕 <b>Neuer User registriert</b>%0A%0APLZ ${{ steps.extract.outputs.plz }} (Präfix ${{ steps.extract.outputs.plz_prefix }}) wurde sofort gescraped. User sieht jetzt Angebote!"
+
+      - name: Notify Telegram on Failure
+        if: failure()
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            --data-urlencode "chat_id=${CHAT_ID}" \
+            --data-urlencode "parse_mode=HTML" \
+            --data-urlencode "text=⚠️ <b>On-Demand Scrape FEHLGESCHLAGEN</b>%0A%0APLZ ${{ steps.extract.outputs.plz }} konnte nicht gescraped werden. User sieht evtl. keine Angebote bis Samstag!%0A%0A<a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>Logs ansehen</a>"
