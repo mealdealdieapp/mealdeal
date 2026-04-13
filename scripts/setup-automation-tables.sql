@@ -18,7 +18,11 @@
 
 -- --- scraped_this_week ---
 -- Tracking welche PLZ-Präfixe in welcher Woche gescraped wurden
-CREATE TABLE IF NOT EXISTS public.scraped_this_week (
+-- Falls Tabelle existiert aber mit altem Schema → droppen + neu erstellen
+-- (enthält nur Tracking-Daten, keine User-Daten)
+DROP TABLE IF EXISTS public.scraped_this_week CASCADE;
+
+CREATE TABLE public.scraped_this_week (
   id BIGSERIAL PRIMARY KEY,
   plz_prefix TEXT NOT NULL,
   week_start DATE NOT NULL,
@@ -26,12 +30,6 @@ CREATE TABLE IF NOT EXISTS public.scraped_this_week (
   offers_count INTEGER DEFAULT 0,
   UNIQUE (plz_prefix, week_start)
 );
-
--- Falls Tabelle bereits existiert ohne neue Spalten → nachtragen
-ALTER TABLE public.scraped_this_week ADD COLUMN IF NOT EXISTS plz_prefix TEXT;
-ALTER TABLE public.scraped_this_week ADD COLUMN IF NOT EXISTS week_start DATE;
-ALTER TABLE public.scraped_this_week ADD COLUMN IF NOT EXISTS scraped_at TIMESTAMPTZ DEFAULT NOW();
-ALTER TABLE public.scraped_this_week ADD COLUMN IF NOT EXISTS offers_count INTEGER DEFAULT 0;
 
 CREATE INDEX IF NOT EXISTS idx_scraped_week ON public.scraped_this_week(week_start);
 
