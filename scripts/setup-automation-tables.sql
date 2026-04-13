@@ -27,6 +27,12 @@ CREATE TABLE IF NOT EXISTS public.scraped_this_week (
   UNIQUE (plz_prefix, week_start)
 );
 
+-- Falls Tabelle bereits existiert ohne neue Spalten → nachtragen
+ALTER TABLE public.scraped_this_week ADD COLUMN IF NOT EXISTS plz_prefix TEXT;
+ALTER TABLE public.scraped_this_week ADD COLUMN IF NOT EXISTS week_start DATE;
+ALTER TABLE public.scraped_this_week ADD COLUMN IF NOT EXISTS scraped_at TIMESTAMPTZ DEFAULT NOW();
+ALTER TABLE public.scraped_this_week ADD COLUMN IF NOT EXISTS offers_count INTEGER DEFAULT 0;
+
 CREATE INDEX IF NOT EXISTS idx_scraped_week ON public.scraped_this_week(week_start);
 
 
