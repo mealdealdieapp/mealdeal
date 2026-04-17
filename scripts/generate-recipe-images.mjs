@@ -50,30 +50,85 @@ if (!SUPABASE_SERVICE_KEY) {
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 
+// ===== REZEPT-DETAILS LADEN (Zutaten + Steps) =====
+async function loadRecipeDetails(recipeId) {
+  // Zutaten mit Namen laden
+  const { data: ingRows } = await supabase
+    .from('recipe_ingredients')
+    .select('amount, unit, ingredients(name)')
+    .eq('recipe_id', recipeId)
+    .limit(20)
+
+  const ingredients = (ingRows || [])
+    .map(r => r.ingredients?.name)
+    .filter(Boolean)
+
+  // Steps aus dem Rezept
+  const { data: recipe } = await supabase
+    .from('recipes')
+    .select('steps')
+    .eq('id', recipeId)
+    .single()
+
+  const steps = recipe?.steps || []
+
+  return { ingredients, steps }
+}
+
 // ===== PROMPT TEMPLATE =====
-function buildPrompt(recipeName, meal) {
+function buildPrompt(recipeName, meal, ingredients = [], steps = []) {
   const mealContext = {
-    breakfast: 'Frühstücksgericht',
-    lunch: 'Mittagessen',
-    dinner: 'Abendessen',
-    snack: 'Snack',
-    dessert: 'Dessert/Nachspeise',
-    soup: 'Suppe',
-    salad: 'Salat',
-    baking: 'Gebäck/Backware',
-    cocktail: 'Getränk/Cocktail',
-    date_night: 'besonderes Abendessen',
+    breakfast: 'breakfast dish',
+    lunch: 'lunch dish',
+    dinner: 'dinner dish',
+    snack: 'snack',
+    dessert: 'dessert',
+    soup: 'soup',
+    salad: 'salad',
+    baking: 'baked good',
+    cocktail: 'drink/cocktail',
+    date_night: 'special dinner',
   }
 
-  const context = mealContext[meal] || 'Gericht'
+  const context = mealContext[meal] || 'dish'
 
-  return `Professional food photography of "${recipeName}" (${context}). ` +
-    `Top-down or 45-degree angle shot on a clean, modern table setting. ` +
-    `Natural warm lighting, shallow depth of field. ` +
-    `The dish is beautifully plated on a ceramic plate/bowl. ` +
-    `Minimalist styling with subtle garnish. ` +
-    `Photorealistic, appetizing, high-end food magazine quality. ` +
-    `No text, no watermarks, no logos, no hands, no people.`
+  // Zutaten-Beschreibung (max 10 fuer Prompt-Laenge)
+  const ingList = ingredients.slice(0, 10).join(', ')
+  const ingPart = ingList ? ` Made with: ${ingList}.` : ''
+
+  // Zubereitungs-Hinweise extrahieren (Optik-relevante Keywords aus den Steps)
+  let prepHint = ''
+  if (steps.length > 0) {
+    // Aus den Steps visuelle Hinweise extrahieren
+    const allSteps = steps.join(' ').toLowerCase()
+    const visualCues = []
+    if (allSteps.includes('überback') || allSteps.includes('gratiniert') || allSteps.includes('gratin')) visualCues.push('golden gratinated top')
+    if (allSteps.includes('anbraten') || allSteps.includes('scharf anbraten') || allSteps.includes('knusprig')) visualCues.push('crispy seared surface')
+    if (allSteps.includes('grillen') || allSteps.includes('gegrillt')) visualCues.push('grill marks visible')
+    if (allSteps.includes('frittier') || allSteps.includes('ausback')) visualCues.push('deep-fried golden crust')
+    if (allSteps.includes('garnieren') || allSteps.includes('bestreuen') || allSteps.includes('topping')) visualCues.push('garnished on top')
+    if (allSteps.includes('schicht') || allSteps.includes('auflauf')) visualCues.push('visible layered structure')
+    if (allSteps.includes('cremig') || allSteps.includes('pürieren') || allSteps.includes('sauce')) visualCues.push('creamy smooth texture')
+    if (allSteps.includes('backen') || allSteps.includes('ofen')) visualCues.push('oven-baked golden finish')
+    if (allSteps.includes('rollen') || allSteps.includes('wickeln') || allSteps.includes('wrap')) visualCues.push('rolled/wrapped presentation')
+    if (allSteps.includes('salat') || allSteps.includes('frisch') || allSteps.includes('roh')) visualCues.push('fresh vibrant colors')
+    if (allSteps.includes('karamell')) visualCues.push('caramelized glaze')
+    if (allSteps.includes('schmoren') || allSteps.includes('slow')) visualCues.push('tender slow-cooked look')
+    if (visualCues.length > 0) {
+      prepHint = ` Visual details: ${visualCues.slice(0, 4).join(', ')}.`
+    }
+  }
+
+  return `Clean, minimalist food photography of "${recipeName}", a German ${context}.${ingPart}${prepHint} ` +
+    `The dish looks delicious and makes you want to eat it immediately. ` +
+    `Shot from a 45-degree angle on a simple white or light marble surface. ` +
+    `Bright, soft natural daylight from the side, airy and fresh mood. ` +
+    `Served on a simple matte ceramic plate or bowl in white or earth tones. ` +
+    `Very minimal styling — only the dish itself, maybe one small fresh herb sprig as garnish. ` +
+    `Clean negative space around the plate, no clutter, no utensils, no napkins. ` +
+    `Colors are natural and vibrant — the food is the hero. ` +
+    `Photorealistic, appetizing, modern recipe-app quality. ` +
+    `No text, no watermarks, no logos, no hands, no people, no busy backgrounds.`
 }
 
 // ===== DALL-E API CALL =====
@@ -221,13 +276,19 @@ async function main() {
     try {
       console.log(`${progress} 🎨 Generiere: ${recipe.emoji || '🍽️'} ${recipe.name}`)
 
-      // 1. Prompt bauen
-      const prompt = buildPrompt(recipe.name, recipe.meal)
+      // 1. Rezept-Details laden (Zutaten + Steps)
+      const { ingredients, steps } = await loadRecipeDetails(recipe.id)
+      if (ingredients.length > 0) {
+        console.log(`   📝 ${ingredients.length} Zutaten, ${steps.length} Steps geladen`)
+      }
 
-      // 2. Bild generieren
+      // 2. Prompt bauen (mit Zutaten + visuellen Hinweisen aus Steps)
+      const prompt = buildPrompt(recipe.name, recipe.meal, ingredients, steps)
+
+      // 3. Bild generieren
       const base64 = await generateImage(prompt)
 
-      // 3. Dateiname erstellen (sauber, ohne Sonderzeichen)
+      // 4. Dateiname erstellen (sauber, ohne Sonderzeichen)
       const cleanName = recipe.name
         .replace(/[äÄ]/g, 'ae').replace(/[öÖ]/g, 'oe')
         .replace(/[üÜ]/g, 'ue').replace(/ß/g, 'ss')
@@ -236,10 +297,10 @@ async function main() {
         .toLowerCase()
       const fileName = `${cleanName}.png`
 
-      // 4. In Supabase Storage hochladen
+      // 5. In Supabase Storage hochladen
       await uploadImage(fileName, base64)
 
-      // 5. DB aktualisieren (Bucket-Pfad, KEIN ext: Prefix)
+      // 6. DB aktualisieren (Bucket-Pfad, KEIN ext: Prefix)
       const { error } = await supabase
         .from('recipes')
         .update({ image_url: fileName })
