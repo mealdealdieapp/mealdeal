@@ -42,7 +42,8 @@ interface Ingredient {
 }
 
 interface Synonym {
-  ingredient_id: string
+  ingredient_id?: string
+  canonical?: string
   synonym: string
 }
 
@@ -69,7 +70,10 @@ export function buildMatcher(ingredients: Ingredient[], synonyms: Synonym[] = []
   for (const syn of synonyms) {
     const s = (syn.synonym || '').toLowerCase().trim()
     if (!s) continue
-    const ing = ingredients.find(i => i.id === syn.ingredient_id)
+    // Support both canonical (text name) and ingredient_id (uuid) lookups
+    const ing = syn.canonical
+      ? ingredients.find(i => i.name.toLowerCase() === syn.canonical!.toLowerCase())
+      : ingredients.find(i => i.id === syn.ingredient_id)
     if (ing) bySynonym.set(s, ing)
   }
 

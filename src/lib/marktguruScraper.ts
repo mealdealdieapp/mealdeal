@@ -553,7 +553,7 @@ async function matchOffersToIngredients(
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: synonyms } = await (supabase.from('ingredient_synonyms' as any) as any)
-    .select('ingredient_id, synonym')
+    .select('canonical, synonym')
 
   // 3) Matcher bauen
   const matcher = buildMatcher(ingredients, synonyms ?? [])
