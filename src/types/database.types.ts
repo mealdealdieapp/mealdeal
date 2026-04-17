@@ -608,6 +608,9 @@ export type Database = {
           tag: string | null
           tag_color: string | null
           time_minutes: number | null
+          status: string
+          source: string
+          quality_score: number | null
         }
         Insert: {
           calories?: number | null
@@ -632,6 +635,9 @@ export type Database = {
           tag?: string | null
           tag_color?: string | null
           time_minutes?: number | null
+          status?: string
+          source?: string
+          quality_score?: number | null
         }
         Update: {
           calories?: number | null
@@ -656,6 +662,9 @@ export type Database = {
           tag?: string | null
           tag_color?: string | null
           time_minutes?: number | null
+          status?: string
+          source?: string
+          quality_score?: number | null
         }
         Relationships: []
       }

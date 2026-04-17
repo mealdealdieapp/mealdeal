@@ -293,6 +293,22 @@ CREATE POLICY "scraped_this_week_update_authenticated" ON public.scraped_this_we
   FOR UPDATE USING (auth.role() = 'authenticated');
 
 
+-- --- offer_ingredient_matches (v2) ---
+ALTER TABLE public.offer_ingredient_matches ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "oim_select" ON public.offer_ingredient_matches;
+CREATE POLICY "oim_select" ON public.offer_ingredient_matches
+  FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "oim_insert_authenticated" ON public.offer_ingredient_matches;
+CREATE POLICY "oim_insert_authenticated" ON public.offer_ingredient_matches
+  FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "oim_update_authenticated" ON public.offer_ingredient_matches;
+CREATE POLICY "oim_update_authenticated" ON public.offer_ingredient_matches
+  FOR UPDATE USING (auth.role() = 'authenticated');
+
+
 -- ============================================================================
 -- SECTION 4: SYSTEM-TABELLEN — NUR SERVICE ROLE
 -- ============================================================================
@@ -301,6 +317,13 @@ CREATE POLICY "scraped_this_week_update_authenticated" ON public.scraped_this_we
 
 -- --- unmatched_images ---
 ALTER TABLE public.unmatched_images ENABLE ROW LEVEL SECURITY;
+
+-- --- scrape_runs (v2 Monitoring) ---
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'scrape_runs') THEN
+    ALTER TABLE public.scrape_runs ENABLE ROW LEVEL SECURITY;
+  END IF;
+END $$;
 
 -- Keine Policies = kein Client-Zugriff. Nur Service Role Key kommt durch.
 

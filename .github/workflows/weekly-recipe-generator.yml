@@ -1,18 +1,19 @@
-name: Wöchentlicher Rezept-Generator
+name: Wöchentlicher Rezept-Workflow
 
-# Sonntag 06:00 UTC = 07:00/08:00 MEZ/MESZ
+# Sonntag 02:00 UTC = 03:00/04:00 MEZ/MESZ (nach dem Samstag-Scrape)
 on:
   schedule:
-    - cron: '0 6 * * 0'
+    - cron: '0 2 * * 0'
   workflow_dispatch:
     inputs:
-      count:
-        description: 'Anzahl neuer Rezepte'
+      force_generate:
+        description: 'Rezept-Generierung erzwingen (auch bei genug Matches)'
         required: false
-        default: '5'
+        type: boolean
+        default: false
 
 jobs:
-  generate:
+  recipe-workflow:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -28,23 +29,19 @@ jobs:
       - name: Install Dependencies
         run: npm ci --omit=dev || npm install --omit=dev
 
-      - name: Generate Recipes
+      - name: Run Recipe Workflow
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: node scripts/weekly-recipe-generator.mjs --count ${{ github.event.inputs.count || '5' }}
-
-      - name: Notify Telegram on Success
-        if: success()
-        env:
-          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
-            --data-urlencode "chat_id=${CHAT_ID}" \
-            --data-urlencode "parse_mode=HTML" \
-            --data-urlencode "text=🍳 <b>Neue Rezepte generiert</b>%0A%0ADie wöchentliche KI-Rezept-Generierung ist fertig. Schau in pending_recipes zum Reviewen!"
+          FLAGS=""
+          if [ "${{ github.event.inputs.force_generate }}" = "true" ]; then
+            FLAGS="--force-generate"
+          fi
+          node scripts/weekly-recipe-generator.mjs $FLAGS
 
       - name: Notify Telegram on Failure
         if: failure()
@@ -55,4 +52,4 @@ jobs:
           curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
             --data-urlencode "chat_id=${CHAT_ID}" \
             --data-urlencode "parse_mode=HTML" \
-            --data-urlencode "text=⚠️ <b>Rezept-Generator Fehler</b>%0A%0AWöchentliche Rezept-Generierung ist fehlgeschlagen.%0A%0A<a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>Logs ansehen</a>"
+            --data-urlencode "text=⚠️ <b>Rezept-Workflow Fehler</b>%0A%0ADer wöchentliche Rezept-Workflow ist fehlgeschlagen.%0A%0A<a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>Logs ansehen</a>"
