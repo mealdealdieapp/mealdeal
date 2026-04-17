@@ -11,6 +11,7 @@ import {
   mapSubcategory,
   canonicalKey,
 } from './scraperHelpers'
+import { buildMatcher } from './scraperMatching'
 
 // ===== Marktguru API Typen (echte API-Struktur) =====
 interface MarktguruAdvertiser {
@@ -499,6 +500,14 @@ export async function scrapeOffersForPlz(
         })
     }
 
+    // Ingredient-Matching: Angebote gegen Zutaten matchen → offer_ingredient_matches
+    try {
+      await matchOffersToIngredients(offersToInsert)
+    } catch (matchErr) {
+      logger.error('Ingredient-Matching Fehler:', matchErr instanceof Error ? matchErr.message : String(matchErr))
+      // Nicht kritisch — Angebote sind trotzdem gespeichert
+    }
+
     // Cooldown setzen
     localStorage.setItem(lastScrapeKey, Date.now().toString())
 
@@ -507,5 +516,87 @@ export async function scrapeOffersForPlz(
     const msg = error instanceof Error ? error.message : 'Unknown error'
     logger.error('Scrape Fehler:', msg)
     return { count: 0, error: msg }
+  }
+}
+
+// ===== Ingredient-Matching für On-Demand-Scrape =====
+async function matchOffersToIngredients(
+  offers: Array<Record<string, unknown>>
+): Promise<void> {
+  // 1) Fingerprints der gerade gespeicherten Angebote → offer IDs holen
+  const fingerprints = offers
+    .map(o => o.fingerprint as string)
+    .filter(Boolean)
+  if (!fingerprints.length) return
+
+  // Offer-IDs aus DB holen (upsert liefert sie nicht zuverlässig)
+  const offerIdMap = new Map<string, string>()
+  for (let i = 0; i < fingerprints.length; i += 200) {
+    const batch = fingerprints.slice(i, i + 200)
+    const { data } = await supabase
+      .from('offers')
+      .select('id, fingerprint, product_name')
+      .in('fingerprint', batch)
+    if (data) {
+      for (const row of data) {
+        if (row.fingerprint) offerIdMap.set(row.fingerprint, row.id)
+      }
+    }
+  }
+  if (!offerIdMap.size) return
+
+  // 2) Ingredients + Synonyme laden
+  const { data: ingredients } = await supabase
+    .from('ingredients')
+    .select('id, name, category')
+  if (!ingredients?.length) return
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: synonyms } = await (supabase.from('ingredient_synonyms' as any) as any)
+    .select('ingredient_id, synonym')
+
+  // 3) Matcher bauen
+  const matcher = buildMatcher(ingredients, synonyms ?? [])
+
+  // 4) Für jedes Angebot matchen
+  const matchRows: Array<{
+    offer_id: string
+    ingredient_id: string
+    match_score: number
+    match_reason: string
+  }> = []
+
+  for (const offer of offers) {
+    const fp = offer.fingerprint as string
+    const offerId = offerIdMap.get(fp)
+    if (!offerId) continue
+
+    const productName = offer.product_name as string
+    const results = matcher(productName)
+
+    for (const m of results) {
+      matchRows.push({
+        offer_id: offerId,
+        ingredient_id: m.ingredient_id,
+        match_score: m.score,
+        match_reason: m.reason,
+      })
+    }
+  }
+
+  if (!matchRows.length) return
+  logger.log(`Ingredient-Matching: ${matchRows.length} Matches für ${offerIdMap.size} Angebote`)
+
+  // 5) In Batches upserten
+  for (let i = 0; i < matchRows.length; i += 100) {
+    const batch = matchRows.slice(i, i + 100)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (supabase.from('offer_ingredient_matches' as any) as any)
+      .upsert(batch, { onConflict: 'offer_id,ingredient_id' })
+      .then(({ error }: { error: { message: string } | null }) => {
+        if (error) {
+          logger.error('Match-Upsert Fehler:', error.message)
+        }
+      })
   }
 }
