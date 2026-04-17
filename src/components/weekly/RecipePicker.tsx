@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { X, Search, Clock, Sparkles } from 'lucide-react'
+import { X, Search, Clock, Sparkles, Tag } from 'lucide-react'
 import { useRecipes } from '../../hooks/useRecipes'
 import { recipeToPlanRecipe } from '../../lib/recipeToPlanRecipe'
 import { OptimizedImage } from '../ui/OptimizedImage'
@@ -37,7 +37,12 @@ export function RecipePicker({ meal, onSelect, onClose }: RecipePickerProps) {
       const q = search.toLowerCase()
       list = recipes.filter((r) => r.name.toLowerCase().includes(q))
     }
-    return list
+    // Sortiere nach Angebots-Score: Rezepte mit vielen Zutaten im Angebot zuerst
+    return [...list].sort((a, b) => {
+      const aOffer = (a.matchPercent ?? 0) + (a.dynamicSaved ?? 0) * 10
+      const bOffer = (b.matchPercent ?? 0) + (b.dynamicSaved ?? 0) * 10
+      return bOffer - aOffer
+    })
   }, [recipes, meal, search])
 
   const handleSelect = async (recipe: Recipe) => {
@@ -105,6 +110,16 @@ export function RecipePicker({ meal, onSelect, onClose }: RecipePickerProps) {
                           {recipe.time_minutes && (
                             <span className="text-[11px] text-muted flex items-center gap-0.5">
                               <Clock size={10} />{recipe.time_minutes} Min
+                            </span>
+                          )}
+                          {recipe.matchPercent != null && recipe.matchPercent > 0 && (
+                            <span className="text-[9px] font-bold text-primary flex items-center gap-0.5">
+                              <Tag size={9} /> {recipe.matchPercent}%
+                            </span>
+                          )}
+                          {recipe.dynamicSaved != null && recipe.dynamicSaved > 0 && (
+                            <span className="text-[9px] font-bold text-success">
+                              +{recipe.dynamicSaved.toFixed(2)}€
                             </span>
                           )}
                           {recipe.perfectMatch && (

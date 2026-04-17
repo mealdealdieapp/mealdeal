@@ -8,8 +8,10 @@ import type { Offer } from '../types/app.types'
 
 // Kategorien die als Non-Food gelten und nicht in der Angebote-Liste angezeigt werden
 const NON_FOOD_CATEGORIES = new Set([
-  'Drogerie', 'Haushalt', 'Tierbedarf', 'Technik', 'Spielzeug',
-  'Garten', 'Kleidung', 'Büro', 'Auto',
+  'Drogerie', 'Haushalt', 'Tierbedarf', 'Textilien', 'Elektronik',
+  'Garten & Möbel', 'Baby & Kind', 'Spirituosen',
+  // Legacy-Namen (für Angebote ohne is_food Flag)
+  'Technik', 'Spielzeug', 'Garten', 'Kleidung', 'Büro', 'Auto',
 ])
 
 export interface CategoryGroup {
@@ -61,6 +63,7 @@ export function useOffers(storeFilter?: string | null, flags?: OfferFlagFilters)
         .eq('plz_prefix', plzPrefix)
         .in('store', markets)
         .gte('valid_until', today)
+        .neq('is_food', false) // Non-Food direkt in DB filtern
         .order('discount_percent', { ascending: false })
         .limit(5000)
 
