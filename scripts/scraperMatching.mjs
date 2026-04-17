@@ -11,7 +11,8 @@
  *  2) Synonym-Lookup (ingredient_synonyms Tabelle)
  *  3) Exact Match: Token = Ingredient-Name
  *  4) Partial Match: Token beginnt mit Ingredient-Name (z.B. "rinder" → "rind")
- *  5) Blacklist: Wenn Produkt klar Non-Match ist (z.B. "Rind" nicht in "Rinderbrühwürfel")
+ *  5) Compound Match: Substring in Komposita (z.B. "hähnchenbrustfilet" → "hähnchen")
+ *  6) Blacklist: Wenn Produkt klar Non-Match ist (z.B. "Rind" nicht in "Rinderbrühwürfel")
  *
  * Score:
  *   1.0 = exact match
@@ -28,6 +29,20 @@ const BLACKLIST_TOKENS = new Set([
   'suppe', 'dose', 'konserve', 'sauce', 'soße', 'dressing',
   'pulver', 'extrakt', 'öl', 'essenz',
   'fertig', 'mikrowelle', 'instant',
+])
+
+// Skip-Tokens: Adjektive/Modifier die beim Matching ignoriert werden
+const SKIP_TOKENS = new Set([
+  'bio', 'vegan', 'vegane', 'veganer', 'veganes',
+  'deluxe', 'premium', 'original', 'classic', 'klassisch',
+  'xxl', 'xl', 'mini', 'groß', 'große', 'großer', 'klein', 'kleine',
+  'frisch', 'frische', 'frischer', 'neu', 'neue', 'neuer',
+  'best', 'finest', 'gold', 'golden', 'extra', 'super',
+  'deutsche', 'deutscher', 'deutsches', 'italienisch', 'italienische',
+  'griechisch', 'griechische', 'türkisch', 'türkische',
+  'mild', 'scharf', 'würzig', 'cremig', 'zart', 'fein', 'feine',
+  'mit', 'und', 'oder', 'von', 'aus', 'für', 'the', 'von',
+  'er', 'set', 'stk', 'stück', 'pack', 'packung', 'beutel',
 ])
 
 // ------------------------------------------------------------
@@ -59,13 +74,15 @@ export function buildMatcher(ingredients, synonyms = []) {
   const byName = new Map()      // "rind" → id
   const byToken = new Map()     // "rinder" → [ids] (prefix-matches)
   const bySynonym = new Map()   // "huhn" → ingredient_id
+  const allIngredients = []     // Für Substring-Suche in Komposita
 
   for (const ing of ingredients) {
     const name = (ing.name || '').toLowerCase().trim()
     if (!name) continue
     byName.set(name, ing)
-    // Token-Prefix-Index: alle Sub-Strings ab 3 Zeichen
-    for (let len = 3; len <= Math.min(name.length, 8); len++) {
+    allIngredients.push({ name, ing })
+    // Token-Prefix-Index: bis 14 Zeichen (deutsche Komposita)
+    for (let len = 3; len <= Math.min(name.length, 14); len++) {
       const prefix = name.slice(0, len)
       if (!byToken.has(prefix)) byToken.set(prefix, [])
       byToken.get(prefix).push(ing)
@@ -89,7 +106,9 @@ export function buildMatcher(ingredients, synonyms = []) {
   return function matchProduct(productName) {
     if (!productName) return []
     const lower = productName.toLowerCase()
-    const tokens = tokenize(productName)
+    const allTokens = tokenize(productName)
+    // Skip-Tokens rausfiltern (Adjektive, Modifier, Füllwörter)
+    const tokens = allTokens.filter(t => !SKIP_TOKENS.has(t))
     if (!tokens.length) return []
 
     const matches = new Map() // ingredient_id → { score, reason }
@@ -113,7 +132,8 @@ export function buildMatcher(ingredients, synonyms = []) {
         continue
       }
       // Prefix-Match: "rinder" startet mit "rind"
-      for (let len = Math.min(token.length, 8); len >= 3; len--) {
+      let foundPrefix = false
+      for (let len = Math.min(token.length, 14); len >= 3; len--) {
         const prefix = token.slice(0, len)
         const candidates = byToken.get(prefix)
         if (!candidates) continue
@@ -124,9 +144,22 @@ export function buildMatcher(ingredients, synonyms = []) {
             const ratio = Math.min(token.length, candName.length) / Math.max(token.length, candName.length)
             const score = 0.6 + ratio * 0.15  // 0.6..0.75
             addMatch(matches, cand.id, score - blacklistPenalty, `prefix:${token}`)
+            foundPrefix = true
           }
         }
         break // Nur längsten Prefix betrachten
+      }
+
+      // --- 3) Substring-Match für Komposita ---
+      // "hähnchenbrustfilet" enthält "hähnchen"
+      if (!foundPrefix && token.length >= 6) {
+        for (const { name: ingName, ing } of allIngredients) {
+          if (ingName.length >= 3 && token.includes(ingName)) {
+            const ratio = ingName.length / token.length
+            const score = 0.55 + ratio * 0.2  // 0.55..0.75
+            addMatch(matches, ing.id, score - blacklistPenalty, `compound:${ingName}→${token}`)
+          }
+        }
       }
     }
 

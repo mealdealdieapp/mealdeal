@@ -199,6 +199,65 @@ const DROGERIE_NAME_KEYWORDS = ['shampoo', 'duschgel', 'seife', 'zahnpasta',
   'windel', 'feuchttücher', 'wattepads', 'damenbinde',
   'tampon', 'parfüm', 'haarspray', 'haargel']
 
+// ===== Non-Food Keywords (filtern Nicht-Lebensmittel raus) =====
+const TEXTILIEN_NAME_KEYWORDS = ['socken', 'slips', 'unterhose', 'unterwäsche',
+  'shirt', 't-shirt', 'pullover', 'jacke', 'hose', 'jeans', 'kleid',
+  'bluse', 'hemd', 'mantel', 'schal', 'mütze', 'handschuh',
+  'damen ', 'herren ', 'strumpf', 'strümpfe',
+  'pyjama', 'nachthemd', 'bademantel', 'bikini', 'badeanzug',
+  'sneaker', 'sandalen', 'schuhe', 'stiefel', 'pantoffel',
+  'leggings', 'jogginghose', 'latzhose', 'body ', 'bodys',
+  'frottier', 'fleece', 'sweatshirt', 'hoodie', 'shorts']
+
+const ELEKTRONIK_NAME_KEYWORDS = ['akku', 'batterie', 'ladekabel', 'ladegerät',
+  'bluetooth', 'kopfhörer', 'lautsprecher', 'fernseher', 'monitor',
+  'laptop', 'tablet', 'smartphone', 'handy', 'drucker', 'usb',
+  'led ', 'led-', 'glühbirne', 'lampe', 'leuchte', 'steckdose',
+  'hdmi', 'wlan', 'router', 'powerbank', 'sd-karte',
+  'staubsauger', 'bügeleisen', 'föhn', 'haartrockner', 'rasierappar',
+  'elektro', 'pfeffermühle', 'salzmühle', 'elektrische']
+
+const GARTEN_MOEBEL_NAME_KEYWORDS = ['gartenmöbel', 'gartenstuhl', 'gartenliege',
+  'sonnenschirm', 'pavillon', 'planschbecken', 'gartenschlauch',
+  'rasenmäher', 'heckenschere', 'blumenerde', 'pflanzerde',
+  'dünger', 'saatgut', 'blumentopf', 'übertopf', 'gartenzaun',
+  'solar', 'solarlamp', 'gartenhaus', 'hochbeet',
+  'bettwäsche', 'bettlaken', 'kopfkissen', 'bettdecke', 'matratze',
+  'handtuch', 'badematte', 'vorhang', 'gardine', 'teppich',
+  'regal', 'schrank', 'kommode', 'werkzeug', 'schrauben',
+  'bohrer', 'hammer', 'zange', 'säge', 'schraubstock',
+  'kleber', 'lernturm', 'wc-sitz', 'duschkopf', 'brauseset',
+  'aufbewahrung', 'mülleimer', 'wäscheständer', 'bügelbrett']
+
+const TIERBEDARF_NAME_KEYWORDS = ['hundefutter', 'katzenfutter', 'tierfutter',
+  'hundesnack', 'katzensnack', 'katzenstreu', 'hundeleinen',
+  'tiernahrung', 'vogelfutter', 'fischfutter', 'aquarium']
+
+const BABY_KIND_NAME_KEYWORDS = ['baby-', 'babybrei', 'babynahrung',
+  'kindersitz', 'autokindersitz', 'kinderwagen', 'babyfon',
+  'schnuller', 'fläschchen', 'stillkissen', 'wickelauflage',
+  'laufrad', 'spielzeug', 'puzzle', 'bauklötze', 'kuscheltier',
+  'baby jogginghose', 'baby-body', 'baby-latzhose', 'baby-strampler',
+  'starter paket']
+
+const SPIRITUOSEN_NAME_KEYWORDS = ['whisky', 'whiskey', 'scotch', 'bourbon',
+  'vodka', 'wodka', 'gin ', 'tequila', 'mezcal', 'absinth',
+  'cognac', 'brandy', 'grappa', 'obstler', 'obstbrand',
+  'likör', 'aperol', 'campari', 'jägermeister', 'ouzo',
+  'single malt', 'blended', 'rum ', 'spiced rum',
+  'rioja', 'chianti', 'bordeaux', 'burgund', 'prosecco',
+  'champagner', 'cava', 'crémant', 'primitivo', 'tempranillo',
+  'cabernet', 'merlot', 'pinot noir', 'spätburgunder',
+  'dornfelder', 'grauburgunder', 'riesling', 'chardonnay',
+  'sauvignon', 'rosé ', 'roséwein', 'crianza', 'reserva',
+  'sekt ', 'winzersekt', 'weinschorle']
+
+// Kategorien die KEINE Lebensmittel sind
+const NON_FOOD_CATEGORIES = new Set([
+  'Haushalt', 'Drogerie', 'Textilien', 'Elektronik', 'Garten & Möbel',
+  'Tierbedarf', 'Baby & Kind', 'Spirituosen',
+])
+
 function mapCategory(catName: string, productName: string): string {
   const cat = (catName || '').toLowerCase()
   const name = productName.toLowerCase()
@@ -221,9 +280,21 @@ function mapCategory(catName: string, productName: string): string {
   if (['haushalt', 'reinigung', 'spül', 'wasch'].some(k => cat.includes(k))) return 'Haushalt'
   if (['drogerie', 'pflege', 'hygiene', 'kosmetik', 'seife', 'shampoo', 'dusch', 'zahn', 'deo']
     .some(k => cat.includes(k) || name.includes(k))) return 'Drogerie'
+  if (['textil', 'kleidung', 'bekleidung', 'mode', 'schuhe'].some(k => cat.includes(k))) return 'Textilien'
+  if (['elektronik', 'technik', 'computer', 'handy', 'multimedia'].some(k => cat.includes(k))) return 'Elektronik'
+  if (['garten', 'möbel', 'baumarkt', 'heimwerk', 'deko', 'einrichtung'].some(k => cat.includes(k))) return 'Garten & Möbel'
+  if (['tier', 'haustier', 'hund', 'katze'].some(k => cat.includes(k))) return 'Tierbedarf'
+  if (['baby', 'kind', 'spielzeug', 'spielwaren'].some(k => cat.includes(k))) return 'Baby & Kind'
+  if (['spirituose', 'schnaps', 'likör', 'whisky', 'cognac'].some(k => cat.includes(k))) return 'Spirituosen'
 
   // Schritt 2: Produktname-basiert (für alles was Kategorie nicht abfängt)
-  // Reihenfolge: spezifisch → allgemein
+  // Reihenfolge: Non-Food zuerst, dann spezifisch → allgemein
+  if (TEXTILIEN_NAME_KEYWORDS.some(k => name.includes(k))) return 'Textilien'
+  if (ELEKTRONIK_NAME_KEYWORDS.some(k => name.includes(k))) return 'Elektronik'
+  if (GARTEN_MOEBEL_NAME_KEYWORDS.some(k => name.includes(k))) return 'Garten & Möbel'
+  if (TIERBEDARF_NAME_KEYWORDS.some(k => name.includes(k))) return 'Tierbedarf'
+  if (BABY_KIND_NAME_KEYWORDS.some(k => name.includes(k))) return 'Baby & Kind'
+  if (SPIRITUOSEN_NAME_KEYWORDS.some(k => name.includes(k))) return 'Spirituosen'
   if (DROGERIE_NAME_KEYWORDS.some(k => name.includes(k))) return 'Drogerie'
   if (HAUSHALT_NAME_KEYWORDS.some(k => name.includes(k))) return 'Haushalt'
   if (FISCH_NAME_KEYWORDS.some(k => name.includes(k))) return 'Fisch & Meeresfrüchte'
@@ -415,6 +486,7 @@ export async function scrapeOffersForPlz(
 
       const catName = offer.categories?.[0]?.name || ''
       const mappedCategory = mapCategory(catName, title)
+      const isFood = !NON_FOOD_CATEGORIES.has(mappedCategory)
       const cleanTitle = title.trim()
       const offerPrice = Math.round(offer.price * 100) / 100
 
@@ -452,6 +524,7 @@ export async function scrapeOffersForPlz(
         is_bio: isBio,
         is_regional: isRegional,
         canonical_key: cKey,
+        is_food: isFood,
       })
     }
 
@@ -567,6 +640,9 @@ async function matchOffersToIngredients(
   }> = []
 
   for (const offer of offers) {
+    // Nur Food-Angebote matchen — Haushalt, Drogerie, Textilien etc. überspringen
+    if (offer.is_food === false) continue
+
     const fp = offer.fingerprint as string
     const offerId = offerIdMap.get(fp)
     if (!offerId) continue

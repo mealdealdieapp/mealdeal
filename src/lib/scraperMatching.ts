@@ -19,6 +19,21 @@ const BLACKLIST_TOKENS = new Set([
   'fertig', 'mikrowelle', 'instant',
 ])
 
+// Skip-Tokens: Adjektive/Modifier die beim Matching ignoriert werden sollen
+// Diese Tokens allein sagen nichts über das Produkt aus
+const SKIP_TOKENS = new Set([
+  'bio', 'vegan', 'vegane', 'veganer', 'veganes',
+  'deluxe', 'premium', 'original', 'classic', 'klassisch',
+  'xxl', 'xl', 'mini', 'groß', 'große', 'großer', 'klein', 'kleine',
+  'frisch', 'frische', 'frischer', 'neu', 'neue', 'neuer',
+  'best', 'finest', 'gold', 'golden', 'extra', 'super',
+  'deutsche', 'deutscher', 'deutsches', 'italienisch', 'italienische',
+  'griechisch', 'griechische', 'türkisch', 'türkische',
+  'mild', 'scharf', 'würzig', 'cremig', 'zart', 'fein', 'feine',
+  'mit', 'und', 'oder', 'von', 'aus', 'für', 'the', 'von',
+  'er', 'set', 'stk', 'stück', 'pack', 'packung', 'beutel',
+])
+
 function tokenize(text: string): string[] {
   if (!text) return []
   return text.toLowerCase()
@@ -55,12 +70,16 @@ export function buildMatcher(ingredients: Ingredient[], synonyms: Synonym[] = []
   const byName = new Map<string, Ingredient>()
   const byToken = new Map<string, Ingredient[]>()
   const bySynonym = new Map<string, Ingredient>()
+  // Alle Ingredient-Namen für Substring-Suche in Komposita
+  const allIngredients: Array<{ name: string; ing: Ingredient }> = []
 
   for (const ing of ingredients) {
     const name = (ing.name || '').toLowerCase().trim()
     if (!name) continue
     byName.set(name, ing)
-    for (let len = 3; len <= Math.min(name.length, 8); len++) {
+    allIngredients.push({ name, ing })
+    // Prefix-Index: bis 14 Zeichen (deutsche Komposita sind lang)
+    for (let len = 3; len <= Math.min(name.length, 14); len++) {
       const prefix = name.slice(0, len)
       if (!byToken.has(prefix)) byToken.set(prefix, [])
       byToken.get(prefix)!.push(ing)
@@ -80,7 +99,9 @@ export function buildMatcher(ingredients: Ingredient[], synonyms: Synonym[] = []
   return function matchProduct(productName: string): MatchResult[] {
     if (!productName) return []
     const lower = productName.toLowerCase()
-    const tokens = tokenize(productName)
+    const allTokens = tokenize(productName)
+    // Skip-Tokens rausfiltern (Adjektive, Modifier, Füllwörter)
+    const tokens = allTokens.filter(t => !SKIP_TOKENS.has(t))
     if (!tokens.length) return []
 
     const matches = new Map<string, { score: number; reason: string }>()
@@ -101,7 +122,8 @@ export function buildMatcher(ingredients: Ingredient[], synonyms: Synonym[] = []
         addMatch(matches, byName.get(token)!.id, 1.0 - blacklistPenalty, 'exact')
         continue
       }
-      for (let len = Math.min(token.length, 8); len >= 3; len--) {
+      let foundPrefix = false
+      for (let len = Math.min(token.length, 14); len >= 3; len--) {
         const prefix = token.slice(0, len)
         const candidates = byToken.get(prefix)
         if (!candidates) continue
@@ -111,9 +133,23 @@ export function buildMatcher(ingredients: Ingredient[], synonyms: Synonym[] = []
             const ratio = Math.min(token.length, candName.length) / Math.max(token.length, candName.length)
             const score = 0.6 + ratio * 0.15
             addMatch(matches, cand.id, score - blacklistPenalty, `prefix:${token}`)
+            foundPrefix = true
           }
         }
         break
+      }
+
+      // 3) Substring-Match für Komposita: "hähnchenbrustfilet" enthält "hähnchen"
+      // Nur wenn kein Prefix-Match gefunden UND Token lang genug (>= 6 Zeichen)
+      if (!foundPrefix && token.length >= 6) {
+        for (const { name: ingName, ing } of allIngredients) {
+          if (ingName.length >= 3 && token.includes(ingName)) {
+            const ratio = ingName.length / token.length
+            // Längere Ingredient-Namen im Kompositum → höherer Score
+            const score = 0.55 + ratio * 0.2 // 0.55..0.75
+            addMatch(matches, ing.id, score - blacklistPenalty, `compound:${ingName}→${token}`)
+          }
+        }
       }
     }
 

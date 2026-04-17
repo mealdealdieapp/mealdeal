@@ -147,6 +147,7 @@ export type Database = {
           id: string
           image_url: string | null
           is_bio: boolean | null
+          is_food: boolean | null
           is_real_deal: boolean | null
           is_regional: boolean | null
           offer_price: number
@@ -178,6 +179,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_bio?: boolean | null
+          is_food?: boolean | null
           is_real_deal?: boolean | null
           is_regional?: boolean | null
           offer_price: number
@@ -209,6 +211,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_bio?: boolean | null
+          is_food?: boolean | null
           is_real_deal?: boolean | null
           is_regional?: boolean | null
           offer_price?: number
