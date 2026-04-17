@@ -6,7 +6,8 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  // MealDeal/ = archivierte React-Native-App, wird nicht gebaut
+  globalIgnores(['dist', 'MealDeal']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [

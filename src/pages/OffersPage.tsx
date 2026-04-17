@@ -7,12 +7,12 @@ import { OfferRecipesSheet } from '../components/offers/OfferRecipesSheet'
 import { GridSkeleton } from '../components/ui/Skeleton'
 import { ErrorState } from '../components/ui/ErrorState'
 import { useOffers } from '../hooks/useOffers'
-import { useOfferRecipeCounts } from '../hooks/useOfferRecipes'
+import { useOfferRecipeCountsV2 } from '../hooks/useOfferRecipesV2'
 import { useAddToShopping } from '../hooks/useAddToShopping'
 import { useWatchlist } from '../hooks/useWatchlist'
 import { useAppStore } from '../store/useAppStore'
 import { OFFER_CATEGORY_CONFIG } from '../lib/offerCategoryConfig'
-import { Search, ArrowLeft, CheckCircle2, RefreshCw, Flame } from 'lucide-react'
+import { Search, ArrowLeft, CheckCircle2, RefreshCw, Flame, Sparkles, Leaf, MapPin } from 'lucide-react'
 import { getWeekNumber } from '../lib/weekNumber'
 import { scrapeOffersForPlz } from '../lib/marktguruScraper'
 import { logger } from '../lib/logger'
@@ -29,8 +29,14 @@ export function OffersPage() {
   const [search, setSearch] = useState('')
   const [toast, setToast] = useState(false)
   const [recipeSheet, setRecipeSheet] = useState<Offer | null>(null)
+  const [onlyBio, setOnlyBio] = useState(false)
+  const [onlyRealDeals, setOnlyRealDeals] = useState(false)
+  const [onlyRegional, setOnlyRegional] = useState(false)
 
-  const { offers, categories, isLoading, isError, refetch } = useOffers(storeFilter)
+  const { offers, categories, isLoading, isError, refetch } = useOffers(
+    storeFilter,
+    { onlyBio, onlyRealDeals, onlyRegional },
+  )
   const [scraping, setScraping] = useState(false)
   const [autoScrapeDone, setAutoScrapeDone] = useState(false)
   const { addOne: addToShopping } = useAddToShopping()
@@ -99,12 +105,13 @@ export function OffersPage() {
   }, [categories, selectedCategory])
 
   // Only compute recipe counts when viewing a list (category or search), not on overview
-  const visibleOfferNames = useMemo(() => {
+  // V2: nutzt pre-computed offer_ingredient_matches, keyed by offer.id
+  const visibleOfferIds = useMemo(() => {
     const list = searchResults ?? categoryOffers
     if (!list) return []
-    return list.map(o => o.product_name)
+    return list.map(o => o.id)
   }, [searchResults, categoryOffers])
-  const recipeCounts = useOfferRecipeCounts(visibleOfferNames)
+  const { data: recipeCounts } = useOfferRecipeCountsV2(visibleOfferIds)
 
   const handleAddToShopping = useCallback((offer: Offer) => {
     addToShopping.mutate(
@@ -203,6 +210,40 @@ export function OffersPage() {
             ))}
           </div>
         )}
+
+        {/* Flag-Filter: Echte Deals, Bio, Regional */}
+        <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 no-scrollbar">
+          <button
+            onClick={() => setOnlyRealDeals((v) => !v)}
+            className={`shrink-0 flex items-center gap-1 px-3 py-1.5 rounded-pill text-[11px] font-bold transition-colors ${
+              onlyRealDeals ? 'bg-orange-500 text-white' : 'bg-white text-muted'
+            }`}
+            style={!onlyRealDeals ? { border: '1.5px solid #EBEBEB' } : undefined}
+          >
+            <Sparkles size={11} />
+            Echte Deals
+          </button>
+          <button
+            onClick={() => setOnlyBio((v) => !v)}
+            className={`shrink-0 flex items-center gap-1 px-3 py-1.5 rounded-pill text-[11px] font-bold transition-colors ${
+              onlyBio ? 'bg-green-600 text-white' : 'bg-white text-muted'
+            }`}
+            style={!onlyBio ? { border: '1.5px solid #EBEBEB' } : undefined}
+          >
+            <Leaf size={11} />
+            Bio
+          </button>
+          <button
+            onClick={() => setOnlyRegional((v) => !v)}
+            className={`shrink-0 flex items-center gap-1 px-3 py-1.5 rounded-pill text-[11px] font-bold transition-colors ${
+              onlyRegional ? 'bg-blue-600 text-white' : 'bg-white text-muted'
+            }`}
+            style={!onlyRegional ? { border: '1.5px solid #EBEBEB' } : undefined}
+          >
+            <MapPin size={11} />
+            Regional
+          </button>
+        </div>
 
         {isLoading || (scraping && offers.length === 0) ? (
           <div>
@@ -316,6 +357,7 @@ export function OffersPage() {
       {/* Recipe sheet for selected offer */}
       {recipeSheet && (
         <OfferRecipesSheet
+          offerId={recipeSheet.id}
           offerName={recipeSheet.product_name}
           offerCategory={recipeSheet.category}
           onClose={() => setRecipeSheet(null)}

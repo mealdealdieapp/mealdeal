@@ -28,22 +28,6 @@ export function SpinWheel({ recipes, onViewRecipe, onClose }: SpinWheelProps) {
   const items = recipes.slice(0, 14)
   const segAngle = 360 / items.length
 
-  // Preload recipe images
-  useEffect(() => {
-    items.forEach((recipe) => {
-      if (recipe.image_url && !imagesRef.current.has(recipe.id)) {
-        const img = new Image()
-        img.crossOrigin = 'anonymous'
-        img.src = `${IMAGE_BASE_URL}${encodeURIComponent(recipe.image_url)}`
-        img.onload = () => {
-          imagesRef.current.set(recipe.id, img)
-          drawWheel()
-        }
-        imagesRef.current.set(recipe.id, img)
-      }
-    })
-  }, [items])
-
   const drawWheel = useCallback(() => {
     const canvas = canvasRef.current
     if (!canvas || items.length === 0) return
@@ -149,6 +133,22 @@ export function SpinWheel({ recipes, onViewRecipe, onClose }: SpinWheelProps) {
   }, [items, segAngle])
 
   useEffect(() => { drawWheel() }, [drawWheel])
+
+  // Preload recipe images; re-render via drawWheel sobald ein Bild fertig ist.
+  useEffect(() => {
+    items.forEach((recipe) => {
+      if (recipe.image_url && !imagesRef.current.has(recipe.id)) {
+        const img = new Image()
+        img.crossOrigin = 'anonymous'
+        img.src = `${IMAGE_BASE_URL}${encodeURIComponent(recipe.image_url)}`
+        img.onload = () => {
+          imagesRef.current.set(recipe.id, img)
+          drawWheel()
+        }
+        imagesRef.current.set(recipe.id, img)
+      }
+    })
+  }, [items, drawWheel])
 
   const spin = () => {
     if (spinning || items.length === 0) return
@@ -314,16 +314,20 @@ export function SpinWheel({ recipes, onViewRecipe, onClose }: SpinWheelProps) {
 }
 
 function Confetti() {
-  const particles = Array.from({ length: 50 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    delay: Math.random() * 0.6,
-    duration: 2 + Math.random() * 2.5,
-    color: SEGMENT_COLORS[i % SEGMENT_COLORS.length],
-    size: 5 + Math.random() * 7,
-    drift: -40 + Math.random() * 80,
-    rotation: Math.random() * 360,
-  }))
+  // Partikel einmalig pro Mount berechnen, damit Re-Renders die Animation
+  // nicht zurücksetzen (und react-hooks/purity nicht meckert).
+  const [particles] = useState(() =>
+    Array.from({ length: 50 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      delay: Math.random() * 0.6,
+      duration: 2 + Math.random() * 2.5,
+      color: SEGMENT_COLORS[i % SEGMENT_COLORS.length],
+      size: 5 + Math.random() * 7,
+      drift: -40 + Math.random() * 80,
+      rotation: Math.random() * 360,
+    }))
+  )
 
   return (
     <div className="fixed inset-0 pointer-events-none z-[60] overflow-hidden">

@@ -1,20 +1,58 @@
 import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { X, Clock, ShoppingCart, ChevronRight } from 'lucide-react'
 import { Portal } from '../ui/Portal'
 import { RecipeDetail } from '../recipes/RecipeDetail'
 import { useOfferRecipes } from '../../hooks/useOfferRecipes'
+import { useOfferRecipesV2 } from '../../hooks/useOfferRecipesV2'
 import { useAddToShopping } from '../../hooks/useAddToShopping'
+import { supabase } from '../../lib/supabase'
 import { OptimizedImage } from '../ui/OptimizedImage'
 import type { Recipe } from '../../types/app.types'
 
 interface OfferRecipesSheetProps {
+  offerId?: string | null
   offerName: string
   offerCategory: string | null
   onClose: () => void
 }
 
-export function OfferRecipesSheet({ offerName, offerCategory, onClose }: OfferRecipesSheetProps) {
-  const matches = useOfferRecipes(offerName, offerCategory)
+export function OfferRecipesSheet({ offerId, offerName, offerCategory, onClose }: OfferRecipesSheetProps) {
+  // V2: wenn offerId da ist, nutze pre-computed matches. Sonst fallback auf v1 (Keyword-Match).
+  const v2Query = useOfferRecipesV2(offerId ?? null)
+  const v1Matches = useOfferRecipes(offerId ? null : offerName, offerCategory)
+
+  // Für v2: Zutatenlisten pro Recipe laden, um fehlende Zutaten zu bestimmen
+  const v2RecipeIds = (v2Query.data ?? []).map(m => m.recipe.id)
+  const { data: v2Ingredients } = useQuery({
+    queryKey: ['recipeIngredientsForOfferSheet', v2RecipeIds.join('|')],
+    enabled: v2RecipeIds.length > 0,
+    staleTime: 5 * 60 * 1000,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('recipe_ingredients')
+        .select('recipe_id, ingredients(name)')
+        .in('recipe_id', v2RecipeIds)
+      if (error) throw error
+      return data ?? []
+    },
+  })
+
+  const matches = offerId
+    ? (v2Query.data ?? []).map(m => {
+        const ings = (v2Ingredients ?? [])
+          .filter(ri => ri.recipe_id === m.recipe.id)
+          .map(ri => (Array.isArray(ri.ingredients) ? ri.ingredients[0]?.name : ri.ingredients?.name))
+          .filter((n): n is string => !!n)
+        const missing = ings.filter(n => n !== m.recipe.matchedIngredient)
+        return {
+          recipe: m.recipe,
+          missingIngredients: missing,
+          totalIngredients: ings.length,
+        }
+      })
+    : v1Matches
+
   const { addMany } = useAddToShopping()
   const [openRecipe, setOpenRecipe] = useState<Recipe | null>(null)
   const [addedRecipeId, setAddedRecipeId] = useState<string | null>(null)

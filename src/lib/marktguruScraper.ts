@@ -2,6 +2,15 @@ import { supabase } from './supabase'
 import { canScrape } from './rateLimiter'
 import { getWeekNumber } from './weekNumber'
 import { logger } from './logger'
+import {
+  parseQuantity,
+  calcBasePrice,
+  extractBrand,
+  detectBio,
+  detectRegional,
+  mapSubcategory,
+  canonicalKey,
+} from './scraperHelpers'
 
 // ===== Marktguru API Typen (echte API-Struktur) =====
 interface MarktguruAdvertiser {
@@ -404,21 +413,44 @@ export async function scrapeOffersForPlz(
       }
 
       const catName = offer.categories?.[0]?.name || ''
+      const mappedCategory = mapCategory(catName, title)
+      const cleanTitle = title.trim()
+      const offerPrice = Math.round(offer.price * 100) / 100
+
+      // v2-Felder ableiten (gleiche Logik wie wöchentlicher Batch-Scraper)
+      const quantityStr = offer.quantity != null ? String(offer.quantity) : null
+      const { amount, unit } = parseQuantity(cleanTitle, quantityStr)
+      const { basePrice, baseUnit } = calcBasePrice(offerPrice, amount, unit)
+      const brand = extractBrand(cleanTitle)
+      const isBio = detectBio(cleanTitle)
+      const isRegional = detectRegional(cleanTitle)
+      const subcategory = mapSubcategory(mappedCategory, cleanTitle)
+      const cKey = canonicalKey(cleanTitle, brand)
 
       offersToInsert.push({
-        product_name: title.trim(),
+        product_name: cleanTitle,
         store: market,
-        offer_price: Math.round(offer.price * 100) / 100,
+        offer_price: offerPrice,
         original_price: oldPrice ? Math.round(oldPrice * 100) / 100 : null,
         discount_percent: discount,
         plz: plz,
         plz_prefix: plzPrefix,
-        category: mapCategory(catName, title),
+        category: mappedCategory,
+        subcategory,
         valid_from: validFrom,
         valid_until: validUntil,
         image_url: imageUrl,
         quantity: offer.quantity || null,
         fingerprint: fp,
+        // v2-Felder
+        amount,
+        unit,
+        base_price: basePrice,
+        base_unit: baseUnit,
+        brand,
+        is_bio: isBio,
+        is_regional: isRegional,
+        canonical_key: cKey,
       })
     }
 

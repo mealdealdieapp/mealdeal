@@ -32,11 +32,3 @@ export function EmptyState({ text, sub }: { text: string; sub: string }) {
   )
 }
 
-export function formatDate(dateStr: string): string {
-  try {
-    const d = new Date(dateStr + 'T00:00:00')
-    return d.toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' })
-  } catch {
-    return dateStr
-  }
-}

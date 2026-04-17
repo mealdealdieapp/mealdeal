@@ -60,7 +60,7 @@ async function loadAllIngredients(recipeIds: string[]): Promise<Map<string, Ingr
 
   for (const row of data ?? []) {
     const ing = row.ingredients as { name: string; category: string | null } | null
-    if (!ing?.name) continue
+    if (!ing?.name || !row.recipe_id) continue
     const list = map.get(row.recipe_id) ?? []
     list.push({ name: ing.name, category: ing.category, amount: row.amount, unit: row.unit })
     map.set(row.recipe_id, list)

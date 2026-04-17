@@ -32,6 +32,8 @@ export function ProfileSettings() {
   const [preferences, setPreferences] = useState<string[]>(profile?.preferences ?? [])
   const [saved, setSaved] = useState(false)
 
+  // Wenn Profil asynchron nachlädt, lokale Form-State synchronisieren.
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (profile) {
       setPlz(profile.plz ?? '')
@@ -40,6 +42,7 @@ export function ProfileSettings() {
       setPreferences(profile.preferences ?? [])
     }
   }, [profile])
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const toggleMarket = (m: string) => setMarkets((p) => p.includes(m) ? p.filter((x) => x !== m) : [...p, m])
   const toggleDiet = (d: string) => setDiets((prev) => prev.includes(d) ? prev.filter((x) => x !== d) : [...prev, d])

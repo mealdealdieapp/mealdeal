@@ -508,7 +508,7 @@ function wordBoundaryMatch(text: string, term: string): boolean {
   }
 }
 
-function isNonFoodOffer(offerName: string): boolean {
+export function isNonFoodOffer(offerName: string): boolean {
   const lower = offerName.toLowerCase()
   return NON_FOOD_KEYWORDS.some(kw => lower.includes(kw))
 }

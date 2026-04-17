@@ -3,7 +3,14 @@ import { useMemo } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAppStore } from '../store/useAppStore'
 import { OFFER_CATEGORY_ORDER } from '../lib/offerCategoryConfig'
+import { isNonFoodOffer } from '../lib/offerMatching'
 import type { Offer } from '../types/app.types'
+
+// Kategorien die als Non-Food gelten und nicht in der Angebote-Liste angezeigt werden
+const NON_FOOD_CATEGORIES = new Set([
+  'Drogerie', 'Haushalt', 'Tierbedarf', 'Technik', 'Spielzeug',
+  'Garten', 'Kleidung', 'Büro', 'Auto',
+])
 
 export interface CategoryGroup {
   category: string
@@ -27,7 +34,13 @@ function nameContainsAny(name: string, keywords: string[]): boolean {
   })
 }
 
-export function useOffers(storeFilter?: string | null) {
+export interface OfferFlagFilters {
+  onlyBio?: boolean
+  onlyRealDeals?: boolean
+  onlyRegional?: boolean
+}
+
+export function useOffers(storeFilter?: string | null, flags?: OfferFlagFilters) {
   const profile = useAppStore((s) => s.profile)
   const plz = profile?.plz ?? null
   const markets = profile?.markets ?? []
@@ -61,7 +74,13 @@ export function useOffers(storeFilter?: string | null) {
   const dietFiltered = useMemo(() => {
     if (!query.data) return []
 
-    let result = query.data
+    // Schritt 1: Non-Food komplett raus (Kleidung, Werkzeug, Kochtöpfe etc.)
+    // Nutzt 2 Signale: Kategorie UND Produktname-Keywords
+    let result = query.data.filter((o) => {
+      if (o.category && NON_FOOD_CATEGORIES.has(o.category)) return false
+      if (isNonFoodOffer(o.product_name)) return false
+      return true
+    })
 
     for (const diet of userDiets) {
       if (diet === 'halal') {
@@ -120,9 +139,13 @@ export function useOffers(storeFilter?: string | null) {
   }, [dietFiltered, userPreferences])
 
   const filtered = useMemo(() => {
-    if (!storeFilter) return prefSorted
-    return prefSorted.filter((o) => o.store === storeFilter)
-  }, [prefSorted, storeFilter])
+    let list = prefSorted
+    if (storeFilter) list = list.filter((o) => o.store === storeFilter)
+    if (flags?.onlyBio) list = list.filter((o) => o.is_bio === true)
+    if (flags?.onlyRealDeals) list = list.filter((o) => o.is_real_deal === true)
+    if (flags?.onlyRegional) list = list.filter((o) => o.is_regional === true)
+    return list
+  }, [prefSorted, storeFilter, flags?.onlyBio, flags?.onlyRealDeals, flags?.onlyRegional])
 
   const categories = useMemo(() => {
     const map = new Map<string, Offer[]>()

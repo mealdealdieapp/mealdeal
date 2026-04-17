@@ -33,7 +33,7 @@ export function OfferList({
           onAddToShopping={onAddToShopping}
           onToggleWatchlist={onToggleWatchlist}
           isWatched={isWatched(offer.product_name)}
-          recipeCount={recipeCounts?.get(offer.product_name)}
+          recipeCount={recipeCounts?.get(offer.id)}
           onShowRecipes={onShowRecipes}
         />
       ))}

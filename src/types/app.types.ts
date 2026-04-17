@@ -8,6 +8,8 @@ export type Offer = Tables<'offers'>
 export type WeeklyPlan = Tables<'weekly_plans'>
 export type ShoppingItem = Tables<'shopping_items'>
 export type SavedRecipe = Tables<'saved_recipes'>
+export type OfferIngredientMatch = Tables<'offer_ingredient_matches'>
+export type ScrapeRun = Tables<'scrape_runs'>
 
 export type TabName = 'recipes' | 'offers' | 'weekly' | 'shopping' | 'profile'
 

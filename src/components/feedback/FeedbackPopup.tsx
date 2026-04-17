@@ -3,43 +3,7 @@ import { X, Star, Send } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { useAppStore } from '../../store/useAppStore'
 import { Portal } from '../ui/Portal'
-
-const FEEDBACK_INTERVAL = 3 // Nach jedem 3. Kauf fragen
-const FEEDBACK_STORAGE_KEY = 'mealdeal_feedback_state'
-
-interface FeedbackState {
-  purchasesSinceLastFeedback: number
-  totalFeedbackGiven: number
-  lastFeedbackAt: string | null
-}
-
-function getState(): FeedbackState {
-  try {
-    const raw = localStorage.getItem(FEEDBACK_STORAGE_KEY)
-    if (raw) return JSON.parse(raw)
-  } catch { /* ignore */ }
-  return { purchasesSinceLastFeedback: 0, totalFeedbackGiven: 0, lastFeedbackAt: null }
-}
-
-function saveState(state: FeedbackState) {
-  localStorage.setItem(FEEDBACK_STORAGE_KEY, JSON.stringify(state))
-}
-
-// Aufruf nach jedem "Einkauf abgeschlossen" um den Zähler zu erhöhen
-export function trackPurchase(): boolean {
-  const state = getState()
-  state.purchasesSinceLastFeedback++
-  saveState(state)
-
-  // Dynamisches Interval: Anfangs öfter (3), später seltener (5, dann 10)
-  const interval = state.totalFeedbackGiven < 3
-    ? FEEDBACK_INTERVAL
-    : state.totalFeedbackGiven < 10
-    ? 5
-    : 10
-
-  return state.purchasesSinceLastFeedback >= interval
-}
+import { getState, saveState } from '../../lib/feedbackState'
 
 export function FeedbackPopup({ onClose }: { onClose: () => void }) {
   const session = useAppStore(s => s.session)
@@ -62,7 +26,10 @@ export function FeedbackPopup({ onClose }: { onClose: () => void }) {
     if (rating === 0) return
     setSending(true)
 
-    const { error } = await supabase.from('feedback').insert({
+    // Tabelle 'feedback' existiert in Supabase, ist aber nicht in
+    // database.types.ts eingetragen → any-cast bewusst.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (supabase.from('feedback' as any) as any).insert({
       user_id: session?.user?.id,
       message: [
         `Bewertung: ${rating}/5`,

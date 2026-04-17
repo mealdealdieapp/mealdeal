@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react'
-import { Receipt, ChevronDown, ChevronUp, TrendingDown, ShoppingCart, XCircle } from 'lucide-react'
+import { Receipt, ChevronDown, ChevronUp, ShoppingCart, XCircle } from 'lucide-react'
 import { usePurchaseLog } from '../../hooks/usePurchaseLog'
-import { EmptyState, formatDate } from './ProfileHelpers'
+import { EmptyState } from './ProfileHelpers'
+import { formatDate } from '../../lib/formatDate'
 
 export function HistoryView() {
   const { data: logs } = usePurchaseLog()
@@ -24,7 +25,6 @@ export function HistoryView() {
     for (const log of logs) {
       const d = new Date(log.date + 'T00:00:00')
       const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
-      const label = d.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' })
       if (!map.has(key)) map.set(key, [])
       map.get(key)!.push(log)
     }

@@ -7,7 +7,8 @@ import { useAppStore } from '../store/useAppStore'
 import type { ShoppingItemWithOffer, MarketGroup } from '../hooks/useShopping'
 import { Portal } from '../components/ui/Portal'
 import { ErrorState } from '../components/ui/ErrorState'
-import { trackPurchase, FeedbackPopup } from '../components/feedback/FeedbackPopup'
+import { FeedbackPopup } from '../components/feedback/FeedbackPopup'
+import { trackPurchase } from '../lib/feedbackState'
 
 const MARKET_COLORS: Record<string, string> = {
   'REWE': '#CC0000', 'ALDI': '#00569D', 'Netto': '#FDC300',

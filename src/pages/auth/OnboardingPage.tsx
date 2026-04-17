@@ -120,7 +120,7 @@ export function OnboardingPage() {
         setActiveTab('recipes')
         navigate('/recipes', { replace: true })
       }
-    } catch (e) {
+    } catch {
       // Bei Fehler trotzdem weiternavigieren (Angebote können später laden)
       if (showWelcome) {
         setActiveTab('recipes')

@@ -134,6 +134,11 @@ export type Database = {
       }
       offers: {
         Row: {
+          amount: number | null
+          base_price: number | null
+          base_unit: string | null
+          brand: string | null
+          canonical_key: string | null
           category: string | null
           created_at: string | null
           discount_percent: number | null
@@ -141,6 +146,9 @@ export type Database = {
           fingerprint: string | null
           id: string
           image_url: string | null
+          is_bio: boolean | null
+          is_real_deal: boolean | null
+          is_regional: boolean | null
           offer_price: number
           original_price: number | null
           plz: string | null
@@ -148,13 +156,20 @@ export type Database = {
           product_id: string | null
           product_name: string
           quantity: string | null
+          real_discount_percent: number | null
           region: string | null
           store: string
+          subcategory: string | null
           unit: string | null
           valid_from: string | null
           valid_until: string
         }
         Insert: {
+          amount?: number | null
+          base_price?: number | null
+          base_unit?: string | null
+          brand?: string | null
+          canonical_key?: string | null
           category?: string | null
           created_at?: string | null
           discount_percent?: number | null
@@ -162,6 +177,9 @@ export type Database = {
           fingerprint?: string | null
           id?: string
           image_url?: string | null
+          is_bio?: boolean | null
+          is_real_deal?: boolean | null
+          is_regional?: boolean | null
           offer_price: number
           original_price?: number | null
           plz?: string | null
@@ -169,13 +187,20 @@ export type Database = {
           product_id?: string | null
           product_name: string
           quantity?: string | null
+          real_discount_percent?: number | null
           region?: string | null
           store: string
+          subcategory?: string | null
           unit?: string | null
           valid_from?: string | null
           valid_until: string
         }
         Update: {
+          amount?: number | null
+          base_price?: number | null
+          base_unit?: string | null
+          brand?: string | null
+          canonical_key?: string | null
           category?: string | null
           created_at?: string | null
           discount_percent?: number | null
@@ -183,6 +208,9 @@ export type Database = {
           fingerprint?: string | null
           id?: string
           image_url?: string | null
+          is_bio?: boolean | null
+          is_real_deal?: boolean | null
+          is_regional?: boolean | null
           offer_price?: number
           original_price?: number | null
           plz?: string | null
@@ -190,11 +218,97 @@ export type Database = {
           product_id?: string | null
           product_name?: string
           quantity?: string | null
+          real_discount_percent?: number | null
           region?: string | null
           store?: string
+          subcategory?: string | null
           unit?: string | null
           valid_from?: string | null
           valid_until?: string
+        }
+        Relationships: []
+      }
+      offer_ingredient_matches: {
+        Row: {
+          created_at: string | null
+          id: string
+          ingredient_id: string
+          match_reason: string | null
+          match_score: number
+          offer_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          ingredient_id: string
+          match_reason?: string | null
+          match_score: number
+          offer_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          ingredient_id?: string
+          match_reason?: string | null
+          match_score?: number
+          offer_id?: string
+        }
+        Relationships: []
+      }
+      scrape_runs: {
+        Row: {
+          api_calls: number | null
+          created_at: string | null
+          duration_ms: number | null
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          offers_deduped: number | null
+          offers_fetched: number | null
+          offers_saved: number | null
+          per_category: Json | null
+          per_store: Json | null
+          plz_prefix: string
+          retries: number | null
+          started_at: string
+          status: string
+          matches_created: number | null
+        }
+        Insert: {
+          api_calls?: number | null
+          created_at?: string | null
+          duration_ms?: number | null
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          offers_deduped?: number | null
+          offers_fetched?: number | null
+          offers_saved?: number | null
+          per_category?: Json | null
+          per_store?: Json | null
+          plz_prefix: string
+          retries?: number | null
+          started_at?: string
+          status?: string
+          matches_created?: number | null
+        }
+        Update: {
+          api_calls?: number | null
+          created_at?: string | null
+          duration_ms?: number | null
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          offers_deduped?: number | null
+          offers_fetched?: number | null
+          offers_saved?: number | null
+          per_category?: Json | null
+          per_store?: Json | null
+          plz_prefix?: string
+          retries?: number | null
+          started_at?: string
+          status?: string
+          matches_created?: number | null
         }
         Relationships: []
       }
@@ -218,6 +332,9 @@ export type Database = {
       }
       price_history: {
         Row: {
+          amount: number | null
+          base_price: number | null
+          canonical_key: string | null
           created_at: string | null
           id: string
           market: string
@@ -226,12 +343,17 @@ export type Database = {
           plz_prefix: string | null
           price: number
           product_id: string
+          seen_at: string | null
           source: string | null
+          unit: string | null
           valid_from: string
           valid_until: string | null
           week_number: number | null
         }
         Insert: {
+          amount?: number | null
+          base_price?: number | null
+          canonical_key?: string | null
           created_at?: string | null
           id?: string
           market: string
@@ -240,12 +362,17 @@ export type Database = {
           plz_prefix?: string | null
           price: number
           product_id: string
+          seen_at?: string | null
           source?: string | null
+          unit?: string | null
           valid_from?: string
           valid_until?: string | null
           week_number?: number | null
         }
         Update: {
+          amount?: number | null
+          base_price?: number | null
+          canonical_key?: string | null
           created_at?: string | null
           id?: string
           market?: string
@@ -254,7 +381,9 @@ export type Database = {
           plz_prefix?: string | null
           price?: number
           product_id?: string
+          seen_at?: string | null
           source?: string | null
+          unit?: string | null
           valid_from?: string
           valid_until?: string | null
           week_number?: number | null
