@@ -49,9 +49,9 @@ export function getOptimizedImageUrl(
     return imageUrl
   }
 
-  // Supabase Storage — nutze render/image für Transforms
+  // Supabase Storage — direkt /object/ Endpoint (render/image gibt 503 auf Free-Plan)
   const encoded = encodeURIComponent(imageUrl)
-  return `${SUPABASE_RENDER_BASE}${encoded}?width=${config.width}&height=${config.height}&quality=${config.quality}&resize=cover&format=origin`
+  return `${SUPABASE_STORAGE_BASE}${encoded}`
 }
 
 /**
