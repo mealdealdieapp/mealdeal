@@ -180,18 +180,11 @@ async function uploadImage(fileName, base64Data) {
 async function isImageBroken(imageUrl) {
   if (!imageUrl) return true
 
-  // source.unsplash.com URLs sind immer kaputt
-  if (imageUrl.includes('source.unsplash.com')) return true
+  // Alle Unsplash-URLs ersetzen (generische Bilder, passen nicht zum Gericht)
+  if (imageUrl.includes('unsplash.com')) return true
 
-  // Externe URLs checken
-  if (imageUrl.startsWith('ext:')) {
-    try {
-      const resp = await fetch(imageUrl.slice(4), { method: 'HEAD', redirect: 'follow' })
-      return !resp.ok
-    } catch {
-      return true
-    }
-  }
+  // Alle ext:-URLs ersetzen (externe Bilder die nicht zu uns gehoeren)
+  if (imageUrl.startsWith('ext:')) return true
 
   // Bucket URLs checken
   const url = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${encodeURIComponent(imageUrl)}`
