@@ -8,9 +8,6 @@
 const SUPABASE_STORAGE_BASE =
   'https://wjhesvkapqrsbibqjbtr.supabase.co/storage/v1/object/public/recipe-images/'
 
-const SUPABASE_RENDER_BASE =
-  'https://wjhesvkapqrsbibqjbtr.supabase.co/storage/v1/render/image/public/recipe-images/'
-
 /** Bild-Größen für verschiedene Kontexte */
 export type ImageSize = 'thumb' | 'card' | 'hero' | 'full'
 
