@@ -201,22 +201,6 @@ async function fetchMarktguruPage(zipCode, industryId, offset, retryCounter) {
   // retryCounter wird innerhalb fetchWithRetry nicht tracked, daher vereinfacht:
   if (retryCounter) retryCounter.value = beforeRetries
 
-  // DEBUG: Was kommt zurück?
-  if (Array.isArray(raw)) {
-    console.log(`   📦 API Response: Array mit ${raw.length} Einträgen`)
-  } else if (raw && typeof raw === 'object') {
-    const keys = Object.keys(raw)
-    console.log(`   📦 API Response: Object mit Keys: ${keys.join(', ')}`)
-    // Versuche alle möglichen Wrapper zu finden
-    for (const key of keys) {
-      if (Array.isArray(raw[key])) {
-        console.log(`   📦 raw.${key} ist Array mit ${raw[key].length} Einträgen`)
-      }
-    }
-  } else {
-    console.log(`   📦 API Response: ${typeof raw} — ${JSON.stringify(raw).slice(0, 200)}`)
-  }
-
   return Array.isArray(raw) ? raw : (raw?.results || raw?.offers || raw?.data || [])
 }
 
