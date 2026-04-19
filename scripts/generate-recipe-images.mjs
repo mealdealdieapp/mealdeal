@@ -32,7 +32,7 @@ const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || process.env.VIT
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || ''
 const BUCKET = 'recipe-images'
 const IMAGE_SIZE = '1024x1024'
-const DALL_E_MODEL = 'dall-e-3'
+const IMAGE_MODEL = 'gpt-image-1'
 
 // ===== VALIDATION =====
 if (!OPENAI_API_KEY) {
@@ -131,7 +131,7 @@ function buildPrompt(recipeName, meal, ingredients = [], steps = []) {
     `Make it look fresh, balanced, realistic, and highly appetizing.`
 }
 
-// ===== DALL-E API CALL =====
+// ===== IMAGE GENERATION API CALL =====
 async function generateImage(prompt) {
   const response = await fetch('https://api.openai.com/v1/images/generations', {
     method: 'POST',
@@ -140,21 +140,21 @@ async function generateImage(prompt) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: DALL_E_MODEL,
+      model: IMAGE_MODEL,
       prompt,
       n: 1,
       size: IMAGE_SIZE,
-      quality: 'standard', // 'hd' kostet doppelt
-      response_format: 'b64_json',
+      quality: 'medium',
     }),
   })
 
   if (!response.ok) {
     const err = await response.json().catch(() => ({}))
-    throw new Error(`DALL-E API Fehler: ${response.status} — ${err.error?.message || 'Unbekannt'}`)
+    throw new Error(`Image API Fehler: ${response.status} — ${err.error?.message || 'Unbekannt'}`)
   }
 
   const data = await response.json()
+  // gpt-image-1 gibt b64_json direkt zurück
   return data.data[0].b64_json
 }
 
@@ -206,7 +206,7 @@ async function main() {
 
   console.log(`\n🍳 MealDeal Rezeptbild-Generator`)
   console.log(`   Modus: ${mode}`)
-  console.log(`   Model: ${DALL_E_MODEL} (${IMAGE_SIZE})\n`)
+  console.log(`   Model: ${IMAGE_MODEL} (${IMAGE_SIZE})\n`)
 
   // Rezepte laden
   let recipes
