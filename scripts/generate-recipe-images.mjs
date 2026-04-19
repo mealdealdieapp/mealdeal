@@ -92,54 +92,47 @@ function buildPrompt(recipeName, meal, ingredients = [], steps = []) {
 
   const context = mealContext[meal] || 'dish'
 
-  // Zutaten-Beschreibung (max 10 fuer Prompt-Laenge)
-  const ingList = ingredients.slice(0, 10).join(', ')
-  const ingPart = ingList ? ` Made with: ${ingList}.` : ''
+  // Zutaten-Beschreibung (max 8 für Prompt-Länge)
+  const ingList = ingredients.slice(0, 8).join(', ')
+  const ingPart = ingList ? ` Key ingredients visible: ${ingList}.` : ''
 
-  // Zubereitungs-Hinweise extrahieren (Optik-relevante Keywords aus den Steps)
+  // Passenden Teller/Schüssel-Typ bestimmen
+  const isInBowl = ['soup', 'salad', 'breakfast', 'snack'].includes(meal) ||
+    recipeName.toLowerCase().match(/suppe|bowl|eintopf|curry|porridge|müsli|smoothie|salat|chili/)
+  const isInPan = recipeName.toLowerCase().match(/pfanne|stir.?fry|braten|geschnetzeltes/)
+  const isInDish = recipeName.toLowerCase().match(/auflauf|gratin|lasagne|casserole/)
+
+  let vessel = 'on a clean white ceramic plate'
+  if (isInBowl) vessel = 'in a clean white ceramic bowl'
+  if (isInPan) vessel = 'in a dark cast iron skillet'
+  if (isInDish) vessel = 'in a white ceramic baking dish'
+
+  // Zubereitungs-Hinweise extrahieren
   let prepHint = ''
   if (steps.length > 0) {
-    // Aus den Steps visuelle Hinweise extrahieren
     const allSteps = steps.join(' ').toLowerCase()
     const visualCues = []
     if (allSteps.includes('überback') || allSteps.includes('gratiniert') || allSteps.includes('gratin')) visualCues.push('golden gratinated top')
-    if (allSteps.includes('anbraten') || allSteps.includes('scharf anbraten') || allSteps.includes('knusprig')) visualCues.push('crispy seared surface')
-    if (allSteps.includes('grillen') || allSteps.includes('gegrillt')) visualCues.push('grill marks visible')
-    if (allSteps.includes('frittier') || allSteps.includes('ausback')) visualCues.push('deep-fried golden crust')
-    if (allSteps.includes('garnieren') || allSteps.includes('bestreuen') || allSteps.includes('topping')) visualCues.push('garnished on top')
-    if (allSteps.includes('schicht') || allSteps.includes('auflauf')) visualCues.push('visible layered structure')
-    if (allSteps.includes('cremig') || allSteps.includes('pürieren') || allSteps.includes('sauce')) visualCues.push('creamy smooth texture')
-    if (allSteps.includes('backen') || allSteps.includes('ofen')) visualCues.push('oven-baked golden finish')
-    if (allSteps.includes('rollen') || allSteps.includes('wickeln') || allSteps.includes('wrap')) visualCues.push('rolled/wrapped presentation')
-    if (allSteps.includes('salat') || allSteps.includes('frisch') || allSteps.includes('roh')) visualCues.push('fresh vibrant colors')
+    if (allSteps.includes('anbraten') || allSteps.includes('knusprig')) visualCues.push('crispy seared surface')
+    if (allSteps.includes('grillen') || allSteps.includes('gegrillt')) visualCues.push('grill marks')
+    if (allSteps.includes('garnieren') || allSteps.includes('bestreuen')) visualCues.push('garnished with fresh herbs on top')
+    if (allSteps.includes('cremig') || allSteps.includes('pürieren')) visualCues.push('creamy smooth texture')
     if (allSteps.includes('karamell')) visualCues.push('caramelized glaze')
-    if (allSteps.includes('schmoren') || allSteps.includes('slow')) visualCues.push('tender slow-cooked look')
     if (visualCues.length > 0) {
-      prepHint = ` Visual details: ${visualCues.slice(0, 4).join(', ')}.`
+      prepHint = ` ${visualCues.slice(0, 3).join(', ')}.`
     }
   }
 
-  // Wechselnde Kamerawinkel fuer Abwechslung
-  const angles = [
-    'Shot from directly above (flat lay / top-down)',
-    'Shot from a low 30-degree angle looking slightly up at the dish',
-    'Shot from a 45-degree angle',
-    'Extreme close-up macro shot showing texture and detail',
-    'Shot from a slight side angle, almost eye-level with the plate',
-  ]
-  const angle = angles[recipeName.length % angles.length]
-
-  return `Centered food photography of "${recipeName}", a German ${context}.${ingPart}${prepHint} ` +
-    `The dish is perfectly centered in the frame and is the clear focal point. ` +
-    `${angle}, filling 70-80% of the image. ` +
-    `Warm golden lighting, cozy and inviting atmosphere. ` +
-    `Rustic dark wooden table surface, minimal props. ` +
-    `Generous, hearty portion that looks delicious and homemade. ` +
-    `Fresh herbs as natural garnish, food looks vibrant and textured. ` +
-    `Shallow depth of field, slightly blurred background with warm tones. ` +
-    `Rich warm color palette, appetizing and mouth-watering. ` +
-    `Photorealistic, high-end food magazine quality. ` +
-    `No text, no watermarks, no logos, no hands, no people.`
+  return `Professional food photography of "${recipeName}", a ${context}. ` +
+    `The dish is served ${vessel}, beautifully plated and filling the dish generously.${ingPart}${prepHint} ` +
+    `Shot from a 45-degree angle, the food fills 75% of the frame and is the clear hero. ` +
+    `Setting: rustic dark wooden table, a natural linen napkin beside the dish, ` +
+    `a few scattered raw ingredients or herbs around for decoration. ` +
+    `Lighting: warm natural daylight from the side, creating soft shadows. ` +
+    `The food looks fresh, vibrant, delicious and inviting — like a real home-cooked meal. ` +
+    `Shallow depth of field with slightly blurred background. ` +
+    `Style: photorealistic, high-end food blog photography. ` +
+    `No text, no watermarks, no logos, no hands, no people, no utensils in the food.`
 }
 
 // ===== DALL-E API CALL =====
