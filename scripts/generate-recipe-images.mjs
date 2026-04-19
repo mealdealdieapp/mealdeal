@@ -288,7 +288,8 @@ async function main() {
         .replace(/[^a-zA-Z0-9\s-]/g, '')
         .replace(/\s+/g, '-')
         .toLowerCase()
-      const fileName = `${cleanName}.png`
+      const timestamp = Date.now()
+      const fileName = `${cleanName}-${timestamp}.png`
 
       // 5. In Supabase Storage hochladen
       await uploadImage(fileName, base64)
