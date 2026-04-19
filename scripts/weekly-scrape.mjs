@@ -193,8 +193,8 @@ async function fetchMarktguruPage(zipCode, industryId, offset, retryCounter) {
   const raw = await fetchWithRetry(url, {
     headers: {
       'Accept': 'application/json',
-      'X-Api-Key': MARKTGURU_API_KEY,
-      'User-Agent': 'MealDeal-Scraper/2.0',
+      'x-apikey': MARKTGURU_API_KEY,
+      'User-Agent': 'Mozilla/5.0 (compatible; MealDeal/2.0)',
     },
   })
   // retryCounter wird innerhalb fetchWithRetry nicht tracked, daher vereinfacht:
@@ -645,6 +645,7 @@ async function main() {
   const totalSaved = results.reduce((s, r) => s + (r.total_saved || 0), 0)
   const totalMatches = results.reduce((s, r) => s + (r.matches_created || 0), 0)
   const totalSkipped = results.reduce((s, r) => s + (r.skipped_non_food || 0), 0)
+  const totalRaw = results.reduce((s, r) => s + (r.total_raw || 0), 0)
   const errors = results.filter(r => r.error)
   console.log(`\n${'='.repeat(60)}`)
   console.log(`🏁 Scraper fertig`)
@@ -655,6 +656,16 @@ async function main() {
   console.log(`   ❌ Fehler: ${errors.length}`)
   if (errors.length > 0) errors.forEach(e => console.log(`      - ${e.prefix}: ${e.error}`))
   console.log(`${'='.repeat(60)}\n`)
+
+  // KRITISCH: Wenn Angebote erwartet aber 0 gespeichert → Fehler!
+  if (totalSaved === 0 && toScrape.length > 0) {
+    if (totalRaw === 0) {
+      console.error('❌ FEHLER: API hat 0 Rohangebote geliefert! API-Key abgelaufen oder Marktguru-Problem.')
+    } else {
+      console.error('❌ FEHLER: Angebote geladen aber 0 gespeichert! DB-Problem.')
+    }
+    process.exit(1)
+  }
 }
 
 main().catch(err => { console.error('Fatal:', err); process.exit(1) })

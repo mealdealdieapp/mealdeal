@@ -119,16 +119,27 @@ function buildPrompt(recipeName, meal, ingredients = [], steps = []) {
     }
   }
 
-  return `Clean, minimalist food photography of "${recipeName}", a German ${context}.${ingPart}${prepHint} ` +
-    `The dish looks delicious and makes you want to eat it immediately. ` +
-    `Shot from a 45-degree angle on a simple white or light marble surface. ` +
-    `Bright, soft natural daylight from the side, airy and fresh mood. ` +
-    `Served on a simple matte ceramic plate or bowl in white or earth tones. ` +
-    `Very minimal styling — only the dish itself, maybe one small fresh herb sprig as garnish. ` +
-    `Clean negative space around the plate, no clutter, no utensils, no napkins. ` +
-    `Colors are natural and vibrant — the food is the hero. ` +
-    `Photorealistic, appetizing, modern recipe-app quality. ` +
-    `No text, no watermarks, no logos, no hands, no people, no busy backgrounds.`
+  // Wechselnde Kamerawinkel fuer Abwechslung
+  const angles = [
+    'Shot from directly above (flat lay / top-down)',
+    'Shot from a low 30-degree angle looking slightly up at the dish',
+    'Shot from a 45-degree angle',
+    'Extreme close-up macro shot showing texture and detail',
+    'Shot from a slight side angle, almost eye-level with the plate',
+  ]
+  const angle = angles[recipeName.length % angles.length]
+
+  return `Centered food photography of "${recipeName}", a German ${context}.${ingPart}${prepHint} ` +
+    `The dish is perfectly centered in the frame and is the clear focal point. ` +
+    `${angle}, filling 70-80% of the image. ` +
+    `Warm golden lighting, cozy and inviting atmosphere. ` +
+    `Rustic dark wooden table surface, minimal props. ` +
+    `Generous, hearty portion that looks delicious and homemade. ` +
+    `Fresh herbs as natural garnish, food looks vibrant and textured. ` +
+    `Shallow depth of field, slightly blurred background with warm tones. ` +
+    `Rich warm color palette, appetizing and mouth-watering. ` +
+    `Photorealistic, high-end food magazine quality. ` +
+    `No text, no watermarks, no logos, no hands, no people.`
 }
 
 // ===== DALL-E API CALL =====
