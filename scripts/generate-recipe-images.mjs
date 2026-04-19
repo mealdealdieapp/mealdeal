@@ -92,35 +92,31 @@ function buildPrompt(recipeName, meal, ingredients = [], steps = []) {
 
   const context = mealContext[meal] || 'dish'
 
-  // Zutaten-Beschreibung (max 8 für Prompt-Länge)
-  const ingList = ingredients.slice(0, 8).join(', ')
-  const ingPart = ingList ? ` Key ingredients visible: ${ingList}.` : ''
+  // Zutaten als beschreibende Liste (alle sichtbar im Bild)
+  const ingPart = ingredients.length > 0
+    ? ` The dish contains and shows these ingredients: ${ingredients.join(', ')}.`
+    : ''
 
   // Passenden Teller/Schüssel-Typ bestimmen
+  const nameLower = recipeName.toLowerCase()
   const isInBowl = ['soup', 'salad', 'breakfast', 'snack'].includes(meal) ||
-    recipeName.toLowerCase().match(/suppe|bowl|eintopf|curry|porridge|müsli|smoothie|salat|chili/)
-  const isInPan = recipeName.toLowerCase().match(/pfanne|stir.?fry|braten|geschnetzeltes/)
-  const isInDish = recipeName.toLowerCase().match(/auflauf|gratin|lasagne|casserole/)
+    nameLower.match(/suppe|bowl|eintopf|curry|porridge|müsli|smoothie|salat|chili/)
+  const isInPan = nameLower.match(/pfanne|stir.?fry|braten|geschnetzeltes/)
+  const isInDish = nameLower.match(/auflauf|gratin|lasagne|casserole/)
 
   let vessel = 'on a neutral white ceramic plate'
   if (isInBowl) vessel = 'in a neutral white or light ceramic bowl'
   if (isInPan) vessel = 'in a dark cast iron skillet'
   if (isInDish) vessel = 'in a white ceramic baking dish'
 
-  // Zubereitungs-Hinweise extrahieren
-  let prepHint = ''
+  // Zubereitung als visuelle Beschreibung extrahieren
+  let prepDescription = ''
   if (steps.length > 0) {
-    const allSteps = steps.join(' ').toLowerCase()
-    const visualCues = []
-    if (allSteps.includes('überback') || allSteps.includes('gratiniert') || allSteps.includes('gratin')) visualCues.push('golden gratinated top')
-    if (allSteps.includes('anbraten') || allSteps.includes('knusprig')) visualCues.push('crispy seared surface')
-    if (allSteps.includes('grillen') || allSteps.includes('gegrillt')) visualCues.push('grill marks')
-    if (allSteps.includes('garnieren') || allSteps.includes('bestreuen')) visualCues.push('garnished with fresh herbs on top')
-    if (allSteps.includes('cremig') || allSteps.includes('pürieren')) visualCues.push('creamy smooth texture')
-    if (allSteps.includes('karamell')) visualCues.push('caramelized glaze')
-    if (visualCues.length > 0) {
-      prepHint = ` ${visualCues.slice(0, 3).join(', ')}.`
-    }
+    // Die letzten 2-3 Steps beschreiben meist das Anrichten/Servieren
+    const lastSteps = steps.slice(-3).join(' ')
+    // Kürze auf max 200 Zeichen
+    prepDescription = lastSteps.length > 200 ? lastSteps.substring(0, 200) : lastSteps
+    prepDescription = ` Presentation based on preparation: ${prepDescription}`
   }
 
   return `Create a photorealistic square food image in a consistent recipe-photo style. ` +
@@ -129,7 +125,8 @@ function buildPrompt(recipeName, meal, ingredients = [], steps = []) {
     `Warm natural lighting, shallow depth of field, softly blurred background, ` +
     `vivid but realistic colors, crisp focus on the food, clean and modern food styling, ` +
     `cookbook-quality presentation. ` +
-    `Dish: ${recipeName}.${ingPart}${prepHint} ` +
+    `Dish: ${recipeName} (${context}).${ingPart}${prepDescription} ` +
+    `IMPORTANT: All main ingredients must be clearly visible in the dish. ` +
     `No people, no hands, no text, no clutter, no dramatic props. ` +
     `Make it look fresh, balanced, realistic, and highly appetizing.`
 }
