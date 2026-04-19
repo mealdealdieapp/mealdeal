@@ -143,8 +143,8 @@ export function parseQuantity(productName, quantityField = null) {
 }
 
 function tryParseQuantity(text) {
-  if (!text) return null
-  const clean = text.toLowerCase().replace(/,/g, '.')
+  if (!text && text !== 0) return null
+  const clean = String(text).toLowerCase().replace(/,/g, '.')
 
   // Multiplikator-Format: "6x0.33l", "5 x 500g", "4X1l"
   const multMatch = clean.match(/(\d+)\s*[x×]\s*(\d+(?:\.\d+)?)\s*(kg|g|gr|gramm|ml|l|ltr|liter|cl|stück|stk|st)\b/)
