@@ -102,8 +102,8 @@ function buildPrompt(recipeName, meal, ingredients = [], steps = []) {
   const isInPan = recipeName.toLowerCase().match(/pfanne|stir.?fry|braten|geschnetzeltes/)
   const isInDish = recipeName.toLowerCase().match(/auflauf|gratin|lasagne|casserole/)
 
-  let vessel = 'on a clean white ceramic plate'
-  if (isInBowl) vessel = 'in a clean white ceramic bowl'
+  let vessel = 'on a neutral white ceramic plate'
+  if (isInBowl) vessel = 'in a neutral white or light ceramic bowl'
   if (isInPan) vessel = 'in a dark cast iron skillet'
   if (isInDish) vessel = 'in a white ceramic baking dish'
 
@@ -123,16 +123,15 @@ function buildPrompt(recipeName, meal, ingredients = [], steps = []) {
     }
   }
 
-  return `Professional food photography of "${recipeName}", a ${context}. ` +
-    `The dish is served ${vessel}, beautifully plated and filling the dish generously.${ingPart}${prepHint} ` +
-    `Shot from a 45-degree angle, the food fills 75% of the frame and is the clear hero. ` +
-    `Setting: rustic dark wooden table, a natural linen napkin beside the dish, ` +
-    `a few scattered raw ingredients or herbs around for decoration. ` +
-    `Lighting: warm natural daylight from the side, creating soft shadows. ` +
-    `The food looks fresh, vibrant, delicious and inviting — like a real home-cooked meal. ` +
-    `Shallow depth of field with slightly blurred background. ` +
-    `Style: photorealistic, high-end food blog photography. ` +
-    `No text, no watermarks, no logos, no hands, no people, no utensils in the food.`
+  return `Create a photorealistic square food image in a consistent recipe-photo style. ` +
+    `Close-up shot, slightly top-down angle, centered composition, ` +
+    `served ${vessel} on a rustic wooden table. ` +
+    `Warm natural lighting, shallow depth of field, softly blurred background, ` +
+    `vivid but realistic colors, crisp focus on the food, clean and modern food styling, ` +
+    `cookbook-quality presentation. ` +
+    `Dish: ${recipeName}.${ingPart}${prepHint} ` +
+    `No people, no hands, no text, no clutter, no dramatic props. ` +
+    `Make it look fresh, balanced, realistic, and highly appetizing.`
 }
 
 // ===== DALL-E API CALL =====
