@@ -263,10 +263,10 @@ function fuzzyDedup(offers) {
 // ==============================================================
 // SCRAPE EINEN PLZ-PRÄFIX
 // ==============================================================
-async function scrapePlzPrefix(prefix, matcher) {
-  const samplePlz = `${prefix}00`
+async function scrapePlzPrefix(prefix, matcher, realPlz) {
+  const samplePlz = realPlz || `${prefix}01`
   const plzPrefix = prefix
-  console.log(`\n🔍 Scrape PLZ-Präfix ${prefix} (Sample: ${samplePlz})`)
+  console.log(`\n🔍 Scrape PLZ-Präfix ${prefix} (PLZ: ${samplePlz})`)
 
   // ------- 1) scrape_runs: run starten -------
   let runId = null
@@ -618,19 +618,27 @@ async function main() {
   console.log('🧩 Lade Ingredient-Matching-Kontext...')
   const matcher = await loadMatchingContext()
 
+  // Map: PLZ-Präfix → echte User-PLZ (Marktguru braucht echte PLZs, keine konstruierten!)
+  const plzByPrefix = new Map()
   let prefixes = []
   if (SPECIFIC_PLZ) {
-    prefixes = [SPECIFIC_PLZ.substring(0, 3)]
+    // Wenn eine volle PLZ übergeben wurde, nutze sie direkt
+    const prefix = SPECIFIC_PLZ.substring(0, 3)
+    prefixes = [prefix]
+    plzByPrefix.set(prefix, SPECIFIC_PLZ.length >= 5 ? SPECIFIC_PLZ : `${prefix}01`)
   } else {
     console.log(`📋 Lade eindeutige PLZ-Präfixe...`)
     const { data: profiles, error } = await supabase
       .from('user_profiles').select('plz').not('plz', 'is', null)
     if (error) { console.error(`❌ ${error.message}`); process.exit(1) }
-    const prefixSet = new Set()
     for (const p of profiles || []) {
-      if (p.plz && p.plz.length >= 3) prefixSet.add(p.plz.substring(0, 3))
+      if (p.plz && p.plz.length >= 5) {
+        const prefix = p.plz.substring(0, 3)
+        // Erste echte PLZ pro Präfix merken
+        if (!plzByPrefix.has(prefix)) plzByPrefix.set(prefix, p.plz)
+      }
     }
-    prefixes = Array.from(prefixSet).sort()
+    prefixes = Array.from(plzByPrefix.keys()).sort()
     console.log(`   → ${profiles?.length || 0} User, ${prefixes.length} Präfixe`)
   }
 
@@ -651,7 +659,7 @@ async function main() {
   for (let i = 0; i < toScrape.length; i++) {
     console.log(`\n[${i + 1}/${toScrape.length}] ===`)
     try {
-      const result = await scrapePlzPrefix(toScrape[i], matcher)
+      const result = await scrapePlzPrefix(toScrape[i], matcher, plzByPrefix.get(toScrape[i]))
       results.push(result)
     } catch (err) {
       results.push({ prefix: toScrape[i], total_saved: 0, error: err.message })
