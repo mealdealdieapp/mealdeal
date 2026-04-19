@@ -112,23 +112,31 @@ function buildPrompt(recipeName, meal, ingredients = [], steps = []) {
   // Zubereitung als visuelle Beschreibung extrahieren
   let prepDescription = ''
   if (steps.length > 0) {
-    // Die letzten 2-3 Steps beschreiben meist das Anrichten/Servieren
     const lastSteps = steps.slice(-3).join(' ')
-    // Kürze auf max 200 Zeichen
     prepDescription = lastSteps.length > 200 ? lastSteps.substring(0, 200) : lastSteps
-    prepDescription = ` Presentation based on preparation: ${prepDescription}`
+    prepDescription = ` Plating and presentation: ${prepDescription}`
   }
 
-  return `Create a photorealistic square food image in a consistent recipe-photo style. ` +
-    `Close-up shot, slightly top-down angle, centered composition, ` +
-    `served ${vessel} on a rustic wooden table. ` +
-    `Warm natural lighting, shallow depth of field, softly blurred background, ` +
-    `vivid but realistic colors, crisp focus on the food, clean and modern food styling, ` +
-    `cookbook-quality presentation. ` +
-    `Dish: ${recipeName} (${context}).${ingPart}${prepDescription} ` +
-    `IMPORTANT: All main ingredients must be clearly visible in the dish. ` +
-    `No people, no hands, no text, no clutter, no dramatic props. ` +
-    `Make it look fresh, balanced, realistic, and highly appetizing.`
+  // Wechselnde Hintergrund-Details für Abwechslung
+  const bgVariations = [
+    'A few raw ingredient pieces (like a halved tomato or herbs) scattered loosely nearby.',
+    'A small wooden bowl with spices and a sprig of fresh herbs in the blurred background.',
+    'A linen napkin and a few scattered leaves or seeds beside the dish.',
+    'A cutting board edge visible in the background with a few fresh herbs.',
+    'A small dish of olive oil and some scattered peppercorns nearby.',
+    'A few whole ingredients from the recipe placed casually around the dish.',
+    'A rustic cloth napkin and a wooden spoon resting in the background.',
+  ]
+  const bgDetail = bgVariations[recipeName.length % bgVariations.length]
+
+  return `Fotorealistisches quadratisches Food-Foto (1:1) von ${recipeName} (${context}). ` +
+    `Nahaufnahme, leicht von oben fotografiert, zentriert angerichtet ${vessel} auf rustikalem Holztisch. ` +
+    `Das Essen ist appetitlich, großzügig und liebevoll angerichtet — es soll Lust machen, sofort zuzugreifen.${ingPart}${prepDescription} ` +
+    `${bgDetail} ` +
+    `Natürlich-warmes Licht, weicher unscharfer Hintergrund, kräftige aber natürliche Farben, ` +
+    `sehr appetitlich, hochwertige Food-Fotografie, cleanes Styling, Fokus auf Textur und Frische der Zutaten. ` +
+    `Alle Hauptzutaten müssen klar sichtbar im Gericht sein. ` +
+    `Keine Menschen, kein Text, keine unruhige Dekoration.`
 }
 
 // ===== IMAGE GENERATION API CALL =====
