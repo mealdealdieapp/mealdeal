@@ -231,7 +231,7 @@ async function main() {
 
   // Filtern nach Modus
   let toProcess = []
-  if (mode === 'all') {
+  if (mode === 'all' || mode === 'ids') {
     toProcess = recipes
   } else {
     // Nur kaputte Bilder
