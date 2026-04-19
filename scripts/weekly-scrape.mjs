@@ -598,6 +598,13 @@ async function main() {
   if (SPECIFIC_PLZ) console.log(`   🎯 Nur Präfix: ${SPECIFIC_PLZ}`)
   console.log('')
 
+  // Abgelaufene Angebote löschen
+  const { count: deletedOffers } = await supabase
+    .from('offers')
+    .delete({ count: 'exact' })
+    .lt('valid_until', new Date().toISOString().split('T')[0])
+  console.log(`🧹 ${deletedOffers || 0} abgelaufene Angebote gelöscht`)
+
   // Ingredient-Matcher einmal pro Lauf vorbereiten
   console.log('🧩 Lade Ingredient-Matching-Kontext...')
   const matcher = await loadMatchingContext()
