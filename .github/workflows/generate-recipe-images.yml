@@ -4,13 +4,18 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'Modus: broken-only (Standard) oder all (alle neu generieren)'
+        description: 'Modus: broken-only (Standard), all, oder ids (bestimmte Rezepte)'
         required: false
         type: choice
         options:
           - broken-only
           - all
+          - ids
         default: broken-only
+      recipe_ids:
+        description: 'Komma-getrennte Rezept-IDs (nur bei Modus "ids")'
+        required: false
+        type: string
 
 jobs:
   generate-images:
@@ -36,6 +41,8 @@ jobs:
         run: |
           if [ "${{ github.event.inputs.mode }}" = "all" ]; then
             node scripts/generate-recipe-images.mjs --all
+          elif [ "${{ github.event.inputs.mode }}" = "ids" ]; then
+            node scripts/generate-recipe-images.mjs --ids "${{ github.event.inputs.recipe_ids }}"
           else
             node scripts/generate-recipe-images.mjs --broken-only
           fi
