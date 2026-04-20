@@ -1,4 +1,4 @@
-import { useState } from 'react'
+himport { useState } from 'react'
 import { Plus, X, Camera, Trash2 } from 'lucide-react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
@@ -21,6 +21,7 @@ function customToRecipe(r: { id: string; name: string; emoji: string | null; mea
   return {
     id: r.id, name: r.name, emoji: r.emoji, meal: r.meal,
     calories: r.calories, protein: r.protein, carbs: r.carbs, fat: r.fat,
+        status: 'active', source: 'user', quality_score: null,
     time_minutes: r.time_minutes, difficulty: r.diff, image_url: r.image_url,
     servings: r.servings, steps: r.steps, created_at: r.created_at,
     diets: null, cost: null, saved: null, tag: null, tag_color: null,
