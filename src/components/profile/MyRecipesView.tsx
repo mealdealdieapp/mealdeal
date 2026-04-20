@@ -1,4 +1,4 @@
-himport { useState } from 'react'
+import { useState } from 'react'
 import { Plus, X, Camera, Trash2 } from 'lucide-react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
