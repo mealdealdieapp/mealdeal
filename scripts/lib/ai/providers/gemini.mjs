@@ -4,7 +4,7 @@
  * Nutzt @google/generative-ai SDK.
  * Konfiguration über Environment:
  *   GEMINI_API_KEY  (required)
- *   GEMINI_MODEL    (optional, default: 'gemini-2.0-flash')
+ *   GEMINI_MODEL    (optional, default: 'gemini-2.5-flash')
  */
 
 import { GoogleGenerativeAI } from '@google/generative-ai'
@@ -12,7 +12,7 @@ import { ProductEnrichmentSchema } from '../types.mjs'
 import { PRODUCT_ENRICH_SYSTEM, buildEnrichPrompt } from '../prompts/product-enrich.mjs'
 import { logAiUsage } from '../cost-logger.mjs'
 
-const MODEL = process.env.GEMINI_MODEL || 'gemini-2.0-flash'
+const MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash'
 
 let _client = null
 function getClient() {
@@ -26,17 +26,17 @@ function getClient() {
 }
 
 /**
- * Preise Gemini Flash 2.0 (Stand April 2026, Google AI Studio):
- *   Input:  $0.10 / 1M tokens
- *   Output: $0.40 / 1M tokens
+ * Preise Gemini Flash 2.5 (Stand April 2026, Google AI Studio):
+ *   Input:  $0.30 / 1M tokens
+ *   Output: $2.50 / 1M tokens
  * Für den Free-Tier gilt 0.0 USD — wir loggen den Listenpreis trotzdem,
  * damit wir bei Übergang auf Paid-Tier nichts anpassen müssen.
  */
 function calculateGeminiCost(usage) {
   const inputTokens = usage?.promptTokenCount ?? 0
   const outputTokens = usage?.candidatesTokenCount ?? 0
-  const inputCostUsd = (inputTokens * 0.10) / 1_000_000
-  const outputCostUsd = (outputTokens * 0.40) / 1_000_000
+  const inputCostUsd = (inputTokens * 0.30) / 1_000_000
+  const outputCostUsd = (outputTokens * 2.50) / 1_000_000
   const totalUsd = inputCostUsd + outputCostUsd
   return totalUsd * 0.92 // grober USD→EUR Umrechnungskurs
 }
