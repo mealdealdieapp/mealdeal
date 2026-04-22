@@ -45,7 +45,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GEMINI_MODEL: gemini-1.5-flash
+          GEMINI_MODEL: gemini-2.0-flash
           AI_PROVIDER: gemini
           ENRICH_BATCH: ${{ github.event.inputs.batch_size || '200' }}
           ENRICH_DELAY_MS: '250'
