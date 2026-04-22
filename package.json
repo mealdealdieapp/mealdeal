@@ -15,10 +15,14 @@
     "health-check:readonly": "node scripts/nightly-health-check.mjs --no-fix",
     "matching-analysis": "node scripts/weekly-matching-analysis.mjs",
     "generate-recipes": "node scripts/weekly-recipe-generator.mjs",
-    "generate-images": "node scripts/generate-recipe-images.mjs"
+    "generate-images": "node scripts/generate-recipe-images.mjs",
+    "enrich-products": "node scripts/enrich-products.mjs",
+    "enrich-products:dry": "DRY_RUN=1 node scripts/enrich-products.mjs"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.0",
     "@supabase/supabase-js": "^2.99.1",
+    "zod": "^3.23.8",
     "@tanstack/react-query": "^5.90.21",
     "lucide-react": "^0.577.0",
     "react": "^19.2.4",

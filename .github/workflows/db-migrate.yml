@@ -20,6 +20,7 @@ on:
           - setup-rls-policies.sql
           - setup-cleanup-cron.sql
           - reclassify-offers.sql
+          - phase1-product-brain.sql
 
 jobs:
   migrate:
