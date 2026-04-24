@@ -17,7 +17,11 @@
     "generate-recipes": "node scripts/weekly-recipe-generator.mjs",
     "generate-images": "node scripts/generate-recipe-images.mjs",
     "enrich-products": "node scripts/enrich-products.mjs",
-    "enrich-products:dry": "DRY_RUN=1 node scripts/enrich-products.mjs"
+    "enrich-products:dry": "DRY_RUN=1 node scripts/enrich-products.mjs",
+    "embed-products": "node scripts/embed-products.mjs",
+    "embed-products:dry": "DRY_RUN=1 node scripts/embed-products.mjs",
+    "embed-ingredients": "node scripts/embed-ingredients.mjs",
+    "embed-ingredients:dry": "DRY_RUN=1 node scripts/embed-ingredients.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.0",

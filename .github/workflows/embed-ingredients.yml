@@ -1,0 +1,77 @@
+name: Embed Ingredients
+
+# Generiert Embeddings für alle Zutaten ohne Embedding.
+# Triggert automatisch nach erfolgreichem Recipe-Generator, weil dann neue Zutaten da sein können.
+# Kann auch manuell gestartet werden.
+
+on:
+  workflow_run:
+    workflows:
+      - 'Wöchentlicher Rezept-Workflow'
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      max_ingredients:
+        description: 'Maximale Anzahl Zutaten pro Run (default 1000)'
+        required: false
+        default: '1000'
+      batch_size:
+        description: 'Texte pro OpenAI-API-Call (default 100, max 2048)'
+        required: false
+        default: '100'
+      dry_run:
+        description: 'Dry-Run (nichts schreiben, nur loggen)'
+        required: false
+        default: 'false'
+
+jobs:
+  embed:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci --omit=dev || npm install --omit=dev
+
+      - name: Run Ingredient Embeddings
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          EMBEDDING_PROVIDER: openai
+          OPENAI_EMBED_MODEL: text-embedding-3-small
+          EMBED_BATCH: ${{ github.event.inputs.batch_size || '100' }}
+          EMBED_MAX_INGREDIENTS: ${{ github.event.inputs.max_ingredients || '1000' }}
+          DRY_RUN: ${{ github.event.inputs.dry_run == 'true' && '1' || '0' }}
+        run: node scripts/embed-ingredients.mjs
+
+      - name: Notify Telegram on Success
+        if: success()
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            --data-urlencode "chat_id=${CHAT_ID}" \
+            --data-urlencode "parse_mode=HTML" \
+            --data-urlencode "text=🧬 <b>Zutaten-Embeddings erfolgreich</b>%0A%0AZutaten wurden mit Vektoren angereichert.%0A%0A<a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>Logs ansehen</a>"
+
+      - name: Notify Telegram on Failure
+        if: failure()
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            --data-urlencode "chat_id=${CHAT_ID}" \
+            --data-urlencode "parse_mode=HTML" \
+            --data-urlencode "text=⚠️ <b>Zutaten-Embedding FEHLGESCHLAGEN</b>%0A%0ABitte Logs prüfen.%0A%0A<a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>Logs ansehen</a>"
