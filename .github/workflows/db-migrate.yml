@@ -21,6 +21,7 @@ on:
           - setup-cleanup-cron.sql
           - reclassify-offers.sql
           - phase1-product-brain.sql
+          - phase2-matching-brain.sql
 
 jobs:
   migrate:
