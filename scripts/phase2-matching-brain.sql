@@ -139,6 +139,47 @@ $$;
 GRANT EXECUTE ON FUNCTION public.find_offers_for_ingredient(TEXT, NUMERIC, INTEGER) TO anon, authenticated;
 
 -- ============================================================================
+-- 4b. RPC-Funktion: Top-K Produkte für eine Zutat (Cosine-Similarity)
+-- ============================================================================
+-- Wird vom Match-Computation-Job genutzt:
+-- für eine Zutat (über ihre embedding-id) liefert top-K Produkte sortiert nach
+-- Similarity. Der pgvector <=> Operator gibt Cosine-Distance zurück (niedriger = ähnlicher),
+-- daraus wird Similarity = 1 - Distance.
+DROP FUNCTION IF EXISTS public.match_products_for_ingredient(UUID, INTEGER, NUMERIC);
+
+CREATE OR REPLACE FUNCTION public.match_products_for_ingredient(
+  p_ingredient_embedding_id UUID,
+  p_top_k INTEGER DEFAULT 5,
+  p_min_similarity NUMERIC DEFAULT 0.6
+)
+RETURNS TABLE (
+  product_id UUID,
+  product_name TEXT,
+  similarity NUMERIC
+)
+LANGUAGE SQL STABLE AS $$
+  WITH ie AS (
+    SELECT embedding, model
+    FROM ingredient_embeddings
+    WHERE id = p_ingredient_embedding_id
+    LIMIT 1
+  )
+  SELECT
+    pe.product_id,
+    p.display_name AS product_name,
+    (1 - (pe.embedding <=> ie.embedding))::numeric AS similarity
+  FROM product_embeddings pe
+  CROSS JOIN ie
+  JOIN products p ON p.id = pe.product_id
+  WHERE pe.model = ie.model
+    AND (1 - (pe.embedding <=> ie.embedding)) >= p_min_similarity
+  ORDER BY pe.embedding <=> ie.embedding
+  LIMIT p_top_k;
+$$;
+
+GRANT EXECUTE ON FUNCTION public.match_products_for_ingredient(UUID, INTEGER, NUMERIC) TO anon, authenticated, service_role;
+
+-- ============================================================================
 -- 5. RLS-Policies
 -- ============================================================================
 ALTER TABLE public.product_embeddings ENABLE ROW LEVEL SECURITY;

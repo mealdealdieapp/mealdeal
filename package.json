@@ -21,7 +21,9 @@
     "embed-products": "node scripts/embed-products.mjs",
     "embed-products:dry": "DRY_RUN=1 node scripts/embed-products.mjs",
     "embed-ingredients": "node scripts/embed-ingredients.mjs",
-    "embed-ingredients:dry": "DRY_RUN=1 node scripts/embed-ingredients.mjs"
+    "embed-ingredients:dry": "DRY_RUN=1 node scripts/embed-ingredients.mjs",
+    "compute-matches": "node scripts/compute-product-ingredient-matches.mjs",
+    "compute-matches:dry": "DRY_RUN=1 node scripts/compute-product-ingredient-matches.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.0",
