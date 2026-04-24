@@ -8,18 +8,23 @@
 
 import { ALLOWED_CATEGORIES, ALLOWED_UNITS } from '../types.mjs'
 
-export const ENRICHMENT_PROMPT_VERSION = 1
+export const ENRICHMENT_PROMPT_VERSION = 2
 
 export const PRODUCT_ENRICH_SYSTEM = `Du bist ein Experte für deutsche Supermarkt-Produkte.
 Deine Aufgabe: aus einem Rohangebot strukturierte Produktdaten extrahieren.
 
 STRIKTE REGELN:
-1. Menge in der tatsächlich verkauften Einheit angeben
+1. Menge ermitteln — in dieser Prioritäts-Reihenfolge:
+   a) Falls "Beschreibung" eine Mengenangabe enthält (z.B. "200g Packung", "500 ml Flasche", "je 1 kg") → NUTZE DIESE
+   b) Sonst: falls "Scraper-Menge (roh)" vorhanden → nutze diese
+   c) Sonst: falls Produktname eine Menge enthält → nutze diese
+   d) Sonst: amount=null, unit=null
    Beispiele:
    - "500g Hackfleisch" → amount=500, unit="g"
    - "1,5 l Cola" → amount=1500, unit="ml"  (normalisiere l→ml und kg→g nur wenn sauberer)
    - "6 Stück Eier" → amount=6, unit="stk"
    - "Packung Nudeln" (ohne Gewicht) → amount=null, unit=null
+   WICHTIG: Erfinde niemals Mengen. Wenn nichts bekannt ist, null.
 
 2. Erlaubte Einheiten: ${ALLOWED_UNITS.join(', ')}
    KEINE anderen Einheiten (keine "l", kein "kg" — nutze "ml" und "g" stattdessen, AUSSER das Produkt wird nativ so verkauft)
@@ -58,10 +63,12 @@ WICHTIG: Gib ausschließlich valides JSON zurück. Kein Fließtext, keine Erklä
  * Baut den User-Prompt für enrichProduct().
  * @param {Object} raw
  * @param {string} raw.productName
- * @param {string=} raw.description
- * @param {string=} raw.category
- * @param {string=} raw.store
- * @param {number=} raw.price
+ * @param {string=} raw.description       Rohbeschreibung vom Scraper (enthält oft Menge)
+ * @param {number=} raw.rawQuantity       Menge, die der Scraper als Integer extrahiert hat
+ * @param {string=} raw.rawUnit           Einheit vom Scraper (g, ml, stk, ...)
+ * @param {string=} raw.category          Rohkategorie vom Scraper
+ * @param {string=} raw.store             Händler
+ * @param {number=} raw.price             Angebotspreis
  */
 export function buildEnrichPrompt(raw) {
   const parts = [
@@ -70,6 +77,10 @@ export function buildEnrichPrompt(raw) {
     `Produktname: ${raw.productName}`,
   ]
   if (raw.description) parts.push(`Beschreibung: ${raw.description}`)
+  if (typeof raw.rawQuantity === 'number' && raw.rawQuantity > 0) {
+    const rawUnitPart = raw.rawUnit ? ` ${raw.rawUnit}` : ''
+    parts.push(`Scraper-Menge (roh): ${raw.rawQuantity}${rawUnitPart}`)
+  }
   if (raw.category) parts.push(`Rohkategorie aus Scraper: ${raw.category}`)
   if (raw.store) parts.push(`Händler: ${raw.store}`)
   if (typeof raw.price === 'number') parts.push(`Angebotspreis: ${raw.price.toFixed(2)} €`)
