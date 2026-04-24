@@ -42,7 +42,32 @@ function calculateGeminiCost(usage) {
 }
 
 /**
+ * Prüft, ob ein Fehler "vorübergehend" ist (lohnt sich zu retryen).
+ * 503 = Service Unavailable (Modell überlastet)
+ * 429 = Too Many Requests (Rate-Limit)
+ * 500/502/504 = transient Google-side errors
+ */
+function isRetryableError(err) {
+  const msg = String(err?.message || err || '')
+  return (
+    msg.includes('[503') ||
+    msg.includes('[429') ||
+    msg.includes('[500') ||
+    msg.includes('[502') ||
+    msg.includes('[504') ||
+    msg.toLowerCase().includes('service unavailable') ||
+    msg.toLowerCase().includes('too many requests') ||
+    msg.toLowerCase().includes('high demand')
+  )
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+/**
  * Führt einen Produkt-Enrichment-Call aus.
+ * Retryt bei 503/429 automatisch mit exponentiellem Backoff (1s, 3s, 9s).
  *
  * @param {Object} raw   — RawOfferInput (siehe types.mjs)
  * @param {Object} [options]
@@ -60,48 +85,69 @@ export async function enrichProductGemini(raw, options = {}) {
     },
   })
 
-  const start = Date.now()
   const prompt = buildEnrichPrompt(raw)
+  const maxAttempts = 4 // 1 initial + 3 retries
+  const backoffMs = [1000, 3000, 9000]
+  let lastErr
 
-  try {
-    const result = await model.generateContent(prompt)
-    const response = result.response
-    const text = response.text()
-
-    let parsed
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    const start = Date.now()
     try {
-      parsed = JSON.parse(text)
-    } catch (parseErr) {
-      throw new Error(
-        `Gemini lieferte kein valides JSON. Response: ${text.slice(0, 300)}`
-      )
+      const result = await model.generateContent(prompt)
+      const response = result.response
+      const text = response.text()
+
+      let parsed
+      try {
+        parsed = JSON.parse(text)
+      } catch (parseErr) {
+        throw new Error(
+          `Gemini lieferte kein valides JSON. Response: ${text.slice(0, 300)}`
+        )
+      }
+
+      const validated = ProductEnrichmentSchema.parse(parsed)
+
+      await logAiUsage({
+        provider: 'gemini',
+        model: MODEL,
+        operation: 'enrich_product',
+        inputTokens: response.usageMetadata?.promptTokenCount ?? null,
+        outputTokens: response.usageMetadata?.candidatesTokenCount ?? null,
+        costEur: calculateGeminiCost(response.usageMetadata),
+        latencyMs: Date.now() - start,
+        success: true,
+        referenceId: options.referenceId ?? null,
+      })
+
+      return validated
+    } catch (err) {
+      lastErr = err
+      await logAiUsage({
+        provider: 'gemini',
+        model: MODEL,
+        operation: 'enrich_product',
+        success: false,
+        errorMessage: err?.message ? String(err.message).slice(0, 500) : String(err),
+        latencyMs: Date.now() - start,
+        referenceId: options.referenceId ?? null,
+      })
+
+      // Retry nur bei vorübergehenden Fehlern und wenn noch Versuche übrig sind
+      if (isRetryableError(err) && attempt < maxAttempts) {
+        const wait = backoffMs[attempt - 1] ?? 9000
+        console.log(
+          `      ⏳ Versuch ${attempt}/${maxAttempts} fehlgeschlagen (${String(err.message).slice(0, 80)}), warte ${wait}ms ...`
+        )
+        await sleep(wait)
+        continue
+      }
+
+      // Nicht-retryable Fehler oder Versuche aufgebraucht
+      throw err
     }
-
-    const validated = ProductEnrichmentSchema.parse(parsed)
-
-    await logAiUsage({
-      provider: 'gemini',
-      model: MODEL,
-      operation: 'enrich_product',
-      inputTokens: response.usageMetadata?.promptTokenCount ?? null,
-      outputTokens: response.usageMetadata?.candidatesTokenCount ?? null,
-      costEur: calculateGeminiCost(response.usageMetadata),
-      latencyMs: Date.now() - start,
-      success: true,
-      referenceId: options.referenceId ?? null,
-    })
-
-    return validated
-  } catch (err) {
-    await logAiUsage({
-      provider: 'gemini',
-      model: MODEL,
-      operation: 'enrich_product',
-      success: false,
-      errorMessage: err?.message ? String(err.message).slice(0, 500) : String(err),
-      latencyMs: Date.now() - start,
-      referenceId: options.referenceId ?? null,
-    })
-    throw err
   }
+
+  // Darf theoretisch nicht erreicht werden
+  throw lastErr
 }
