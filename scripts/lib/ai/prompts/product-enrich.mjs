@@ -15,16 +15,17 @@ Deine Aufgabe: aus einem Rohangebot strukturierte Produktdaten extrahieren.
 
 STRIKTE REGELN:
 1. Menge ermitteln — in dieser Prioritäts-Reihenfolge:
-   a) Falls "Beschreibung" eine Mengenangabe enthält (z.B. "200g Packung", "500 ml Flasche", "je 1 kg") → NUTZE DIESE
-   b) Sonst: falls "Scraper-Menge (roh)" vorhanden → nutze diese
-   c) Sonst: falls Produktname eine Menge enthält → nutze diese
-   d) Sonst: amount=null, unit=null
+   a) Falls "Roh-Mengenangabe vom Scraper" eine Menge enthält (z.B. "200g", "500 ml", "1 kg Packung", "je 750 g") → PARSE DIESE und nutze sie
+   b) Sonst: falls Produktname eine Menge enthält → nutze diese
+   c) Sonst: amount=null, unit=null
    Beispiele:
-   - "500g Hackfleisch" → amount=500, unit="g"
-   - "1,5 l Cola" → amount=1500, unit="ml"  (normalisiere l→ml und kg→g nur wenn sauberer)
+   - rawQuantityText="200g" → amount=200, unit="g"
+   - rawQuantityText="1,5 l" → amount=1500, unit="ml"
+   - rawQuantityText="je 750 g" → amount=750, unit="g"
+   - "500g Hackfleisch" im Namen → amount=500, unit="g"
    - "6 Stück Eier" → amount=6, unit="stk"
-   - "Packung Nudeln" (ohne Gewicht) → amount=null, unit=null
-   WICHTIG: Erfinde niemals Mengen. Wenn nichts bekannt ist, null.
+   - "Packung Nudeln" (kein Gewicht irgendwo) → amount=null, unit=null
+   WICHTIG: Erfinde niemals Mengen. Wenn weder im rawQuantityText noch im Produktnamen eine Menge steht, gib null zurück.
 
 2. Erlaubte Einheiten: ${ALLOWED_UNITS.join(', ')}
    KEINE anderen Einheiten (keine "l", kein "kg" — nutze "ml" und "g" stattdessen, AUSSER das Produkt wird nativ so verkauft)
@@ -63,9 +64,8 @@ WICHTIG: Gib ausschließlich valides JSON zurück. Kein Fließtext, keine Erklä
  * Baut den User-Prompt für enrichProduct().
  * @param {Object} raw
  * @param {string} raw.productName
- * @param {string=} raw.description       Rohbeschreibung vom Scraper (enthält oft Menge)
- * @param {number=} raw.rawQuantity       Menge, die der Scraper als Integer extrahiert hat
- * @param {string=} raw.rawUnit           Einheit vom Scraper (g, ml, stk, ...)
+ * @param {string=} raw.rawQuantityText   Roh-Mengenangabe vom Scraper als Text, z.B. "200g", "1 kg Packung"
+ * @param {string=} raw.rawUnit           Roh-Einheit vom Scraper (g, ml, stk, ...)
  * @param {string=} raw.category          Rohkategorie vom Scraper
  * @param {string=} raw.store             Händler
  * @param {number=} raw.price             Angebotspreis
@@ -76,11 +76,10 @@ export function buildEnrichPrompt(raw) {
     '',
     `Produktname: ${raw.productName}`,
   ]
-  if (raw.description) parts.push(`Beschreibung: ${raw.description}`)
-  if (typeof raw.rawQuantity === 'number' && raw.rawQuantity > 0) {
-    const rawUnitPart = raw.rawUnit ? ` ${raw.rawUnit}` : ''
-    parts.push(`Scraper-Menge (roh): ${raw.rawQuantity}${rawUnitPart}`)
+  if (raw.rawQuantityText) {
+    parts.push(`Roh-Mengenangabe vom Scraper: "${raw.rawQuantityText}"`)
   }
+  if (raw.rawUnit) parts.push(`Roh-Einheit vom Scraper: "${raw.rawUnit}"`)
   if (raw.category) parts.push(`Rohkategorie aus Scraper: ${raw.category}`)
   if (raw.store) parts.push(`Händler: ${raw.store}`)
   if (typeof raw.price === 'number') parts.push(`Angebotspreis: ${raw.price.toFixed(2)} €`)

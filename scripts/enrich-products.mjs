@@ -76,7 +76,7 @@ async function main() {
   const { data: pendingOffers, error: loadErr } = await supabase
     .from('offers')
     .select(
-      'id, product_name, description, quantity, unit, category, store, offer_price, fingerprint'
+      'id, product_name, quantity, unit, category, store, offer_price, fingerprint'
     )
     .is('product_id', null)
     .gte('valid_until', today)
@@ -134,11 +134,7 @@ async function main() {
         const enriched = await enrichProduct(
           {
             productName: repOffer.product_name,
-            description: repOffer.description || undefined,
-            rawQuantity:
-              typeof repOffer.quantity === 'number' && repOffer.quantity > 0
-                ? repOffer.quantity
-                : undefined,
+            rawQuantityText: repOffer.quantity || undefined,
             rawUnit: repOffer.unit || undefined,
             category: repOffer.category || undefined,
             store: repOffer.store || undefined,
