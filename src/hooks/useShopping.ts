@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAppStore } from '../store/useAppStore'
+import { getSectionPosition } from '../lib/marketLayouts'
 import type { ShoppingItem } from '../types/app.types'
 
 export interface ShoppingItemWithOffer extends ShoppingItem {
@@ -85,7 +86,17 @@ export function useShopping() {
         return sum
       }, 0)
       const offerCount = items.filter((i) => i.matchedOffer).length
-      groups.push({ store, items, totalSavings, offerCount })
+
+      // Sortiere Artikel in Lauf-Reihenfolge des jeweiligen Marktes,
+      // damit man die Liste beim Einkaufen einmal von vorne nach hinten
+      // abarbeiten kann. Array.sort ist stabil, Artikel ohne/mit gleicher
+      // Kategorie behalten ihre urspruengliche (chronologische) Reihenfolge.
+      const sortedItems = [...items].sort(
+        (a, b) =>
+          getSectionPosition(store, a.category) - getSectionPosition(store, b.category),
+      )
+
+      groups.push({ store, items: sortedItems, totalSavings, offerCount })
     }
     groups.sort((a, b) => b.offerCount - a.offerCount)
 
@@ -157,7 +168,7 @@ export function useShopping() {
     onError: (_err, _vars, ctx) => {
       if (ctx?.prev) queryClient.setQueryData(['shopping', session?.user?.id], ctx.prev)
     },
-    // Never refetch after toggle — optimistic update is the source of truth
+    // Never refetch after toggle - optimistic update is the source of truth
     // This prevents items from jumping positions after server confirms
     onSettled: () => {},
   })
@@ -196,8 +207,8 @@ export function useShopping() {
     mutationFn: async ({ onlyChecked }: { onlyChecked: boolean }) => {
       if (!session?.user?.id) throw new Error('Not authenticated')
 
-      // "Ja, alles gefunden" → treat all as bought
-      // "Nicht alles gefunden" → only checked items are bought
+      // "Ja, alles gefunden" - treat all as bought
+      // "Nicht alles gefunden" - only checked items are bought
       const bought = onlyChecked
         ? itemsWithOffers.filter((i) => i.checked)
         : itemsWithOffers // all items
