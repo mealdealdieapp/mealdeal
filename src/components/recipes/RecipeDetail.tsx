@@ -328,8 +328,3 @@ function Macro({ label, value }: { label: string; value: string | number }) {
     </div>
   )
 }
-
-      <div className="text-[10px] text-muted mt-0.5">{label}</div>
-    </div>
-  )
-}
