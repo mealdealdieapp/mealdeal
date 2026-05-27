@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mealdeal-v2'
+const CACHE_NAME = 'mealdeal-v3'
 const IMAGE_CACHE = 'mealdeal-images-v1'
 const STATIC_ASSETS = [
   '/',
@@ -122,13 +122,14 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
-  // Static assets (JS, CSS, fonts): cache-first
+  // Static assets (JS, CSS, fonts, woff2): cache-first
+  // Fonts werden lokal aus /assets/ ausgeliefert (kein Google Fonts CDN mehr).
   if (
     url.pathname.startsWith('/assets/') ||
     url.pathname.endsWith('.svg') ||
     url.pathname.endsWith('.png') ||
-    url.hostname === 'fonts.googleapis.com' ||
-    url.hostname === 'fonts.gstatic.com'
+    url.pathname.endsWith('.woff2') ||
+    url.pathname.endsWith('.woff')
   ) {
     event.respondWith(
       caches.match(request).then((cached) => {
@@ -144,4 +145,72 @@ self.addEventListener('fetch', (event) => {
     )
     return
   }
+})
+
+// ============================================================================
+// Web Push Handler
+// ============================================================================
+// Payload-Format (vom Push-Dispatcher gesendet):
+//   { title: string, body: string, url?: string, tag?: string }
+// `tag` deduped Notifications gleicher Art (z.B. "weekly_plan_reminder").
+// ============================================================================
+
+self.addEventListener('push', (event) => {
+  let payload = {}
+  try {
+    payload = event.data ? event.data.json() : {}
+  } catch {
+    payload = { title: 'MealDeal', body: event.data ? event.data.text() : '' }
+  }
+
+  const title = payload.title || 'MealDeal'
+  const options = {
+    body: payload.body || '',
+    icon: '/logo-icon.png',
+    badge: '/logo-icon.png',
+    tag: payload.tag || 'mealdeal-default',
+    renotify: false,
+    data: {
+      url: payload.url || '/',
+    },
+  }
+
+  event.waitUntil(self.registration.showNotification(title, options))
+})
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close()
+  const targetUrl = (event.notification.data && event.notification.data.url) || '/'
+
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+      // Wenn bereits ein App-Tab offen ist, dorthin focussen und navigieren.
+      for (const client of windowClients) {
+        if ('focus' in client) {
+          client.focus()
+          if ('navigate' in client) {
+            try {
+              client.navigate(targetUrl)
+            } catch {
+              // navigate kann scheitern (cross-origin), dann egal - tab ist offen
+            }
+          }
+          return
+        }
+      }
+      // Sonst neuen Tab oeffnen.
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl)
+      }
+    })
+  )
+})
+
+// Endpoint-Wechsel (z.B. wenn der Browser die Subscription rotiert).
+// Wir schicken die neue Subscription nicht direkt an Supabase - der naechste
+// usePushSubscription-Aufruf upserted sie sowieso.
+self.addEventListener('pushsubscriptionchange', () => {
+  // Optional: hier koennte ein Re-Subscribe + Persist passieren, sobald wir
+  // ohne Authentifizierung schreiben duerfen. Aktuell laeuft Persist nur
+  // durch eingeloggte App (via Supabase-Session in der Page).
 })

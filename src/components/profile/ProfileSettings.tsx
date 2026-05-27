@@ -4,6 +4,7 @@ import { useAppStore } from '../../store/useAppStore'
 import { useUpdateProfile } from '../../hooks/useUpdateProfile'
 import { useConsent } from '../../hooks/useConsent'
 import { useAccountActions } from '../../hooks/useAccountActions'
+import { NotificationSettings } from './NotificationSettings'
 
 const MARKETS = ['REWE', 'ALDI', 'Netto', 'Penny', 'Lidl', 'Kaufland', 'Edeka', 'Norma']
 const DIETS = [
@@ -34,23 +35,13 @@ export function ProfileSettings() {
   const [actionMsg, setActionMsg] = useState<string | null>(null)
 
   const handleRevokeHealth = async () => {
-    if (!revokeConfirm) {
-      setRevokeConfirm(true)
-      return
-    }
+    if (!revokeConfirm) { setRevokeConfirm(true); return }
     try {
       await healthConsent.revoke()
       updateProfile.mutate({
-        gender: null,
-        age: null,
-        weight: null,
-        height: null,
-        activity: null,
-        goal: null,
-        cal_target: null,
-        protein_target: null,
-        carbs_target: null,
-        fat_target: null,
+        gender: null, age: null, weight: null, height: null,
+        activity: null, goal: null,
+        cal_target: null, protein_target: null, carbs_target: null, fat_target: null,
       })
     } finally {
       setRevokeConfirm(false)
@@ -69,10 +60,7 @@ export function ProfileSettings() {
   }
 
   const handleDelete = async () => {
-    if (!deleteConfirm) {
-      setDeleteConfirm(true)
-      return
-    }
+    if (!deleteConfirm) { setDeleteConfirm(true); return }
     try {
       await account.requestDeletion()
     } catch (err) {
@@ -159,6 +147,8 @@ export function ProfileSettings() {
       )}
       {saved && <p className="text-center text-[13px] text-success font-bold">Gespeichert!</p>}
 
+      <NotificationSettings />
+
       <div className="bg-white rounded-card p-4" style={{ border: '1.5px solid #EBEBEB' }}>
         <div className="flex items-start gap-2.5 mb-2">
           <Shield size={16} className="text-primary mt-0.5 shrink-0" />
@@ -180,11 +170,7 @@ export function ProfileSettings() {
             className="w-full mt-2 py-2 bg-background text-[12px] font-bold text-red-600 rounded-btn active:bg-red-50 disabled:opacity-50"
             style={{ border: '1.5px solid #FECACA' }}
           >
-            {healthConsent.isRevoking
-              ? 'Widerruf laeuft...'
-              : revokeConfirm
-                ? 'Wirklich widerrufen? Daten werden geloescht'
-                : 'Einwilligung widerrufen'}
+            {healthConsent.isRevoking ? 'Widerruf laeuft...' : revokeConfirm ? 'Wirklich widerrufen? Daten werden geloescht' : 'Einwilligung widerrufen'}
           </button>
         )}
       </div>
@@ -211,11 +197,7 @@ export function ProfileSettings() {
           style={{ border: '1.5px solid #FECACA' }}
         >
           {account.isDeleting ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
-          {account.isDeleting
-            ? 'Wird angefragt...'
-            : deleteConfirm
-              ? 'Wirklich endgueltig loeschen? Letzte Chance'
-              : 'Account loeschen'}
+          {account.isDeleting ? 'Wird angefragt...' : deleteConfirm ? 'Wirklich endgueltig loeschen? Letzte Chance' : 'Account loeschen'}
         </button>
         <p className="text-[10px] text-muted leading-relaxed">
           Dein Account wird sofort deaktiviert und alle Daten innerhalb von 30 Tagen unwiderruflich entfernt (Art. 17 DSGVO).

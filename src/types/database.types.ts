@@ -12,6 +12,108 @@ export type Database = {
   }
   public: {
     Tables: {
+      push_log: {
+        Row: {
+          error_message: string | null
+          http_status: number | null
+          id: string
+          payload_body: string | null
+          payload_title: string | null
+          payload_url: string | null
+          sent_at: string
+          status: string
+          subscription_id: string | null
+          trigger_type: string
+          user_id: string
+        }
+        Insert: {
+          error_message?: string | null
+          http_status?: number | null
+          id?: string
+          payload_body?: string | null
+          payload_title?: string | null
+          payload_url?: string | null
+          sent_at?: string
+          status: string
+          subscription_id?: string | null
+          trigger_type: string
+          user_id: string
+        }
+        Update: {
+          error_message?: string | null
+          http_status?: number | null
+          id?: string
+          payload_body?: string | null
+          payload_title?: string | null
+          payload_url?: string | null
+          sent_at?: string
+          status?: string
+          subscription_id?: string | null
+          trigger_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      push_preferences: {
+        Row: {
+          marketing: boolean
+          new_offers_in_plz: boolean
+          offer_ending_soon: boolean
+          updated_at: string
+          user_id: string
+          weekly_plan_reminder: boolean
+        }
+        Insert: {
+          marketing?: boolean
+          new_offers_in_plz?: boolean
+          offer_ending_soon?: boolean
+          updated_at?: string
+          user_id: string
+          weekly_plan_reminder?: boolean
+        }
+        Update: {
+          marketing?: boolean
+          new_offers_in_plz?: boolean
+          offer_ending_soon?: boolean
+          updated_at?: string
+          user_id?: string
+          weekly_plan_reminder?: boolean
+        }
+        Relationships: []
+      }
+      push_subscriptions: {
+        Row: {
+          auth: string
+          created_at: string
+          endpoint: string
+          id: string
+          last_seen_at: string
+          p256dh: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          auth: string
+          created_at?: string
+          endpoint: string
+          id?: string
+          last_seen_at?: string
+          p256dh: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          auth?: string
+          created_at?: string
+          endpoint?: string
+          id?: string
+          last_seen_at?: string
+          p256dh?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       consent_log: {
         Row: {
           consent_type: string
