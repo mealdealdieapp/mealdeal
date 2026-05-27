@@ -1,4 +1,5 @@
 import { Component, type ReactNode, type ErrorInfo } from 'react'
+import { reportError } from '../../lib/sentry'
 
 interface Props {
   children: ReactNode
@@ -22,6 +23,8 @@ export class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('[MealDeal] Fehler gefangen:', error, errorInfo)
+    // An Sentry melden (no-op, wenn Sentry nicht aktiv ist).
+    reportError(error)
   }
 
   render() {

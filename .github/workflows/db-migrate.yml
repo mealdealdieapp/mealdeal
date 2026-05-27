@@ -22,6 +22,9 @@ on:
           - reclassify-offers.sql
           - phase1-product-brain.sql
           - phase2-matching-brain.sql
+          - phase2-recipe-matching-rpcs.sql
+          - add-consent-log.sql
+          - add-account-soft-delete.sql
 
 jobs:
   migrate:

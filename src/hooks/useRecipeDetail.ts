@@ -4,6 +4,9 @@ import { supabase } from '../lib/supabase'
 import { matchIngredientToOffer } from '../lib/offerMatching'
 import { useOffers } from './useOffers'
 import { useSynonyms } from './useSynonyms'
+import { useMatchedOffers, type MatchedOffer } from './useMatchedOffers'
+import { useAppStore } from '../store/useAppStore'
+import { isFeatureEnabled } from '../lib/featureFlags'
 
 export interface RecipeIngredientWithOffer {
   id: string
@@ -77,8 +80,28 @@ export function useRecipeDetail(recipeId: string | null) {
     enabled: !!recipeId,
   })
 
+  // --- Phase-2-Matching: serverseitige RPC, hinter Feature-Flag ---
+  // Flag aus (Default) -> klassisches Browser-Matching wie bisher.
+  // Flag an -> match_offers_for_recipe-RPC. Bei RPC-Fehler faellt der
+  // Hook automatisch auf das Browser-Matching zurueck.
+  const profile = useAppStore((s) => s.profile)
+  const plz = profile?.plz ?? null
+  const matchedOffersFlag = isFeatureEnabled('matched_offers')
+  const matched = useMatchedOffers(recipeId, plz, { enabled: matchedOffersFlag })
+  const useRpcMatching = matchedOffersFlag && !matched.isError
+
+  // --- Klassischer Pfad: alle Angebote laden + im Browser matchen ---
   const { offers } = useOffers()
   const { data: synonymMap } = useSynonyms()
+
+  // Lookup der RPC-Treffer nach Zutatname (lowercase, getrimmt).
+  const rpcLookup = useMemo(() => {
+    const map = new Map<string, MatchedOffer>()
+    for (const m of matched.matches) {
+      map.set(m.ingredientName.toLowerCase().trim(), m)
+    }
+    return map
+  }, [matched.matches])
 
   const ingredientsWithOffers: RecipeIngredientWithOffer[] = useMemo(() => {
     if (!ingredients.data) return []
@@ -93,6 +116,43 @@ export function useRecipeDetail(recipeId: string | null) {
       const ingName = ing?.name ?? 'Unbekannt'
       const ingCategory = ing?.category ?? null
 
+      const base = {
+        id: ri.id,
+        name: ingName,
+        emoji: ing?.emoji ?? null,
+        category: ingCategory,
+        amount: ri.amount != null ? Number(ri.amount) : null,
+        unit: ri.unit,
+      }
+
+      // --- Serverseitiges Matching (Phase 2, Feature-Flag an) ---
+      if (useRpcMatching) {
+        const m = rpcLookup.get(ingName.toLowerCase().trim())
+        if (m?.hasOffer) {
+          return {
+            ...base,
+            // RPC liefert keine Offer-ID; offer_id ist nullable und wird
+            // fuer Anzeige/Gruppierung der Einkaufsliste nicht gebraucht.
+            offerId: null,
+            offerPrice: m.bestOfferPrice,
+            originalPrice: m.bestOriginalPrice,
+            store: m.bestStore,
+            discountPercent: m.bestDiscountPercent,
+            productName: null,
+          }
+        }
+        return {
+          ...base,
+          offerId: null,
+          offerPrice: null,
+          originalPrice: null,
+          store: null,
+          discountPercent: null,
+          productName: null,
+        }
+      }
+
+      // --- Klassisches Browser-Matching (Default) ---
       const match = offers.length > 0
         ? matchIngredientToOffer(
             { name: ingName, category: ingCategory },
@@ -102,12 +162,7 @@ export function useRecipeDetail(recipeId: string | null) {
         : null
 
       return {
-        id: ri.id,
-        name: ingName,
-        emoji: ing?.emoji ?? null,
-        category: ingCategory,
-        amount: ri.amount != null ? Number(ri.amount) : null,
-        unit: ri.unit,
+        ...base,
         offerId: match?.offerId ?? null,
         offerPrice: match ? Number(match.offerPrice) : null,
         originalPrice: match?.originalPrice != null ? Number(match.originalPrice) : null,
@@ -116,7 +171,7 @@ export function useRecipeDetail(recipeId: string | null) {
         productName: match?.productName ?? null,
       }
     })
-  }, [ingredients.data, offers, synonymMap])
+  }, [ingredients.data, offers, synonymMap, useRpcMatching, rpcLookup])
 
   const totalSaved = ingredientsWithOffers.reduce((sum, ing) => {
     if (ing.originalPrice != null && ing.offerPrice != null) {
@@ -129,7 +184,7 @@ export function useRecipeDetail(recipeId: string | null) {
 
   return {
     ingredients: ingredientsWithOffers,
-    isLoading: ingredients.isLoading,
+    isLoading: ingredients.isLoading || (useRpcMatching && matched.isLoading),
     totalSaved,
     matchCount,
   }

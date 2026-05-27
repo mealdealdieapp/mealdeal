@@ -12,6 +12,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      consent_log: {
+        Row: {
+          consent_type: string
+          created_at: string
+          granted_at: string
+          id: string
+          ip_hash: string | null
+          revoked_at: string | null
+          user_agent: string | null
+          user_id: string
+          version: string
+        }
+        Insert: {
+          consent_type: string
+          created_at?: string
+          granted_at?: string
+          id?: string
+          ip_hash?: string | null
+          revoked_at?: string | null
+          user_agent?: string | null
+          user_id: string
+          version?: string
+        }
+        Update: {
+          consent_type?: string
+          created_at?: string
+          granted_at?: string
+          id?: string
+          ip_hash?: string | null
+          revoked_at?: string | null
+          user_agent?: string | null
+          user_id?: string
+          version?: string
+        }
+        Relationships: []
+      }
       custom_recipes: {
         Row: {
           calories: number | null

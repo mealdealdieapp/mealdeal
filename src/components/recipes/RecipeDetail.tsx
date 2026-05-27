@@ -153,9 +153,10 @@ export function RecipeDetail({ recipe, onClose }: RecipeDetailProps) {
                       <span className="text-[18px] w-6 text-center shrink-0">{ing.emoji ?? '🥄'}</span>
                       <div className="flex-1 min-w-0">
                         <span className="text-[13px] text-dark block">{ing.name}</span>
-                        {ing.productName && (
-                          <span className="text-[10px] text-primary block truncate">
-                            {ing.store}: {ing.productName} {ing.offerPrice != null ? `${Number(ing.offerPrice).toFixed(2)} EUR` : ''}
+                        {ing.store && ing.offerPrice != null && (
+                          <span className="inline-flex items-center gap-1 mt-0.5 text-[10px] font-bold text-success bg-green-50 px-1.5 py-0.5 rounded-pill">
+                            <Tag size={9} />
+                            {Number(ing.offerPrice).toFixed(2)} EUR bei {ing.store}
                           </span>
                         )}
                       </div>

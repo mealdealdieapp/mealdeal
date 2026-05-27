@@ -1,6 +1,9 @@
 import { useState } from 'react'
+import { Check, Shield } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { useAppStore } from '../../store/useAppStore'
 import { useUpdateProfile } from '../../hooks/useUpdateProfile'
+import { useConsent, HEALTH_DATA_CONSENT_VERSION } from '../../hooks/useConsent'
 import { Portal } from '../ui/Portal'
 
 function NumInput({ value, onChange, label, unit, min, max }: {
@@ -55,7 +58,10 @@ function macrosToKcal(protein: number, carbs: number, fat: number) {
 export function CalorieSettings({ calTarget, onClose }: { calTarget: number; onClose: () => void }) {
   const profile = useAppStore((s) => s.profile)
   const updateProfile = useUpdateProfile()
+  const healthConsent = useConsent('health_data')
   const [mode, setMode] = useState<'manual' | 'calc'>('manual')
+  const [healthAck, setHealthAck] = useState(false)
+  const needsHealthConsent = mode === 'calc' && !healthConsent.hasConsent
 
   const initMacros = profile?.protein_target
     ? { protein: profile.protein_target, carbs: profile.carbs_target ?? 0, fat: profile.fat_target ?? 0 }
@@ -117,9 +123,17 @@ export function CalorieSettings({ calTarget, onClose }: { calTarget: number; onC
   const cPct = totalMacroCal > 0 ? Math.round((carbs * 4 / totalMacroCal) * 100) : 0
   const fPct = totalMacroCal > 0 ? Math.round((fat * 9 / totalMacroCal) * 100) : 0
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const cal = mode === 'manual' ? kcal : calcResult
     const m = mode === 'manual' ? { protein, carbs, fat } : kcalToMacros(cal)
+    if (mode === 'calc' && !healthConsent.hasConsent) {
+      if (!healthAck) return
+      try {
+        await healthConsent.grant(HEALTH_DATA_CONSENT_VERSION)
+      } catch {
+        return
+      }
+    }
     updateProfile.mutate(
       { cal_target: cal, protein_target: m.protein, carbs_target: m.carbs, fat_target: m.fat, gender, age, weight, height, activity, goal },
       { onSuccess: onClose }
@@ -209,12 +223,12 @@ export function CalorieSettings({ calTarget, onClose }: { calTarget: number; onC
                 <div className="grid grid-cols-3 gap-2">
                   <NumInput label="Alter" value={age} onChange={setAge} unit="J" min={10} max={99} />
                   <NumInput label="Gewicht" value={weight} onChange={setWeight} unit="kg" min={30} max={250} />
-                  <NumInput label="Größe" value={height} onChange={setHeight} unit="cm" min={100} max={230} />
+                  <NumInput label="Groesse" value={height} onChange={setHeight} unit="cm" min={100} max={230} />
                 </div>
                 <div>
-                  <label className="text-[9px] font-bold text-muted block mb-1.5 uppercase">Aktivität</label>
+                  <label className="text-[9px] font-bold text-muted block mb-1.5 uppercase">Aktivitaet</label>
                   <div className="grid grid-cols-2 gap-1.5">
-                    {[{ v: 1.2, l: '🛋️ Wenig' }, { v: 1.375, l: '🚶 Leicht' }, { v: 1.55, l: '🏃 Moderat' }, { v: 1.725, l: '💪 Sehr aktiv' }].map((a) => (
+                    {[{ v: 1.2, l: 'Wenig' }, { v: 1.375, l: 'Leicht' }, { v: 1.55, l: 'Moderat' }, { v: 1.725, l: 'Sehr aktiv' }].map((a) => (
                       <button key={a.v} onClick={() => setActivity(a.v)}
                         className={`py-2 rounded-btn text-[11px] font-bold ${activity === a.v ? 'bg-green-50 text-primary' : 'bg-background text-muted'}`}
                         style={{ border: activity === a.v ? '2px solid #028350' : '1.5px solid #EBEBEB' }}>
@@ -226,7 +240,7 @@ export function CalorieSettings({ calTarget, onClose }: { calTarget: number; onC
                 <div>
                   <label className="text-[9px] font-bold text-muted block mb-1.5 uppercase">Ziel</label>
                   <div className="grid grid-cols-3 gap-1.5">
-                    {[{ v: 'lose', l: '📉 Abnehmen' }, { v: 'maintain', l: '⚖️ Halten' }, { v: 'gain', l: '📈 Zunehmen' }].map((g) => (
+                    {[{ v: 'lose', l: 'Abnehmen' }, { v: 'maintain', l: 'Halten' }, { v: 'gain', l: 'Zunehmen' }].map((g) => (
                       <button key={g.v} onClick={() => setGoal(g.v)}
                         className={`py-2 rounded-btn text-[10px] font-bold ${goal === g.v ? 'bg-green-50 text-primary' : 'bg-background text-muted'}`}
                         style={{ border: goal === g.v ? '2px solid #028350' : '1.5px solid #EBEBEB' }}>
@@ -243,9 +257,44 @@ export function CalorieSettings({ calTarget, onClose }: { calTarget: number; onC
               </div>
             )}
 
-            <button onClick={handleSave} disabled={updateProfile.isPending}
-              className="w-full mt-4 py-3 bg-primary text-white font-bold text-[14px] rounded-btn active:bg-green-800 disabled:opacity-50">
-              {updateProfile.isPending ? 'Speichern...' : 'Speichern'}
+            {needsHealthConsent && (
+              <div className="mt-4 bg-amber-50 rounded-card p-3.5" style={{ border: '1.5px solid #FDE68A' }}>
+                <div className="flex items-start gap-2.5 mb-2.5">
+                  <Shield size={16} className="text-amber-600 mt-0.5 shrink-0" />
+                  <div>
+                    <h4 className="font-display text-[13px] font-extrabold text-dark">Einwilligung Gesundheitsdaten</h4>
+                    <p className="text-[11px] text-muted mt-1 leading-relaxed">
+                      Fuer die Berechnung brauchen wir besondere personenbezogene Daten (Art. 9 DSGVO).
+                      Du kannst die Einwilligung jederzeit in deinem Profil widerrufen.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setHealthAck(!healthAck)}
+                  className="w-full flex items-start gap-2.5 py-2 text-left"
+                >
+                  <div
+                    className={`w-[20px] h-[20px] rounded-[5px] border-2 flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
+                      healthAck ? 'bg-primary border-primary' : 'border-gray-300 bg-white'
+                    }`}
+                  >
+                    {healthAck && <Check size={12} className="text-white" strokeWidth={3} />}
+                  </div>
+                  <span className="text-[11px] text-dark leading-relaxed">
+                    Ich willige ein, dass MealDeal meine Gesundheitsdaten (Gewicht, Groesse,
+                    Alter, Aktivitaet, Ziel) zur Berechnung meiner Ernaehrungsempfehlungen
+                    verarbeitet. Details: <Link to="/datenschutz" onClick={(e) => e.stopPropagation()} className="text-primary font-semibold underline">Datenschutz</Link>.
+                  </span>
+                </button>
+              </div>
+            )}
+
+            <button
+              onClick={handleSave}
+              disabled={updateProfile.isPending || healthConsent.isGranting || (needsHealthConsent && !healthAck)}
+              className="w-full mt-4 py-3 bg-primary text-white font-bold text-[14px] rounded-btn active:bg-green-800 disabled:opacity-50"
+            >
+              {updateProfile.isPending || healthConsent.isGranting ? 'Speichern...' : 'Speichern'}
             </button>
           </div>
         </div>
