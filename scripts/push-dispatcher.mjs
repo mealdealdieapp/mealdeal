@@ -16,7 +16,7 @@
  *
  * Notwendige Secrets:
  *   SUPABASE_URL                - Supabase-Project-URL
- *   SUPABASE_SERVICE_ROLE_KEY   - Service-Role-Key (umgeht RLS!)
+ *   SUPABASE_SERVICE_KEY   - Service-Role-Key (umgeht RLS!)
  *   VAPID_PUBLIC_KEY            - oeffentlicher VAPID-Schluessel
  *   VAPID_PRIVATE_KEY           - privater VAPID-Schluessel
  *   VAPID_SUBJECT               - z.B. "mailto:mealdeal.app@gmail.com"
@@ -26,7 +26,7 @@ import { createClient } from '@supabase/supabase-js'
 import webpush from 'web-push'
 
 const SUPABASE_URL = process.env.SUPABASE_URL
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
 const VAPID_PUBLIC_KEY = process.env.VAPID_PUBLIC_KEY
 const VAPID_PRIVATE_KEY = process.env.VAPID_PRIVATE_KEY
 const VAPID_SUBJECT = process.env.VAPID_SUBJECT || 'mailto:mealdeal.app@gmail.com'
@@ -42,7 +42,7 @@ function assertEnv(name, value) {
 }
 
 assertEnv('SUPABASE_URL', SUPABASE_URL)
-assertEnv('SUPABASE_SERVICE_ROLE_KEY', SUPABASE_SERVICE_ROLE_KEY)
+assertEnv('SUPABASE_SERVICE_KEY', SUPABASE_SERVICE_KEY)
 assertEnv('VAPID_PUBLIC_KEY', VAPID_PUBLIC_KEY)
 assertEnv('VAPID_PRIVATE_KEY', VAPID_PRIVATE_KEY)
 assertEnv('TRIGGER', TRIGGER)
@@ -54,7 +54,7 @@ if (!VALID_TRIGGERS.includes(TRIGGER)) {
 }
 
 webpush.setVapidDetails(VAPID_SUBJECT, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY)
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, {
   auth: { persistSession: false },
 })
 
