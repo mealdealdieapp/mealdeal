@@ -16,6 +16,7 @@ on:
   schedule:
     - cron: '0 17 * * 0'   # Wochenplan-Reminder Sonntag 17:00 UTC
     - cron: '0 17 * * *'   # Offer-ending-soon taeglich 17:00 UTC
+    - cron: '0 8 * * *'    # Watchlist-Price-Drop taeglich 08:00 UTC (= 09:00/10:00 Berlin)
   workflow_dispatch:
     inputs:
       trigger:
@@ -27,6 +28,7 @@ on:
           - weekly_plan_reminder
           - offer_ending_soon
           - new_offers_in_plz
+          - watchlist_price_drop
           - marketing
       dry_run:
         description: 'Trockenlauf (kein echter Versand)'
@@ -71,7 +73,9 @@ jobs:
             # Schedule: anhand der Cron-Expression entscheiden
             CRON='${{ github.event.schedule }}'
             DOW=$(date -u +%u)
-            if [ "$DOW" = "7" ] && [ "$CRON" = "0 17 * * 0" ]; then
+            if [ "$CRON" = "0 8 * * *" ]; then
+              echo "trigger=watchlist_price_drop" >> "$GITHUB_OUTPUT"
+            elif [ "$DOW" = "7" ] && [ "$CRON" = "0 17 * * 0" ]; then
               echo "trigger=weekly_plan_reminder" >> "$GITHUB_OUTPUT"
             else
               echo "trigger=offer_ending_soon" >> "$GITHUB_OUTPUT"

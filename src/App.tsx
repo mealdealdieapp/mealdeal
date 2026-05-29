@@ -17,6 +17,7 @@ import { ShoppingPage } from './pages/ShoppingPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { DatenschutzPage } from './pages/DatenschutzPage'
 import { ImpressumPage } from './pages/ImpressumPage'
+import { AGBPage } from './pages/AGBPage'
 import { ResetPasswordPage } from './pages/auth/ResetPasswordPage'
 import { Loader2, ShoppingBag, UtensilsCrossed, ListChecks } from 'lucide-react'
 
@@ -47,6 +48,7 @@ function AppRoutes() {
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/datenschutz" element={<DatenschutzPage />} />
         <Route path="/impressum" element={<ImpressumPage />} />
+        <Route path="/agb" element={<AGBPage />} />
         <Route path="*" element={<LoginPage />} />
       </Routes>
     )
@@ -59,6 +61,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/datenschutz" element={<DatenschutzPage />} />
         <Route path="/impressum" element={<ImpressumPage />} />
+        <Route path="/agb" element={<AGBPage />} />
         <Route path="*" element={<OnboardingPage />} />
       </Routes>
     )
@@ -80,11 +83,13 @@ function AppRoutes() {
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/datenschutz" element={<DatenschutzPage />} />
         <Route path="/impressum" element={<ImpressumPage />} />
+        <Route path="/agb" element={<AGBPage />} />
         <Route path="/" element={<Navigate to="/recipes" replace />} />
         <Route path="*" element={<Navigate to="/recipes" replace />} />
       </Routes>
       <BottomNav />
       <FeedbackButton />
+      <AddToHomeBanner />
     </>
   )
 }

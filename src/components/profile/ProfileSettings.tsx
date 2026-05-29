@@ -24,6 +24,38 @@ const PREFS = [
   { value: 'preis-leistung', label: 'Preis-Leistung' },
   { value: 'markenprodukte', label: 'Markenprodukte' },
 ]
+const ALLERGENS = [
+  { value: 'gluten', label: '🌾 Gluten' },
+  { value: 'milk', label: '🥛 Milch' },
+  { value: 'eggs', label: '🥚 Eier' },
+  { value: 'nuts', label: '🌰 Schalenfrüchte' },
+  { value: 'peanuts', label: '🥜 Erdnüsse' },
+  { value: 'soy', label: '🫘 Soja' },
+  { value: 'fish', label: '🐟 Fisch' },
+  { value: 'crustacea', label: '🦐 Krebstiere' },
+  { value: 'molluscs', label: '🐚 Weichtiere' },
+  { value: 'celery', label: '🌿 Sellerie' },
+  { value: 'mustard', label: '🌶️ Senf' },
+  { value: 'sesame', label: '🫓 Sesam' },
+  { value: 'sulphites', label: '🍷 Sulfite' },
+  { value: 'lupin', label: '🌼 Lupinen' },
+]
+const PANTRY = [
+  { value: 'salt-pepper', label: '🧂 Salz & Pfeffer' },
+  { value: 'oil-vinegar', label: '🫒 Öl & Essig' },
+  { value: 'sugar-flour', label: '🥄 Zucker & Mehl' },
+  { value: 'baking', label: '🧁 Backzutaten' },
+  { value: 'spices-base', label: '🌶️ Grundgewürze' },
+  { value: 'spices-asian', label: '🥢 Asia-Set' },
+  { value: 'spices-med', label: '🍅 Mediterran' },
+  { value: 'condiments', label: '🥫 Saucen & Dips' },
+]
+const HOUSEHOLD = [
+  { value: 1, label: '1 Person' },
+  { value: 2, label: '2 Personen' },
+  { value: 3, label: '3-4 Personen' },
+  { value: 5, label: '5+ Personen' },
+]
 
 export function ProfileSettings() {
   const profile = useAppStore((s) => s.profile)
@@ -73,6 +105,10 @@ export function ProfileSettings() {
   const [markets, setMarkets] = useState<string[]>(profile?.markets ?? [])
   const [diets, setDiets] = useState<string[]>(profile?.diets ?? [])
   const [preferences, setPreferences] = useState<string[]>(profile?.preferences ?? [])
+  const [allergies, setAllergies] = useState<string[]>(profile?.allergies ?? [])
+  const [pantry, setPantry] = useState<string[]>(profile?.pantry ?? [])
+  const [householdSize, setHouseholdSize] = useState<number>(profile?.household_size ?? 1)
+  const [weeklyBudget, setWeeklyBudget] = useState<number>(profile?.budget ?? 80)
   const [saved, setSaved] = useState(false)
 
   /* eslint-disable react-hooks/set-state-in-effect */
@@ -82,6 +118,10 @@ export function ProfileSettings() {
       setMarkets(profile.markets ?? [])
       setDiets(profile.diets ?? [])
       setPreferences(profile.preferences ?? [])
+      setAllergies(profile.allergies ?? [])
+      setPantry(profile.pantry ?? [])
+      setHouseholdSize(profile.household_size ?? 1)
+      setWeeklyBudget(profile.budget ?? 80)
     }
   }, [profile])
   /* eslint-enable react-hooks/set-state-in-effect */
@@ -89,14 +129,28 @@ export function ProfileSettings() {
   const toggleMarket = (m: string) => setMarkets((p) => p.includes(m) ? p.filter((x) => x !== m) : [...p, m])
   const toggleDiet = (d: string) => setDiets((prev) => prev.includes(d) ? prev.filter((x) => x !== d) : [...prev, d])
   const togglePref = (p: string) => setPreferences((prev) => prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p])
+  const toggleAllergy = (a: string) => setAllergies((prev) => prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a])
+  const togglePantry = (p: string) => setPantry((prev) => prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p])
+
+  const sortedEq = (a: string[], b: string[]) =>
+    JSON.stringify([...a].sort()) === JSON.stringify([...b].sort())
 
   const hasChanges = plz !== (profile?.plz ?? '') ||
-    JSON.stringify([...markets].sort()) !== JSON.stringify([...(profile?.markets ?? [])].sort()) ||
-    JSON.stringify([...diets].sort()) !== JSON.stringify([...(profile?.diets ?? [])].sort()) ||
-    JSON.stringify([...preferences].sort()) !== JSON.stringify([...(profile?.preferences ?? [])].sort())
+    !sortedEq(markets, profile?.markets ?? []) ||
+    !sortedEq(diets, profile?.diets ?? []) ||
+    !sortedEq(preferences, profile?.preferences ?? []) ||
+    !sortedEq(allergies, profile?.allergies ?? []) ||
+    !sortedEq(pantry, profile?.pantry ?? []) ||
+    householdSize !== (profile?.household_size ?? 1) ||
+    weeklyBudget !== (profile?.budget ?? 80)
 
   const handleSave = () => {
-    updateProfile.mutate({ plz, markets, diets, preferences }, {
+    updateProfile.mutate({
+      plz, markets, diets, preferences,
+      allergies, pantry,
+      household_size: householdSize,
+      budget: weeklyBudget,
+    }, {
       onSuccess: () => { setSaved(true); setTimeout(() => setSaved(false), 2000) },
     })
   }
@@ -136,6 +190,61 @@ export function ProfileSettings() {
               {p.label}
             </button>
           ))}
+        </div>
+      </Section>
+      <Section title="Allergien">
+        <div className="flex flex-wrap gap-2">
+          {ALLERGENS.map((a) => (
+            <button key={a.value} onClick={() => toggleAllergy(a.value)}
+              className={`px-3.5 py-1.5 rounded-pill text-[12px] font-bold transition-colors ${allergies.includes(a.value) ? 'bg-red-600 text-white' : 'bg-background text-muted'}`}>
+              {a.label}
+            </button>
+          ))}
+        </div>
+        <p className="text-[10px] text-muted mt-2 leading-relaxed">
+          Rezepte mit diesen Allergenen werden komplett ausgeblendet.
+        </p>
+      </Section>
+      <Section title="Vorrat (was du immer da hast)">
+        <div className="flex flex-wrap gap-2">
+          {PANTRY.map((p) => (
+            <button key={p.value} onClick={() => togglePantry(p.value)}
+              className={`px-3.5 py-1.5 rounded-pill text-[12px] font-bold transition-colors ${pantry.includes(p.value) ? 'bg-primary text-white' : 'bg-background text-muted'}`}>
+              {p.label}
+            </button>
+          ))}
+        </div>
+        <p className="text-[10px] text-muted mt-2 leading-relaxed">
+          Diese Items werden beim Einkaufszettel automatisch herausgefiltert.
+        </p>
+      </Section>
+      <Section title="Haushaltsgroesse">
+        <div className="flex flex-wrap gap-2">
+          {HOUSEHOLD.map((h) => (
+            <button key={h.value} onClick={() => setHouseholdSize(h.value)}
+              className={`px-3.5 py-1.5 rounded-pill text-[12px] font-bold transition-colors ${householdSize === h.value ? 'bg-primary text-white' : 'bg-background text-muted'}`}>
+              {h.label}
+            </button>
+          ))}
+        </div>
+      </Section>
+      <Section title="Wochenbudget">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-[12px] text-muted">Zielbetrag pro Woche</span>
+          <span className="font-display text-[18px] font-extrabold text-primary">{weeklyBudget} €</span>
+        </div>
+        <input
+          type="range"
+          min={20}
+          max={250}
+          step={5}
+          value={weeklyBudget}
+          onChange={(e) => setWeeklyBudget(parseInt(e.target.value))}
+          className="w-full accent-primary"
+        />
+        <div className="flex justify-between text-[10px] text-muted mt-1">
+          <span>20 €</span>
+          <span>250 €</span>
         </div>
       </Section>
       {hasChanges && (

@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MealDeal Bestandsaufnahme - 29.05.2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#028350;
+  --primary-dark:#016740;
+  --success:#22C55E;
+  --warn:#F59E0B;
+  --danger:#EF4444;
+  --bg:#F5F5F0;
+  --card:#FFFFFF;
+  --border:#EBEBEB;
+  --text:#0F1B14;
+  --muted:#5C6B61;
+  --radius:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',system-ui,sans-serif;line-height:1.5}
+h1,h2,h3,h4{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;letter-spacing:-0.02em;line-height:1.15}
+h1{font-size:2.4rem}
+h2{font-size:1.6rem;margin-bottom:.5rem}
+h3{font-size:1.15rem;margin-bottom:.4rem}
+h4{font-size:.95rem;margin-bottom:.3rem}
+a{color:var(--primary);text-decoration:none}
+.wrap{max-width:1280px;margin:0 auto;padding:24px}
+.hero{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+.hero .meta{color:var(--muted);font-size:.9rem;margin-top:6px}
+.hero .lede{margin-top:14px;font-size:1.05rem;color:#2B3A30;max-width:78ch}
+.pill{display:inline-block;padding:4px 10px;border-radius:999px;font-size:.78rem;font-weight:600;letter-spacing:.02em}
+.pill.live{background:#E6F5EC;color:var(--primary)}
+.pill.beta{background:#FEF3C7;color:#92400E}
+.layout{display:grid;grid-template-columns:240px 1fr;gap:20px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}}
+nav.side{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;position:sticky;top:14px;height:fit-content}
+nav.side ul{list-style:none}
+nav.side li{margin:2px 0}
+nav.side a{display:block;padding:9px 12px;border-radius:12px;color:var(--text);font-weight:500;font-size:.93rem;transition:background .15s}
+nav.side a:hover{background:#F0F0EA}
+nav.side a.active{background:#E6F5EC;color:var(--primary);font-weight:600}
+nav.side .group{font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;padding:14px 12px 6px}
+main{min-width:0}
+.card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:18px}
+.card h2{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+@media(max-width:700px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:#FAFAF7;border:1.5px solid var(--border);border-radius:14px;padding:14px}
+.kpi .n{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.8rem;color:var(--primary);line-height:1}
+.kpi .l{color:var(--muted);font-size:.82rem;margin-top:4px}
+.bar{height:10px;background:#EEF0EC;border-radius:999px;overflow:hidden;margin-top:8px}
+.bar>span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--success))}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:780px){.grid2{grid-template-columns:1fr}}
+.status{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:.74rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
+.status.ok{background:#DCFCE7;color:#15803D}
+.status.partial{background:#FEF3C7;color:#A16207}
+.status.missing{background:#FEE2E2;color:#B91C1C}
+.status.planned{background:#E0E7FF;color:#3730A3}
+.status .dot{width:7px;height:7px;border-radius:50%}
+.status.ok .dot{background:#16A34A}
+.status.partial .dot{background:#D97706}
+.status.missing .dot{background:#DC2626}
+.status.planned .dot{background:#4338CA}
+.row{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed #EFEFEA}
+.row:last-child{border-bottom:none}
+.row .what{flex:1;min-width:0}
+.row .what b{display:block;margin-bottom:2px}
+.row .what span{color:var(--muted);font-size:.88rem}
+ul.facts{list-style:none;margin-top:6px}
+ul.facts li{padding:6px 0;font-size:.93rem;color:#1f2b24;display:flex;gap:8px}
+ul.facts li::before{content:"";flex:0 0 6px;width:6px;height:6px;border-radius:50%;background:var(--primary);margin-top:9px}
+.todo{margin-top:14px;background:#FAFAF7;border:1.5px dashed #D8D8CF;border-radius:14px;padding:14px 16px}
+.todo h4{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.todo label{display:flex;align-items:flex-start;gap:10px;padding:6px 0;cursor:pointer;font-size:.93rem}
+.todo input[type=checkbox]{flex:0 0 18px;width:18px;height:18px;margin-top:2px;accent-color:var(--primary)}
+.todo label.done span.t{text-decoration:line-through;color:var(--muted)}
+.todo .prio{font-size:.7rem;font-weight:700;padding:1px 7px;border-radius:6px;margin-left:auto;flex:0 0 auto}
+.todo .prio.p1{background:#FEE2E2;color:#B91C1C}
+.todo .prio.p2{background:#FEF3C7;color:#A16207}
+.todo .prio.p3{background:#E0E7FF;color:#3730A3}
+.qa{background:#F0F8F3;border-left:3px solid var(--primary);padding:12px 16px;border-radius:0 12px 12px 0;margin:12px 0}
+.qa b{display:block;color:var(--primary-dark);margin-bottom:4px;font-size:.92rem}
+.qa p{font-size:.93rem;color:#1f2b24}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;font-size:.82rem;color:var(--muted)}
+.box{background:#FAFAF7;border:1.5px solid var(--border);border-radius:14px;padding:14px}
+.box h4{margin-bottom:6px}
+.box p{font-size:.9rem;color:#2B3A30}
+.tag{display:inline-block;background:#E6F5EC;color:var(--primary);font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:6px;margin-right:4px;margin-bottom:4px}
+.tag.red{background:#FEE2E2;color:#B91C1C}
+.tag.yellow{background:#FEF3C7;color:#92400E}
+.tag.blue{background:#E0E7FF;color:#3730A3}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.9rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border)}
+th{font-family:'Bricolage Grotesque';font-weight:700;color:#1f2b24;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em}
+.foot{text-align:center;color:var(--muted);font-size:.85rem;padding:30px 0 10px}
+.reset{display:inline-block;font-size:.78rem;color:var(--muted);background:none;border:1px solid var(--border);border-radius:8px;padding:4px 10px;margin-left:8px;cursor:pointer}
+.reset:hover{background:#F0F0EA}
+.warn-banner{background:#FEF3C7;border:1.5px solid #FCD34D;border-radius:14px;padding:12px 16px;margin-bottom:14px;font-size:.92rem;color:#92400E}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap">
+    <div>
+      <h1>MealDeal Bestandsaufnahme</h1>
+      <div class="meta">Stand 29. Mai 2026 - Basierend auf Live-Codebase <code>mealdeal-web</code></div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <span class="pill live">Web live</span>
+      <span class="pill beta">Closed Beta vor Open Beta 27.07.2026</span>
+    </div>
+  </div>
+  <p class="lede">Vollstaendige Analyse aller Bereiche mit Status, konkreten Antworten auf deine Fragen, Rechts-Checks und interaktiven To-do-Listen. Hakchen werden lokal im Browser gespeichert.
+    <button class="reset" onclick="if(confirm('Alle Hakchen zuruecksetzen?')){localStorage.removeItem('md_todos');location.reload()}">Hakchen zuruecksetzen</button>
+  </p>
+
+  <div class="kpis">
+    <div class="kpi"><div class="n">~72%</div><div class="l">Feature-Komplettheit MVP</div><div class="bar"><span style="width:72%"></span></div></div>
+    <div class="kpi"><div class="n">8/10</div><div class="l">Kernbereiche live</div><div class="bar"><span style="width:80%"></span></div></div>
+    <div class="kpi"><div class="n">3/4</div><div class="l">Rechtliche Basis</div><div class="bar"><span style="width:75%"></span></div></div>
+    <div class="kpi"><div class="n">0%</div><div class="l">Premium / Stripe</div><div class="bar"><span style="width:2%"></span></div></div>
+  </div>
+
+  <div class="legend">
+    <span class="status ok"><span class="dot"></span>fertig</span>
+    <span class="status partial"><span class="dot"></span>teilweise</span>
+    <span class="status missing"><span class="dot"></span>fehlt</span>
+    <span class="status planned"><span class="dot"></span>geplant</span>
+  </div>
+</div>
+
+<div class="warn-banner">
+  <b>Vor der Open Beta am 27.07.2026 (8 Wochen)</b> sind drei harte Blocker offen: <b>AGB</b>, <b>Premium-Gating</b> und der <b>Push-Cron fuer Watchlist/Wochenplan-Reminder</b>. Alles andere ist Polish.
+</div>
+
+<div class="layout">
+<nav class="side">
+  <div class="group">Executive</div>
+  <ul>
+    <li><a href="#summary">Zusammenfassung</a></li>
+    <li><a href="#blocker">Blocker bis Open Beta</a></li>
+  </ul>
+  <div class="group">User Journey</div>
+  <ul>
+    <li><a href="#onboarding">1. Onboarding &amp; Auth</a></li>
+    <li><a href="#legal">2. Recht &amp; DSGVO</a></li>
+    <li><a href="#discovery">3. Discovery / Rezepte</a></li>
+    <li><a href="#offers">4. Angebote &amp; Watchlist</a></li>
+    <li><a href="#weekly">5. Wochenplaner</a></li>
+    <li><a href="#shopping">6. Einkaufszettel</a></li>
+    <li><a href="#profile">7. Profil &amp; Account</a></li>
+  </ul>
+  <div class="group">Tech &amp; Business</div>
+  <ul>
+    <li><a href="#push">8. Push / PWA</a></li>
+    <li><a href="#premium">9. Premium / Stripe</a></li>
+    <li><a href="#efficiency">10. Effizienz-Vorschlaege</a></li>
+    <li><a href="#nextsteps">Naechste Schritte</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<section class="card" id="summary">
+  <h2>Zusammenfassung in einer Minute</h2>
+  <p>MealDeal-Web ist deutlich weiter als ein klassisches MVP. Die komplette User-Journey von Auth bis Wochenplan funktioniert, der DSGVO-Unterbau (Consent, Datenexport, Soft-Delete) ist gebaut, die PWA-Infrastruktur steht. Was fehlt, ist <b>Geld verdienen</b> (Stripe), <b>Re-Engagement</b> (Push-Cron) und <b>juristische Vollstaendigkeit</b> (AGB, Notification-Consent im Onboarding statt erst im Profil).</p>
+  <div class="grid2" style="margin-top:16px">
+    <div class="box">
+      <h4 style="color:var(--primary)">Was schon stark ist</h4>
+      <p>5-Schritt-Onboarding, 8 Maerkte, Marktguru-Pipeline mit ~658 Angeboten, 58+ Rezepte mit Steps/Naehrwerten/Bildern, Supermarkt-Aisle-Sortierung im Einkaufszettel, Art.-9-Consent-Log, Datenexport+Soft-Delete, Sentry, Service Worker mit Bild-Cache.</p>
+    </div>
+    <div class="box">
+      <h4 style="color:var(--danger)">Was wirklich fehlt</h4>
+      <p>Apple Login, Pantry-Abfrage, Notification-Consent im Onboarding, AGB, Allergen-Filter (DB-Spalte fehlt!), Family-Modus mit Portionen, Reste-Logik beim Planer, Shared Shopping List, Premium-Tier mit Stripe, automatischer Push-Versand.</p>
+    </div>
+  </div>
+</section>
+
+<section class="card" id="blocker">
+  <h2>Blocker bis Open Beta (27.07.2026)</h2>
+  <p style="color:var(--muted);font-size:.92rem">Acht Wochen, klare Prioritaeten. Alles andere kann nach Beta-Start nachgezogen werden.</p>
+  <div class="todo" data-key="blocker">
+    <h4>Must have - 8 Wochen Sprint</h4>
+    <label><input type="checkbox"><span class="t">AGB-Dokument schreiben und unter <code>/agb</code> verlinken (Verbraucherrecht, Widerruf, Premium-Vertragsbedingungen vorbereiten)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Notification-Consent als optionalen Schritt 5b ins Onboarding einbauen (separat von Art.-9-Health-Consent)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Push-Cron-Job bauen: taeglich Watchlist gegen aktuelle Offers matchen + Notification ausloesen (Supabase Edge Function + GitHub Action)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Wochenplan-Reminder-Push (Sonntag Abend "Plan die Woche") als zweiter Cron</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Pantry-Abfrage (Schritt 4b: Was hast du dauerhaft zuhause? Oel/Salz/Mehl/Zucker/Standard-Gewuerze) als 5 Checkbox-Gruppen</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Allergen-Feld <code>user_profiles.allergies[]</code> + Filter im RecipePicker (Gluten, Laktose, Nuesse, Soja, Ei, Sesam, Fisch, Schalentiere)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Stripe-Anbindung Free vs Premium (Customer Portal, Webhook, <code>user_profiles.premium_until</code>)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Apple Sign-In aktivieren (Supabase unterstuetzt es nativ, Apple-Developer-Account &amp; Service-ID noetig)</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Veraltete Angebote: Nightly Cleanup verschaerfen (heute schon vorhanden, aber Sichtungs-Tag &gt; valid_until=-1 hard delete)</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Produktbild-Pflicht: Angebote ohne <code>image_url</code> in der UI ausblenden statt Platzhalter</span><span class="prio p3">P3</span></label>
+  </div>
+</section>
+
+<section class="card" id="onboarding">
+  <h2>1. Onboarding &amp; Auth <span class="status partial"><span class="dot"></span>teilweise</span></h2>
+
+  <div class="grid2">
+    <div>
+      <h3>Aktueller Stand</h3>
+      <ul class="facts">
+        <li>Email/Passwort + Google OAuth aktiv (<code>LoginPage.tsx</code>)</li>
+        <li>Passwort-Reset mit 1h gueltigem Link funktioniert</li>
+        <li>Rate-Limiting auf Login-Versuche (<code>lib/rateLimiter.ts</code>)</li>
+        <li>5-Schritt-Onboarding: PLZ -&gt; Maerkte -&gt; Ernaehrung -&gt; Praeferenzen -&gt; Summary</li>
+        <li>8 Maerkte zur Auswahl: REWE, ALDI, Netto, Penny, Lidl, Kaufland, Edeka, Norma</li>
+        <li>7 Ernaehrungsformen, 6 Praeferenzen, alles mit Emoji+Beschreibung</li>
+        <li>Auto-Scrape bei Erst-Registrierung via <code>scrapeOffersForPlz()</code> - das KRITISCHE Feature ist da</li>
+        <li>Datenschutz-Checkbox vor "Los geht's"-Button</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Was fehlt</h3>
+      <ul class="facts">
+        <li><b>Apple Sign-In</b> - nicht implementiert, fuer iOS-User aber Pflicht spaeter</li>
+        <li><b>Magic Link</b> - keine passwordless Option</li>
+        <li><b>Pantry-/Vorratsabfrage</b> - kein Schritt fuer Standard-Zutaten</li>
+        <li><b>Notification-Consent</b> wird erst im Profil gefragt, nicht im Onboarding</li>
+        <li><b>Haushaltsgroesse</b> - nicht abgefragt, blockiert Family-Modus im Planer</li>
+        <li><b>Budget pro Woche</b> - Feld in DB existiert, aber kein Onboarding-Step</li>
+        <li><b>Koerperdaten</b> (Geschlecht/Alter/Gewicht/Groesse/Aktivitaet/Ziel) - DB-Spalten da, aber keine UI im Onboarding und nicht im Profil bearbeitbar</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin-top:18px">Deine Fragen, direkt beantwortet</h3>
+  <div class="qa"><b>Apple Login?</b><p>Aktuell nicht aktiv. Supabase Auth unterstuetzt Apple OAuth nativ, Setup-Aufwand ca. 1-2 Tage (Apple Developer Account 99 USD/Jahr noetig, Service-ID, Domain-Verifikation). Wirklich relevant erst wenn du native iOS planst - im Web reicht Google + Email fuer 95% der Nutzer. <b>Empfehlung:</b> mit native App rollen, nicht jetzt.</p></div>
+  <div class="qa"><b>Was machen wir mit Gewuerzen, Oel, Mehl, Salz - sollte das ins Onboarding?</b><p>Ja, aber als Schritt 4b mit smarten Defaults. Konkret: 5 Checkbox-Gruppen ("Basics: Salz, Pfeffer, Zucker, Mehl, Oel" - alle vorausgewaehlt; "Backen", "Asiatisch", "Mediterran", "Gewuerzregal-Extras"). Das speist eine neue Tabelle <code>user_pantry</code> und der Einkaufszettel filtert diese Items automatisch raus. <b>Spareffekt fuer den User</b> ist gross, weil 30-40% der Liste wegfallen.</p></div>
+  <div class="qa"><b>Benachrichtigungen ins Onboarding?</b><p>Ja, als optionaler Schritt am Ende NACH der DSGVO-Einwilligung. Wichtig: nicht zwingend, weil iOS sehr zickig bei zu frueher Permission-Anfrage ist. Drei Toggles: "Wochenplan-Erinnerung Sonntag", "Watchlist-Treffer", "Neue Angebote in deiner PLZ". Marketing-Push muss <b>separat und opt-in</b> sein - sonst DSGVO-Problem. Code ist da (<code>usePushPreferences</code>), nur der Onboarding-Schritt fehlt.</p></div>
+
+  <div class="todo" data-key="onboarding">
+    <h4>To-do Onboarding</h4>
+    <label><input type="checkbox"><span class="t">Pantry-Schritt 4b einbauen (Tabelle <code>user_pantry</code> + 5 Checkbox-Gruppen, alles opt-out)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Notification-Schritt 5b mit 3 Toggles (transaktional opt-in, Marketing separat)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Haushaltsgroesse abfragen (1, 2, 3-4, 5+) - Pflicht fuer Family-Modus</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Budget/Woche optional abfragen (default 50 EUR, Slider 20-200)</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Koerperdaten optional als spaeter freischaltbarer Schritt (mit explizitem Art.9-Consent-Pop-up)</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Apple OAuth einrichten (Apple Developer Account besorgen)</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">Magic Link als Alternative zu Passwort (Supabase OTP) - reduziert Drop-off</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">Onboarding-Abbruch-Recovery: wenn User Schritt 3 abbricht, beim naechsten Login dort weitermachen</span><span class="prio p2">P2</span></label>
+  </div>
+</section>
+
+<section class="card" id="legal">
+  <h2>2. Recht &amp; DSGVO <span class="status partial"><span class="dot"></span>teilweise</span></h2>
+  <p style="color:var(--muted);font-size:.92rem">Wichtig fuer dich als UG-Gruender: das hier ist <b>kein Rechtsrat</b>, sondern eine Bestandsaufnahme. Vor Open Beta mit Anwalt finalisieren.</p>
+
+  <h3 style="margin-top:14px">Was ist da</h3>
+  <table>
+    <tr><th>Dokument</th><th>Status</th><th>Datei / Route</th></tr>
+    <tr><td>Datenschutzerklaerung</td><td><span class="status ok"><span class="dot"></span>fertig</span></td><td>/datenschutz - 10 Abschnitte, Stand 28.05.2026, Art.-9-Hinweis vorhanden</td></tr>
+    <tr><td>Impressum</td><td><span class="status ok"><span class="dot"></span>fertig</span></td><td>/impressum (UG-Daten, Geschaeftsfuehrer, Kontakt)</td></tr>
+    <tr><td>AGB</td><td><span class="status missing"><span class="dot"></span>fehlt</span></td><td>Pflicht spaetestens bei Premium-Launch</td></tr>
+    <tr><td>Cookie-Banner</td><td><span class="status ok"><span class="dot"></span>nicht noetig</span></td><td>Nur technische Cookies, keine Tracker</td></tr>
+    <tr><td>Consent-Log (Art. 9)</td><td><span class="status ok"><span class="dot"></span>fertig</span></td><td><code>consent_log</code> Tabelle, <code>useConsent.ts</code></td></tr>
+    <tr><td>Datenexport (Art. 20)</td><td><span class="status ok"><span class="dot"></span>fertig</span></td><td>RPC <code>export_my_data</code>, JSON-Download</td></tr>
+    <tr><td>Soft-Delete (Art. 17)</td><td><span class="status ok"><span class="dot"></span>fertig</span></td><td>RPC <code>request_account_deletion</code>, 30 Tage Retention</td></tr>
+    <tr><td>Auftragsverarbeiter-Verzeichnis</td><td><span class="status ok"><span class="dot"></span>fertig</span></td><td>In Datenschutzerklaerung dokumentiert</td></tr>
+    <tr><td>Widerrufsbelehrung (Premium)</td><td><span class="status missing"><span class="dot"></span>fehlt</span></td><td>Pflicht ab Stripe-Launch (14 Tage)</td></tr>
+    <tr><td>AV-Vertrag mit Supabase</td><td><span class="status partial"><span class="dot"></span>pruefen</span></td><td>Standard-DPA muss aktiv akzeptiert/abgelegt sein</td></tr>
+  </table>
+
+  <h3 style="margin-top:18px">Wo &amp; wann abfragen</h3>
+  <div class="grid2">
+    <div class="box">
+      <h4>Im Onboarding (Pflicht)</h4>
+      <p>Datenschutzerklaerung-Checkbox - <span class="tag">vorhanden</span><br>
+      AGB-Checkbox - <span class="tag red">fehlt</span><br>
+      Art.-9-Consent fuer Gesundheitsdaten - <span class="tag">vorhanden, nur wenn Koerperdaten</span><br>
+      Notification-Consent (optional) - <span class="tag yellow">soll noch rein</span></p>
+    </div>
+    <div class="box">
+      <h4>Vor Premium-Kauf (Pflicht)</h4>
+      <p>AGB-Akzeptanz (separat von Onboarding-AGB)<br>
+      Widerrufsbelehrung mit Bestaetigungs-Button "Ja, ich will jetzt loslegen und auf Widerruf verzichten"<br>
+      Preisinformation (Brutto, Laufzeit, Verlaengerung) - sichtbar vor Klick</p>
+    </div>
+  </div>
+
+  <div class="qa"><b>Was ist sonst rechtlich noch zu bedenken?</b><p><b>1.</b> Preisangabenverordnung: Wenn du Angebote anzeigst, musst du den Grundpreis (z.B. EUR/kg) nennen wo gesetzlich vorgeschrieben - bei Lebensmitteln immer. Status: <code>scraper_v2</code> sammelt das schon (memory: scraper_v2.md), in UI noch nicht durchgaengig. <b>2.</b> Health Claims Verordnung: Wenn du Rezepte mit Naehrwerten zeigst, vorsichtig mit Aussagen wie "macht schlank". Status: keine solchen Claims im UI. <b>3.</b> Marken/Bilder: Marktguru-Bilder nutzt du - DPA/Nutzungsrecht mit Marktguru-Vertrag absichern. <b>4.</b> Kuendigung: "1-Click" Kuendigungsbutton ist seit 07/2022 Pflicht in DE. Muss im Profil sichtbar sein. <b>5.</b> Beim AT/CH-Launch: AGB pro Land, Verbraucherrechte unterscheiden sich (vor allem CH).</p></div>
+
+  <div class="todo" data-key="legal">
+    <h4>To-do Recht</h4>
+    <label><input type="checkbox"><span class="t">AGB-Template (Verbraucherrecht DE) schreiben - inkl. Premium-Konditionen, Vertragslaufzeit, Verlaengerung, Kuendigung</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">AGB-Checkbox ins Onboarding (zwingend)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Widerrufsbelehrung-Flow fuer Premium-Kauf (Button "Ich verzichte auf Widerrufsrecht")</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">1-Click-Kuendigungsbutton im Profil (Pflicht seit 07/2022)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Grundpreis-Anzeige in OfferCard (EUR/kg, EUR/L)</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Supabase DPA aktiv akzeptiert &amp; PDF abgelegt</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Anwalt-Termin fuer Review (Budget knapp - lokaler Anwalt 300-500 EUR Pauschal verhandeln)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Marktguru: Schriftlich klaeren dass Bilder genutzt werden duerfen (Email reicht erstmal)</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">AT/CH-Vorbereitung: AGB pro Land planen (erst bei Launch noetig)</span><span class="prio p3">P3</span></label>
+  </div>
+</section>
+
+<section class="card" id="discovery">
+  <h2>3. Discovery / Rezepte <span class="status partial"><span class="dot"></span>teilweise</span></h2>
+
+  <div class="grid2">
+    <div>
+      <h3>Aktueller Stand</h3>
+      <ul class="facts">
+        <li>58+ Rezepte mit Steps, Naehrwerten, Kosten, Bildern (DALL-E + Unsplash)</li>
+        <li>4 Standard-Kategorien (Fruehstueck/Mittag/Abend/Snack) + 4 virtuelle Tags (Schnell, Budget, Meal Prep, TikTok-Hype)</li>
+        <li>Match-Score gegen Profil-Praeferenzen (<code>useRecipes.ts</code>: dietScore)</li>
+        <li>Saved Recipes / Favoriten funktioniert</li>
+        <li>SpinWheel (Zufallsrad) als Discovery-Hilfe</li>
+        <li>Portionen-Slider passt Naehrwerte und Zutaten an</li>
+        <li>RecipeDetail mit Schritt-fuer-Schritt-Anleitung</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Was fehlt</h3>
+      <ul class="facts">
+        <li><b>Allergen-Filter</b> - kritisch! Kein <code>allergies[]</code> Feld auf Rezepten</li>
+        <li>Kategorien sind <b>zu wenige</b> - braucht regionale Kueche, Pasta/Reis/Kartoffel, Bowls, Suppen, Aufstriche, Brot/Backen, Vorratskueche, Kinder-Lieblinge</li>
+        <li>Anzahl Rezepte zu klein fuer Personalisierung (58 -&gt; Ziel: 500+)</li>
+        <li>Bewertungen / Sterne / Kommentare</li>
+        <li>Variationen ("Pasta Pesto mit Huhn / Lachs / Tofu")</li>
+        <li>Difficulty wird in DB gespeichert, aber kein Filter</li>
+        <li>Suche ist Frontend-only, kein Fulltext-Index in Supabase</li>
+        <li>Bilder-Qualitaet: 28 bekannt kaputt (siehe Memory)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="qa"><b>"Die Discovery-Seite sollte in passende Kategorien eingeteilt werden"</b><p>Aktuell 4 + 4 virtuell. Empfehlung: zweistufiges Modell. Oben Mahlzeit-Tabs (Fruehstueck/Mittag/Abend/Snack), darunter horizontal scrollende "Stoebern"-Reihen: <b>Schnell unter 20 min</b>, <b>Guenstig unter 5 EUR</b>, <b>Aus deinen Angeboten</b>, <b>Meal Prep</b>, <b>Vegetarisch</b>, <b>Aus aller Welt</b>, <b>Wochen-Hype</b>, <b>Kinder-Favoriten</b>. Bei 500+ Rezepten wird die Erkundungs-Tiefe wichtig - jetzt schon Struktur bauen, damit du nicht nachher refactoren musst.</p></div>
+  <div class="qa"><b>"Gute Anleitung, Naehrwerte, Preise, gute Bilder"</b><p>Anleitung/Naehrwerte/Preise: stark, DB-Struktur passt. Bilder: 28 kaputte sind im Memory dokumentiert, DALL-E-Script ist fertig - sobald OpenAI-Key da ist, in einer Nacht durchgerechnet (ca. 1 EUR fuer alle Bilder). Mittelfristig: <b>UGC-Bilder</b> erlauben (User kocht nach, lädt Bild hoch, du moderierst) - das skaliert besser als DALL-E auf Dauer.</p></div>
+
+  <div class="todo" data-key="discovery">
+    <h4>To-do Discovery</h4>
+    <label><input type="checkbox"><span class="t">Allergen-Spalte <code>recipes.allergens[]</code> + <code>user_profiles.allergies[]</code> + Filterung in RecipePicker</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Kategorien-Erweiterung: 12+ horizontale Stoeber-Reihen statt 4 Tabs</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Rezeptanzahl auf 200+ skalieren (Claude/Gemini Pipeline laeuft bereits sonntags - mehr Iterationen)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">28 kaputte Bilder fixen sobald OpenAI-Key da (Script existiert)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Difficulty-Filter aktivieren (Einfach/Mittel/Schwer)</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Zubereitungszeit-Slider (0-15, 15-30, 30-60, 60+ min)</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Supabase pg_trgm Index fuer Volltextsuche statt Frontend-Filter</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">Sterne-Bewertung + simple Reaction (Daumen rauf) - speist Discovery-Ranking</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Variationen-Konzept: "Basisrezept + Protein-Switcher" (DB-Struktur planen)</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">UGC-Bild-Upload (User-Foto zum Rezept, Moderation via Admin-Queue)</span><span class="prio p3">P3</span></label>
+  </div>
+</section>
+
+<section class="card" id="offers">
+  <h2>4. Angebote &amp; Watchlist <span class="status partial"><span class="dot"></span>teilweise</span></h2>
+
+  <div class="grid2">
+    <div>
+      <h3>Aktueller Stand</h3>
+      <ul class="facts">
+        <li>~658 Angebote, taeglich aktualisiert via Marktguru-Scraper</li>
+        <li>Filter: Markt, Kategorie, Bio, Regional, "Real Deals" (echter Rabatt)</li>
+        <li>Non-Food automatisch ausgeschlossen (Drogerie, Tierbedarf, etc.)</li>
+        <li>Service Worker cached bis zu 200 Produktbilder offline</li>
+        <li><code>valid_until</code>-Filter in der Query - alte Angebote werden nicht angezeigt</li>
+        <li>Nightly Cleanup-Cron loescht abgelaufene</li>
+        <li>Watchlist-Tabelle + Hook + UI sind da, aber ohne Push-Automatik</li>
+        <li>scraper_v2: Grundpreis, Marken, Bio-Flag, Unterkategorie, Fuzzy-Dedup (Memory)</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Was fehlt</h3>
+      <ul class="facts">
+        <li><b>Push wenn Watchlist-Produkt im Angebot</b> - Kern-Stickiness-Feature, nicht aktiviert</li>
+        <li>Produktbild-Pflicht: Aktuell zeigen wir auch Angebote ohne Bild (sieht billig aus)</li>
+        <li>Preis-Historie: <code>price_history</code> Tabelle leer, kein Trend-Chart</li>
+        <li>Echter-Deal-Indikator: scraper_v2 hat das, im UI noch nicht prominent</li>
+        <li>"Lohnt sich nicht"-Filter: wenn Original und Angebot fast gleich -&gt; ausblenden</li>
+        <li>Per-PLZ-Verfuegbarkeit: aktuell <code>plz_prefix</code>-Match auf 2-3 Stellen, koennte feiner</li>
+        <li>Saisonalitaet-Hinweis ("Erdbeeren jetzt im Hauptangebot")</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="qa"><b>"Angebote muessen immer aktuell sein und alte nicht anzeigen"</b><p>Filter ist da, Cleanup ist da. Was fehlt: <b>Sichtbarkeits-Garantie</b>. Konkret eine Monitoring-Query "Wie viele Angebote haben valid_until in der Vergangenheit aber sind noch active?" - sollte immer 0 sein. Als Alert in Telegram (Memory: Monitoring ist Teil von scraper_v2 geplant).</p></div>
+  <div class="qa"><b>"Produktbilder Vorraussetzung"</b><p>Aktuell nicht enforced. Zwei Optionen: (a) Angebote ohne Bild komplett ausblenden (sauber, aber 10-20% weniger Angebote sichtbar), (b) Fallback-Bild aus Kategorie-Default (z.B. generisches "Milchprodukte"-Bild). Ich empfehle <b>(a)</b> ab Open Beta - sieht professioneller aus, drueckt Marktguru zu besseren Daten.</p></div>
+  <div class="qa"><b>"Watchlist mit wöchentlicher Push-Benachrichtigung"</b><p>Infrastruktur ist da (Subscriptions in DB, VAPID-Keys konfiguriert, sw.js empfaengt push-Events). Was fehlt: ein <b>Cron-Job</b>, der taeglich oder woechentlich die Watchlist-Items aller User durchgeht, gegen aktuelle Offers matcht und bei Treffer einen Push-Versand triggert. Aufwand: 1 Edge Function + GitHub Action + Web-Push-Library. 2-3 Tage Arbeit. <b>Das ist das wichtigste Retention-Feature</b> - ohne kommen User nach Onboarding nicht zurueck.</p></div>
+
+  <div class="todo" data-key="offers">
+    <h4>To-do Angebote</h4>
+    <label><input type="checkbox"><span class="t">Push-Cron Watchlist (taeglich 09:00 UTC, Edge Function + GitHub Action)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Produktbild-Pflicht: Offers ohne <code>image_url</code> in der UI verstecken</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Monitoring-Alert: "active offers mit valid_until in past" - Telegram-Push wenn &gt;0</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Echter-Deal-Badge prominent (scraper_v2 hat Feld)</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">price_history Tabelle nutzen: kleines Trend-Sparkline auf OfferCard ("seit 4 Wochen erster Preis &lt;1.50")</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">Grundpreis (EUR/kg, EUR/L) anzeigen wo Pflicht (PreisangabenVO)</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Saisonbadge an Obst/Gemuese (einfaches Lookup ueber Monat)</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">"Neue Angebote heute in deiner PLZ" - taeglicher Digest-Push (separater Cron)</span><span class="prio p3">P3</span></label>
+  </div>
+</section>
+
+<section class="card" id="weekly">
+  <h2>5. Wochenplaner - das Herzstueck <span class="status partial"><span class="dot"></span>teilweise</span></h2>
+
+  <div class="grid2">
+    <div>
+      <h3>Aktueller Stand</h3>
+      <ul class="facts">
+        <li>Manuelle Bearbeitung voll funktional (DayCard, RecipePicker, drag-light)</li>
+        <li>7 Tage x 4 Mahlzeiten = 28 Slots, JSON-Plan in <code>weekly_plans</code></li>
+        <li>Kalorien-Tracking pro Tag mit Progress gegen Ziel</li>
+        <li>Wochenanalyse (WeekAnalysis.tsx): Gesamt-Cal, Protein, Carbs, Fat, Cost, Saved</li>
+        <li>"Alles in Einkaufsliste" Button funktioniert</li>
+        <li>Kcal-Ziel im Profil setzbar (CalorieSettings.tsx)</li>
+        <li><code>useGeneratePlan.ts</code> Hook existiert (vermutlich KI-Call ready, aber nicht im UI verdrahtet)</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Was fehlt</h3>
+      <ul class="facts">
+        <li><b>Auto-Generierung mit Reglern</b> (kcal-Deckung, Budget) ist nicht aktiv</li>
+        <li><b>Reste-Logik</b>: 500g Nudeln auf mehrere Mahlzeiten verteilen</li>
+        <li><b>Family-/Paar-Modus</b>: Portionen pro Person, Haushaltsgroesse nicht abgefragt</li>
+        <li>Filter im Planer (Allergien, Abneigungen, "darf enthalten")</li>
+        <li>Budget-Slider (nur kcal vorhanden)</li>
+        <li>Premium-Gating (KI-Generator soll Premium sein, aber gar nicht aktiv)</li>
+        <li>Drag &amp; Drop zwischen Tagen</li>
+        <li>Wochenplan-Vorlagen ("Fitness-Woche", "Bulk-Cook-Sonntag")</li>
+        <li>"Plan auf naechste Woche kopieren" mit Variation</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="qa"><b>"Free manuell, Premium mit kcal/Budget-Reglern + Resteverwertung"</b><p>Die Logik dahinter ist <b>komplex aber bauen sich Iterationen auf</b>. Schritt 1: Premium-Toggle auf <code>useGeneratePlan</code> setzen. Schritt 2: KI-Prompt-Engineering mit Profil-Constraints (kcal-Anteil 30-100% per Slider, max-Budget, Diaeten, Allergien, Pantry-Items). Schritt 3: Resteverwertung als Post-Processing (Algorithmus, nicht KI: nach KI-Generierung pro Zutat schauen ob mehrfach noetig - wenn ja, in eine Einkaufsmenge bundeln). Schritt 4: Family-Modus mit Portionen-Multiplikator. <b>Wichtig:</b> dieser ganze Bereich ist dein Premium-USP - investier hier am meisten Zeit nach Stripe.</p></div>
+  <div class="qa"><b>"Wochenplan ist der groesste Hebel"</b><p>Stimme zu 100%. Daten dazu: Haushalte sparen bei Planung im Schnitt 20-30% beim Lebensmittel-Einkauf (Quelle: Verbraucherzentrale-Studien). Deine App macht das automatisch - das ist die Story fuer Press &amp; Marketing. Investier hier &gt;50% deiner Premium-Entwicklungszeit.</p></div>
+  <div class="qa"><b>"Family- und Paar-Modus"</b><p>Zwei Wege: <b>Einfach</b> = ein Portion-Multiplikator pro Plan (1, 2, 3-4, 5+). <b>Richtig</b> = Familien-Profile mit eigenen Allergien/Vorlieben (Mama vegetarisch, Kind keine Pilze). Empfehlung fuer Beta: einfach. "Richtig" als Premium-Feature in Q4 2026. Haushaltsgroesse jetzt schon im Onboarding fragen, damit Daten da sind.</p></div>
+
+  <div class="todo" data-key="weekly">
+    <h4>To-do Wochenplaner</h4>
+    <label><input type="checkbox"><span class="t">KI-Generator-Button mit Premium-Gate aktivieren (Modal: "Premium freischalten")</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Slider kcal-Deckung (30-100%) + Budget-Slider (20-200 EUR/Woche)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">KI-Prompt mit allen Constraints (Diaeten, Allergien, Pantry, PLZ-Offers, Budget, Personen)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Reste-Algorithmus: Post-Processing nach KI-Output, Zutaten bundeln</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Portionen-Multiplikator pro Plan (1, 2, 4, 6) - speichern auf <code>weekly_plans.persons</code></span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Filter-Bar oben im Planer: "Allergien", "Abneigungen", "Diaeten" - merken die Auswahl</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Drag &amp; Drop zwischen Slots (react-dnd)</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">"Plan kopieren auf naechste Woche" Button</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">Wochenplan-Vorlagen (3-5 vordefinierte Wochen als Quick-Start)</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">Family-Profile mit eigenen Allergien (Q4 2026 Premium-Plus)</span><span class="prio p3">P3</span></label>
+  </div>
+</section>
+
+<section class="card" id="shopping">
+  <h2>6. Einkaufszettel <span class="status partial"><span class="dot"></span>teilweise</span></h2>
+
+  <div class="grid2">
+    <div>
+      <h3>Aktueller Stand</h3>
+      <ul class="facts">
+        <li>Tabelle <code>shopping_items</code> + Page + Hook + Mutations</li>
+        <li>Aggregation aus Wochenplan ("Alles zur Einkaufsliste"-Button)</li>
+        <li>Auto-Matching: Zutat -&gt; aktuelles Angebot im User-Markt</li>
+        <li><b>Sortierung nach Supermarkt-Layout</b> (<code>marketLayouts.ts</code>, getSectionPosition) - Obst vorne, Snacks hinten</li>
+        <li>Pro Markt eigenes Layout (REWE != ALDI)</li>
+        <li>Abhaken, Loeschen, Inline-Edit</li>
+        <li>Kategorie-Gruppierung (Obst/Fleisch/Milchprodukte/...)</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Was fehlt</h3>
+      <ul class="facts">
+        <li><b>Shared/Kollaborativ</b> - keine Sharing-Logik, keine Realtime-Subscriptions</li>
+        <li><b>Mengen-Aggregation</b>: gleiche Zutat mehrfach kommt als separate Items, nicht zusammengefasst</li>
+        <li>Pantry-Filter (Salz/Oel auto rausnehmen) - braucht user_pantry Tabelle</li>
+        <li>"Pro Markt"-Tab: wenn ich bei REWE bin, nur REWE-Items zeigen</li>
+        <li>Lebensmittel-Mengen-Standardisierung (g vs Stueck vs Packung)</li>
+        <li>Verlauf / vergangene Einkaeufe (purchase_log existiert, aber UI?)</li>
+        <li>Notizen pro Item ("nur die Bio-Variante")</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="qa"><b>"Mit anderen verknuepfen, zusammen bearbeiten"</b><p>Brauchst eine Sharing-Tabelle <code>shopping_list_members</code> mit Owner + Members. Supabase Realtime auf <code>shopping_items</code> WHERE list_id IN (meine listen). Einladung via Link mit Token. Aufwand 3-4 Tage. <b>Wichtige Entscheidung:</b> die aktuelle Struktur hat keinen <code>list_id</code> - alle Items haengen direkt am User. Migration noetig. Empfehlung: Beta erst ohne, Sharing als Premium-Feature in Q3 2026.</p></div>
+  <div class="qa"><b>"Intelligenten Aufbau nach Marktlayout"</b><p>Ist bereits da! marketLayouts.ts kennt fuer jede Kette die typischen Aisles. Was du noch ergaenzen kannst: <b>Userbasierte Lernkurve</b> - wenn User "Marke X" abkreuzt nachdem er bei "Aisle 3" war, koennen wir bei dem Markt die Reihenfolge verfeinern. Vermutlich Overkill fuer V1.</p></div>
+
+  <div class="todo" data-key="shopping">
+    <h4>To-do Einkaufszettel</h4>
+    <label><input type="checkbox"><span class="t">Mengen-Aggregation: gleiche Zutat (per <code>ingredient_id</code>) zusammenfassen, Einheiten umrechnen</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Pantry-Filter: Items aus <code>user_pantry</code> automatisch von Aggregation ausschliessen</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">"Pro Markt"-Tab im Einkaufszettel (Auto-Sortierung +Filter)</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Notizen-Feld pro Item</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">Einkaufs-Verlauf UI (purchase_log Tabelle visualisieren)</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">Sharing-Architektur: <code>shopping_list_members</code> + Migration + Realtime - PREMIUM Q3</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Sprach-Eingabe ("Hey, fuege Milch hinzu") - via Web Speech API</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">Barcode-Scan zum Hinzufuegen (PWA + ZXing)</span><span class="prio p3">P3</span></label>
+  </div>
+</section>
+
+<section class="card" id="profile">
+  <h2>7. Profil &amp; Account <span class="status partial"><span class="dot"></span>teilweise</span></h2>
+
+  <div class="grid2">
+    <div>
+      <h3>Aktueller Stand</h3>
+      <ul class="facts">
+        <li>PLZ, Maerkte, Diaeten, Praeferenzen bearbeitbar</li>
+        <li>Kalorien-Ziel-Setting</li>
+        <li>NotificationSettings (alle 4 Push-Toggles)</li>
+        <li>Favoriten / Watchlist / Verlauf-Views</li>
+        <li>Stats: Profil-Statistiken (<code>useProfileStats.ts</code>)</li>
+        <li><b>DSGVO-Komplett</b>: Datenexport (JSON-Download), Soft-Delete mit Bestaetigung</li>
+        <li>Support-Email <code>mealdeal.app@gmail.com</code> in Datenschutzerklaerung</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Was fehlt</h3>
+      <ul class="facts">
+        <li>Koerperdaten-UI (Geschlecht/Alter/Gewicht/Groesse/Aktivitaet/Ziel) - DB-Felder da, aber nicht bearbeitbar</li>
+        <li>Pantry-Edit (sobald Tabelle da)</li>
+        <li>Haushaltsgroesse aendern</li>
+        <li>Budget pro Woche bearbeiten</li>
+        <li>1-Click-Kuendigungsbutton fuer Premium (Pflicht ab Stripe)</li>
+        <li>Sichtbarer Support-Link (eigener Menupunkt statt nur in Datenschutz)</li>
+        <li>Feedback-Formular (FeedbackButton existiert in UI-Komponenten)</li>
+        <li>Onboarding-Reset ("Praeferenzen neu setzen") - fuer Power-User</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="todo" data-key="profile">
+    <h4>To-do Profil</h4>
+    <label><input type="checkbox"><span class="t">Koerperdaten-Editor mit Art.-9-Consent-Re-Confirm</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Pantry-Editor (sobald Pantry-Tabelle existiert)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Haushaltsgroesse + Budget bearbeitbar</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Eigener Support-Menupunkt mit Mailto + FAQ-Link</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">1-Click-Kuendigungsbutton (Pflicht ab Premium)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">FeedbackButton in Profil-Menue prominent</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">"Onboarding wiederholen" Option fuer Power-User</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">Premium-Status-Karte ("Du bist Premium bis 31.08.2026", "Plan wechseln", "Kuendigen")</span><span class="prio p1">P1</span></label>
+  </div>
+</section>
+
+<section class="card" id="push">
+  <h2>8. Push Notifications &amp; PWA <span class="status partial"><span class="dot"></span>teilweise</span></h2>
+
+  <div class="grid2">
+    <div>
+      <h3>Aktueller Stand</h3>
+      <ul class="facts">
+        <li>manifest.json komplett (Name, Icons 192/512, Theme-Color, standalone)</li>
+        <li>Service Worker registriert in Prod (<code>main.tsx</code> Lines 31-39)</li>
+        <li>SW cached statische Assets + Bilder (max 200, Cache-first)</li>
+        <li>Push-Subscription-Logik (<code>usePushSubscription.ts</code>, 162 Zeilen)</li>
+        <li>VAPID-Keys in ENV</li>
+        <li>RPC <code>upsert_push_subscription</code> in Supabase</li>
+        <li>4 Push-Preferences: weekly_plan, offer_ending, new_offers_plz, marketing</li>
+        <li>SW hat push-Event-Listener</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Was fehlt</h3>
+      <ul class="facts">
+        <li><b>Kein automatischer Versand-Cron</b> - der Punkt wo alles haengt</li>
+        <li>Notification-Consent im Onboarding-Schritt</li>
+        <li>iOS Safari Push (seit iOS 16.4 verfuegbar, braucht "Add to Home Screen" prompt)</li>
+        <li>"Add to Home Screen" Banner (BeforeInstallPrompt event)</li>
+        <li>Offline-Mode fuer Einkaufsliste (kritischer use case - im Supermarkt schlechtes Netz)</li>
+        <li>Push-Analytics (wer hat geklickt, wer hat dismissed)</li>
+        <li>Test-Push aus Profil ("Test-Benachrichtigung senden")</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="qa"><b>iOS-Spezifikum</b><p>Web-Push auf iOS Safari funktioniert erst <b>nach</b> dem "Zum Home-Bildschirm hinzufuegen". Das musst du im UI aktiv prompten - sonst denken iPhone-User die App ist kaputt. Konkret: nach Onboarding ein Bottom-Sheet "Adde MealDeal zum Home-Bildschirm" mit Anleitung (3-Tap-Screenshot fuer Safari).</p></div>
+
+  <div class="todo" data-key="push">
+    <h4>To-do Push / PWA</h4>
+    <label><input type="checkbox"><span class="t">Watchlist-Push-Cron (Edge Function + GitHub Action, taeglich)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Wochenplan-Reminder-Cron (Sonntag 18:00 UTC)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">"Add to Home Screen" Banner mit OS-Detection</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">iOS-Anleitung Bottom-Sheet (Screenshots, 3 Schritte)</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Offline-Mode fuer Einkaufsliste (SW Background Sync, localFirst)</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">Test-Push-Button im Profil</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">Push-Open-Rate Tracking (Click-Tracking, Sentry-Event)</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">"Neue Angebote in deiner PLZ" Digest-Push (taeglich 08:00)</span><span class="prio p3">P3</span></label>
+  </div>
+</section>
+
+<section class="card" id="premium">
+  <h2>9. Premium &amp; Stripe <span class="status missing"><span class="dot"></span>fehlt</span></h2>
+
+  <div class="grid2">
+    <div>
+      <h3>Aktueller Stand</h3>
+      <ul class="facts">
+        <li>Keine Stripe-Integration</li>
+        <li>Keine <code>premium_until</code> / <code>premium_status</code> Spalte</li>
+        <li>Keine Gating-Logik in Hooks</li>
+        <li>Geplant: 3,99 EUR/Monat (Memory: MEALDEAL_MASTERPLAN.md)</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Was wir brauchen</h3>
+      <ul class="facts">
+        <li>Stripe Account + Steuerangaben (UG-Daten)</li>
+        <li>Produkte: Premium-Monthly 3,99 EUR, Premium-Yearly z.B. 35,88 EUR (1 Monat gratis)</li>
+        <li>Stripe Customer Portal (User kann selbst kuendigen)</li>
+        <li>Webhook-Endpoint (Supabase Edge Function) fuer Status-Sync</li>
+        <li><code>user_profiles.premium_until</code> als single source of truth</li>
+        <li>useIsPremium Hook</li>
+        <li>PaywallModal-Komponente</li>
+        <li>"Premium aktiv"-Badge im Profil</li>
+        <li>Widerrufsbelehrung-Flow vor Checkout</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="qa"><b>Was ist Premium, was ist Free?</b><p>Klare Trennlinie hilft. <b>Free</b>: Discovery, Angebote, Watchlist (max 5), manueller Wochenplan, Einkaufszettel. <b>Premium</b>: KI-Wochenplan mit Reglern, Reste-Logik, Allergien-Filter intelligent, unlimitierte Watchlist, Push-Reminder Watchlist, Family-Modus, Datenexport-Premium (CSV mit Auswertung). <b>Wichtig:</b> die ersten 1000 User per Refer-a-friend Premium-3-Monate-gratis fuer Marketing.</p></div>
+
+  <div class="todo" data-key="premium">
+    <h4>To-do Premium</h4>
+    <label><input type="checkbox"><span class="t">Stripe Account mit UG-Steuerdaten anlegen</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Stripe Products + Prices (Monthly + Yearly)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Webhook Edge Function (subscription.updated, .deleted, invoice.paid)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">DB-Migration <code>user_profiles.premium_until timestamptz</code></span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">useIsPremium Hook + PaywallModal Komponente</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Customer Portal Link im Profil (Stripe-hosted)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Widerrufsbelehrung vor Checkout</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Gating in <code>useGeneratePlan</code>, Allergen-Filter, Family-Modus</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Refer-a-friend Code (3 Monate Premium gratis bei beiden)</span><span class="prio p3">P3</span></label>
+  </div>
+</section>
+
+<section class="card" id="efficiency">
+  <h2>10. Effizienz &amp; technische Empfehlungen</h2>
+  <p style="color:var(--muted);font-size:.92rem">Wo kann man die App schneller, sparsamer, robuster machen.</p>
+
+  <div class="grid2">
+    <div class="box">
+      <h4 style="color:var(--primary)">Quick Wins (1-2 Tage)</h4>
+      <ul class="facts">
+        <li>Supabase Indexes auf <code>offers(plz_prefix, valid_until)</code> + <code>recipes(meal, diets)</code> - massiv schnellere Queries</li>
+        <li>Image-Lazy-Loading mit Native (loading="lazy") plus optimierter Bildgroessen (Supabase Image Transform)</li>
+        <li>TanStack Query Cache-Time auf 5 min fuer offers, 1h fuer recipes (statt default 0)</li>
+        <li>Service Worker: API-Responses fuer GET offers cachen (Stale-While-Revalidate)</li>
+        <li>Bundle-Analyse mit <code>vite-bundle-visualizer</code> - du wirst Ueberraschungen finden</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4 style="color:var(--primary)">Mittelfristig</h4>
+      <ul class="facts">
+        <li>Rezept-Generierung: aktuell sonntaeglich. Wenn Anzahl hoch, lieber on-demand (User klickt "Mehr Vorschlaege", KI generiert direkt)</li>
+        <li>Embeddings fuer Rezepte mit <code>pgvector</code>: semantische Suche statt LIKE-Match</li>
+        <li>Edge-Caching ueber Vercel fuer statische Discovery-Reihen (1h TTL)</li>
+        <li>Sentry Performance-Monitoring (nicht nur Errors) - du siehst dann wo es klemmt</li>
+        <li>Realtime nur wo gebraucht (shopping_items), nicht ueberall</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin-top:18px">Architektur-Beobachtungen</h3>
+  <ul class="facts">
+    <li><b>Stark:</b> 17+ Hooks sauber getrennt, klare Verantwortung, TanStack Query konsequent.</li>
+    <li><b>Risiko:</b> 28 Pages/Komponenten + viele Inline-States. Wenn du Premium dazubaust, koennten States explodieren - Zustand-Slices pro Feature waeren sauber.</li>
+    <li><b>Schoen:</b> marketLayouts, scraperHelpers, offerMatching als pure-functions in lib/ - das macht Tests einfach (auch wenn Tests noch fehlen).</li>
+    <li><b>Luecke:</b> Keine sichtbaren Unit-Tests / Integration-Tests im Repo. Mindestens Smoke-Tests fuer offerMatching + Wochenplan-Aggregation waeren billig (vitest).</li>
+    <li><b>Sicherheits-Note:</b> Memory sagt RLS auf allen Tabellen aktiv - vor Open Beta ein <code>supabase db lint</code> + Advisor-Check fahren (es gibt einen MCP-Tool dafuer).</li>
+    <li><b>Beobachtung:</b> Windows-Mount-Datei-Truncation laut Memory ein wiederkehrendes Problem. Bei grossen Migrations heute schon Heredoc-Workaround nutzen (steht im Memory).</li>
+  </ul>
+
+  <div class="todo" data-key="efficiency">
+    <h4>To-do Effizienz</h4>
+    <label><input type="checkbox"><span class="t">DB-Indexes auf hot queries (offers.plz_prefix+valid_until, recipes.meal+diets, shopping_items.user_id+week_start)</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Vitest Setup + Smoke-Tests fuer offerMatching und Wochenplan-Aggregation</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">TanStack Query staleTime tunen pro Hook</span><span class="prio p2">P2</span></label>
+    <label><input type="checkbox"><span class="t">pgvector + Embeddings fuer semantische Rezeptsuche</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">Vercel Edge Cache fuer Discovery-Reihen (1h)</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">Sentry Performance Monitoring aktivieren</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">Bundle-Analyse + Code-Splitting pro Route (Vite already supports)</span><span class="prio p3">P3</span></label>
+    <label><input type="checkbox"><span class="t">supabase advisor + db lint vor Open Beta</span><span class="prio p1">P1</span></label>
+  </div>
+</section>
+
+<section class="card" id="nextsteps">
+  <h2>Naechste Schritte - konkret &amp; geordnet</h2>
+  <p style="color:var(--muted);font-size:.92rem">Vorschlag fuer die 8 Wochen bis Open Beta 27.07.2026, basierend auf der Bestandsaufnahme.</p>
+
+  <h3 style="margin-top:14px">Woche 22 (jetzt - 02.06.)</h3>
+  <ul class="facts">
+    <li>AGB-Template recherchieren (Mustertext IHK + Verbraucherzentrale anpassen)</li>
+    <li>Pantry-Tabelle + Migration in Supabase deployen (Memory sagt Mount-Problem -&gt; Heredoc-Pattern)</li>
+    <li>Allergen-Felder in DB-Schema migrieren</li>
+    <li>28 kaputte Rezeptbilder generieren sobald OpenAI-Key kommt (heute)</li>
+  </ul>
+
+  <h3 style="margin-top:14px">Woche 23-24 (03.-16.06.)</h3>
+  <ul class="facts">
+    <li>Onboarding-Schritte 4b (Pantry) + 5b (Notifications) + AGB-Checkbox</li>
+    <li>Allergen-Filter im RecipePicker + Wochenplan-Filterbar</li>
+    <li>Push-Cron Watchlist (Edge Function + GitHub Action)</li>
+    <li>Apple Developer Account anmelden (laeuft 1-2 Wochen Review)</li>
+  </ul>
+
+  <h3 style="margin-top:14px">Woche 25-26 (17.-30.06.)</h3>
+  <ul class="facts">
+    <li>Stripe-Setup + Webhook + premium_until-Migration</li>
+    <li>useIsPremium Hook + PaywallModal</li>
+    <li>KI-Wochenplan-Generator mit Reglern (kcal+Budget+Personen) - hinter Paywall</li>
+    <li>Reste-Algorithmus Post-Processing</li>
+  </ul>
+
+  <h3 style="margin-top:14px">Woche 27-28 (01.-14.07.)</h3>
+  <ul class="facts">
+    <li>Anwalt-Review aller Texte (AGB, Datenschutz, Widerruf)</li>
+    <li>Add to Home Screen Prompt + iOS-Anleitung</li>
+    <li>1-Click-Kuendigungsbutton im Profil</li>
+    <li>Mengen-Aggregation im Einkaufszettel</li>
+  </ul>
+
+  <h3 style="margin-top:14px">Woche 29 (15.-21.07.)</h3>
+  <ul class="facts">
+    <li>Bug-Bash, supabase advisor, RLS-Audit</li>
+    <li>Push-Test mit echten Beta-Usern (10-20)</li>
+    <li>Performance-Lauf (Lighthouse, Bundle-Size)</li>
+    <li>Open-Beta-Launch-Vorbereitung (Press, Social, ProductHunt-Plan)</li>
+  </ul>
+
+  <h3 style="margin-top:14px">Woche 30 (22.-28.07.)</h3>
+  <ul class="facts">
+    <li><b>Open Beta Start 27.07.2026</b></li>
+    <li>Monitoring scharf, taegliche Telegram-Berichte</li>
+    <li>Schnelle Iteration auf User-Feedback</li>
+  </ul>
+
+  <div class="todo" data-key="nextsteps">
+    <h4>Master-Checkliste 8 Wochen</h4>
+    <label><input type="checkbox"><span class="t">Woche 22: AGB-Template + Pantry/Allergen-Migration + Bilder-Fix</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Woche 23-24: Onboarding 4b+5b, Allergen-Filter, Watchlist-Push</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Woche 25-26: Stripe + KI-Wochenplan + Reste-Logik</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Woche 27-28: Anwalt-Review + PWA-Polish + 1-Click-Kuendigung</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Woche 29: Bug-Bash + Beta-Test + Performance</span><span class="prio p1">P1</span></label>
+    <label><input type="checkbox"><span class="t">Woche 30: OPEN BETA LAUNCH 27.07.2026</span><span class="prio p1">P1</span></label>
+  </div>
+</section>
+
+<div class="foot">
+  Diese Bestandsaufnahme basiert auf Live-Code in <code>mealdeal-web</code>, dem Datenschutz-Dokument und den Status-Memories.
+  Erstellt 29.05.2026 - alle Hakchen werden lokal in <code>localStorage</code> gespeichert.
+</div>
+
+</main>
+</div>
+</div>
+
+<script>
+(function(){
+  var KEY='md_todos';
+  var state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){state={}}
+
+  document.querySelectorAll('.todo').forEach(function(box){
+    var key=box.getAttribute('data-key');
+    var labels=box.querySelectorAll('label');
+    labels.forEach(function(label,i){
+      var cb=label.querySelector('input[type=checkbox]');
+      var span=label.querySelector('span.t');
+      if(!cb||!span)return;
+      // wrap text content into the .t span (already wrapped in HTML)
+      var sid=key+':'+i;
+      if(state[sid]){cb.checked=true;label.classList.add('done')}
+      cb.addEventListener('change',function(){
+        if(cb.checked){label.classList.add('done');state[sid]=true}
+        else{label.classList.remove('done');delete state[sid]}
+        localStorage.setItem(KEY,JSON.stringify(state));
+        updateProgress();
+      });
+    });
+  });
+
+  // Sidebar active link tracking
+  var links=document.querySelectorAll('nav.side a');
+  function setActive(id){
+    links.forEach(function(a){
+      if(a.getAttribute('href')==='#'+id)a.classList.add('active');
+      else a.classList.remove('active');
+    });
+  }
+  window.addEventListener('scroll',function(){
+    var pos=window.scrollY+120;
+    var sections=document.querySelectorAll('section[id]');
+    for(var i=sections.length-1;i>=0;i--){
+      if(sections[i].offsetTop<=pos){setActive(sections[i].id);break}
+    }
+  });
+
+  function updateProgress(){
+    var total=document.querySelectorAll('.todo input[type=checkbox]').length;
+    var done=document.querySelectorAll('.todo input[type=checkbox]:checked').length;
+    if(total===0)return;
+    // Could update a counter somewhere; left as ext.
+  }
+  updateProgress();
+})();
+</script>
+</body>
+</html>

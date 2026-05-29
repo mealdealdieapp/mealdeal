@@ -47,7 +47,7 @@ assertEnv('VAPID_PUBLIC_KEY', VAPID_PUBLIC_KEY)
 assertEnv('VAPID_PRIVATE_KEY', VAPID_PRIVATE_KEY)
 assertEnv('TRIGGER', TRIGGER)
 
-const VALID_TRIGGERS = ['weekly_plan_reminder', 'offer_ending_soon', 'new_offers_in_plz', 'marketing']
+const VALID_TRIGGERS = ['weekly_plan_reminder', 'offer_ending_soon', 'new_offers_in_plz', 'watchlist_price_drop', 'marketing']
 if (!VALID_TRIGGERS.includes(TRIGGER)) {
   console.error(`Invalid TRIGGER "${TRIGGER}". Expected one of: ${VALID_TRIGGERS.join(', ')}`)
   process.exit(1)
@@ -156,6 +156,27 @@ async function buildPayloadsByUser(trigger) {
         body: 'Es gibt neue Deals in deinen Maerkten.',
         url: '/offers',
         tag: 'new_offers_in_plz',
+      })
+    }
+    return out
+  }
+
+  if (trigger === 'watchlist_price_drop') {
+    // Pro User max. 1 frischer Watchlist-Treffer aus den letzten 36h.
+    // Logik liegt in der DB-Funktion watchlist_price_matches().
+    const { data: matches, error: wErr } = await supabase.rpc('watchlist_price_matches')
+    if (wErr) {
+      console.warn('RPC watchlist_price_matches fehlt oder fehlgeschlagen:', wErr.message)
+      return out
+    }
+    for (const m of matches ?? []) {
+      if (!userIds.includes(m.user_id)) continue
+      const priceFmt = Number(m.offer_price).toFixed(2).replace('.', ',')
+      out.set(m.user_id, {
+        title: `${m.watchlist_name} ist im Angebot`,
+        body: `${m.product_name} bei ${m.store} fuer ${priceFmt} EUR`,
+        url: '/offers',
+        tag: 'watchlist_price_drop',
       })
     }
     return out

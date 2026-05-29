@@ -164,6 +164,7 @@ export interface PushPreferences {
   weekly_plan_reminder: boolean
   offer_ending_soon: boolean
   new_offers_in_plz: boolean
+  watchlist_price_drop: boolean
   marketing: boolean
 }
 
@@ -171,6 +172,7 @@ const DEFAULT_PREFS: PushPreferences = {
   weekly_plan_reminder: true,
   offer_ending_soon: true,
   new_offers_in_plz: false,
+  watchlist_price_drop: true,
   marketing: false,
 }
 
@@ -185,7 +187,7 @@ export function usePushPreferences() {
       if (!userId) return DEFAULT_PREFS
       const { data, error } = await supabase
         .from('push_preferences')
-        .select('weekly_plan_reminder, offer_ending_soon, new_offers_in_plz, marketing')
+        .select('weekly_plan_reminder, offer_ending_soon, new_offers_in_plz, watchlist_price_drop, marketing')
         .eq('user_id', userId)
         .maybeSingle()
       if (error) throw error
