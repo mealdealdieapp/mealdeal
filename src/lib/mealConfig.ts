@@ -65,6 +65,31 @@ export const MEAL_CONFIG: Record<string, { label: string; emoji: string; image: 
     emoji: '📦',
     image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=70&auto=format&fit=crop',
   },
+  with_offers: {
+    label: 'Aus deinen Angeboten',
+    emoji: '⭐',
+    image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=70&auto=format&fit=crop',
+  },
+  vegetarian: {
+    label: 'Vegetarisch',
+    emoji: '🥗',
+    image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=70&auto=format&fit=crop',
+  },
+  vegan: {
+    label: 'Vegan',
+    emoji: '🌱',
+    image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=70&auto=format&fit=crop',
+  },
+  high_protein: {
+    label: 'High Protein',
+    emoji: '💪',
+    image: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400&q=70&auto=format&fit=crop',
+  },
+  allergen_free: {
+    label: 'Ohne Allergene',
+    emoji: '✨',
+    image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&q=70&auto=format&fit=crop',
+  },
   other: {
     label: 'Sonstiges',
     emoji: '🍽️',
@@ -73,12 +98,19 @@ export const MEAL_CONFIG: Record<string, { label: string; emoji: string; image: 
 }
 
 // Virtual categories derived from recipe properties, not the meal field
-export const VIRTUAL_CATEGORIES = ['quick', 'budget', 'meal_prep'] as const
+export const VIRTUAL_CATEGORIES = [
+  'quick', 'budget', 'meal_prep',
+  'with_offers', 'vegetarian', 'vegan', 'high_protein', 'allergen_free',
+] as const
 
 // Display order for all categories (excluding 'other')
+// Reihenfolge bewusst: erst Standard-Mahlzeiten, dann dynamische Highlights,
+// dann thematische Reihen, am Schluss saisonale/spezielle
 export const CATEGORY_ORDER = [
   'breakfast', 'lunch', 'dinner',
-  'quick', 'budget', 'meal_prep',
+  'with_offers', 'quick', 'budget',
+  'vegetarian', 'vegan', 'high_protein',
+  'meal_prep', 'allergen_free',
   'snack', 'dessert', 'salad',
   'soup', 'baking', 'date_night', 'cocktail',
 ] as const

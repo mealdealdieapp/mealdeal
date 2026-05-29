@@ -140,6 +140,9 @@ export function RecipeDetail({ recipe, onClose }: RecipeDetailProps) {
                 <Macro label="Fett" value={`${((Number(recipe.fat) || 0) * multiplier).toFixed(0)}g`} />
               </div>
 
+              {/* Allergens */}
+              <AllergenBadges allergens={recipe.allergens ?? []} />
+
               {/* Ingredients */}
               <h3 className="font-display text-[15px] font-extrabold text-dark mt-5 mb-2">Zutaten</h3>
               <div className="bg-white rounded-[14px] divide-y divide-gray-50 overflow-hidden" style={{ border: '1.5px solid #EBEBEB' }}>
@@ -325,6 +328,44 @@ function Macro({ label, value }: { label: string; value: string | number }) {
     <div className="text-center">
       <div className="text-[16px] font-extrabold text-dark">{value}</div>
       <div className="text-[10px] text-muted mt-0.5">{label}</div>
+    </div>
+  )
+}
+
+const ALLERGEN_LABELS: Record<string, { emoji: string; label: string }> = {
+  gluten: { emoji: '🌾', label: 'Gluten' },
+  milk: { emoji: '🥛', label: 'Milch' },
+  eggs: { emoji: '🥚', label: 'Eier' },
+  fish: { emoji: '🐟', label: 'Fisch' },
+  crustacea: { emoji: '🦐', label: 'Krebstiere' },
+  molluscs: { emoji: '🐚', label: 'Weichtiere' },
+  peanuts: { emoji: '🥜', label: 'Erdnüsse' },
+  nuts: { emoji: '🌰', label: 'Schalenfrüchte' },
+  soy: { emoji: '🫘', label: 'Soja' },
+  sesame: { emoji: '🫓', label: 'Sesam' },
+  celery: { emoji: '🌿', label: 'Sellerie' },
+  mustard: { emoji: '🌶️', label: 'Senf' },
+  sulphites: { emoji: '🍷', label: 'Sulfite' },
+  lupin: { emoji: '🌼', label: 'Lupinen' },
+}
+
+function AllergenBadges({ allergens }: { allergens: string[] }) {
+  if (!allergens || allergens.length === 0) return null
+  return (
+    <div className="mt-3 bg-amber-50 rounded-[14px] px-4 py-2.5" style={{ border: '1.5px solid #FDE68A' }}>
+      <div className="text-[11px] font-bold text-amber-900 uppercase tracking-wide mb-1.5">Enthält</div>
+      <div className="flex flex-wrap gap-1.5">
+        {allergens.map((a) => {
+          const info = ALLERGEN_LABELS[a]
+          if (!info) return null
+          return (
+            <span key={a} className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-900 bg-white rounded-full px-2 py-0.5" style={{ border: '1px solid #FDE68A' }}>
+              <span>{info.emoji}</span>
+              <span>{info.label}</span>
+            </span>
+          )
+        })}
+      </div>
     </div>
   )
 }

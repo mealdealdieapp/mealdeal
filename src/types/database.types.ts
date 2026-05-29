@@ -227,6 +227,7 @@ export type Database = {
       }
       ingredients: {
         Row: {
+          allergens: string[]
           calories_per_100: number | null
           carbs_per_100: number | null
           category: string | null
@@ -241,6 +242,7 @@ export type Database = {
           unit: string | null
         }
         Insert: {
+          allergens?: string[]
           calories_per_100?: number | null
           carbs_per_100?: number | null
           category?: string | null
@@ -255,6 +257,7 @@ export type Database = {
           unit?: string | null
         }
         Update: {
+          allergens?: string[]
           calories_per_100?: number | null
           carbs_per_100?: number | null
           category?: string | null
@@ -727,6 +730,7 @@ export type Database = {
       }
       recipes: {
         Row: {
+          allergens: string[]
           calories: number | null
           carbs: number | null
           cost: number | null
@@ -754,6 +758,7 @@ export type Database = {
           quality_score: number | null
         }
         Insert: {
+          allergens?: string[]
           calories?: number | null
           carbs?: number | null
           cost?: number | null
@@ -781,6 +786,7 @@ export type Database = {
           quality_score?: number | null
         }
         Update: {
+          allergens?: string[]
           calories?: number | null
           carbs?: number | null
           cost?: number | null
@@ -944,6 +950,7 @@ export type Database = {
         Row: {
           activity: number | null
           age: number | null
+          allergies: string[]
           budget: number | null
           cal_target: number | null
           created_at: string | null
@@ -951,8 +958,11 @@ export type Database = {
           gender: string | null
           goal: string | null
           height: number | null
+          household_size: number
           id: string
           markets: string[] | null
+          notification_onboarded: boolean
+          pantry: string[]
           plz: string | null
           preferences: string[] | null
           protein_target: number | null
@@ -965,6 +975,7 @@ export type Database = {
         Insert: {
           activity?: number | null
           age?: number | null
+          allergies?: string[]
           budget?: number | null
           cal_target?: number | null
           created_at?: string | null
@@ -972,8 +983,11 @@ export type Database = {
           gender?: string | null
           goal?: string | null
           height?: number | null
+          household_size?: number
           id: string
           markets?: string[] | null
+          notification_onboarded?: boolean
+          pantry?: string[]
           plz?: string | null
           preferences?: string[] | null
           protein_target?: number | null
@@ -986,6 +1000,7 @@ export type Database = {
         Update: {
           activity?: number | null
           age?: number | null
+          allergies?: string[]
           budget?: number | null
           cal_target?: number | null
           created_at?: string | null
@@ -993,8 +1008,11 @@ export type Database = {
           gender?: string | null
           goal?: string | null
           height?: number | null
+          household_size?: number
           id?: string
           markets?: string[] | null
+          notification_onboarded?: boolean
+          pantry?: string[]
           plz?: string | null
           preferences?: string[] | null
           protein_target?: number | null

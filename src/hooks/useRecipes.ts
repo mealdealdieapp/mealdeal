@@ -103,13 +103,26 @@ function matchesVirtualCategory(recipe: ScoredRecipe, category: string): boolean
       if (recipe.estimatedCost != null && recipe.matchPercent != null && recipe.matchPercent >= 20) {
         return recipe.estimatedCost <= 8
       }
-      // Fallback: geschätzte Kosten ohne Mindest-Matchrate
       if (recipe.estimatedCost != null) {
         return recipe.estimatedCost <= 6
       }
       return false
     case 'meal_prep':
       return (recipe.diets ?? []).includes('meal-prep')
+    case 'with_offers':
+      // Rezepte mit min. 50% Zutaten im aktuellen Angebot
+      return (recipe.matchPercent ?? 0) >= 50
+    case 'vegetarian':
+      return (recipe.diets ?? []).includes('vegetarisch') || (recipe.diets ?? []).includes('vegan')
+    case 'vegan':
+      return (recipe.diets ?? []).includes('vegan')
+    case 'high_protein': {
+      if ((recipe.diets ?? []).includes('high-protein')) return true
+      const protein = Number(recipe.protein) || 0
+      return protein >= 25
+    }
+    case 'allergen_free':
+      return !recipe.allergens || recipe.allergens.length === 0
     default:
       return false
   }
@@ -119,10 +132,11 @@ export function useRecipes(mealFilter?: string | null) {
   const profile = useAppStore((s) => s.profile)
   const session = useAppStore((s) => s.session)
   const userDiets = profile?.diets ?? []
+  const userAllergies = profile?.allergies ?? []
   const { costMap } = useRecipeCosts()
 
   const query = useQuery({
-    queryKey: ['recipes', userDiets, session?.user?.id],
+    queryKey: ['recipes', userDiets, userAllergies, session?.user?.id],
     queryFn: async () => {
       // Load public recipes
       const { data: publicRecipes, error } = await supabase
@@ -202,8 +216,14 @@ export function useRecipes(mealFilter?: string | null) {
         }
       })
       .filter((r) => r.dietScore > -999)
+      // Allergen-Filter: ein Treffer -> komplett ausblenden (Sicherheits-Filter, kein Score-Malus)
+      .filter((r) => {
+        if (userAllergies.length === 0) return true
+        const recipeAllergens = (r as Recipe).allergens ?? []
+        return !recipeAllergens.some((a) => userAllergies.includes(a))
+      })
       .sort((a, b) => b.score - a.score)
-  }, [query.data, userDiets, costMap])
+  }, [query.data, userDiets, userAllergies, costMap])
 
   const filtered = useMemo(() => {
     if (!mealFilter) return scored

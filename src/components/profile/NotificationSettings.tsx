@@ -145,6 +145,13 @@ export function NotificationSettings() {
               onChange={(v) => update({ new_offers_in_plz: v })}
               disabled={isUpdating}
             />
+            <Toggle
+              label="Watchlist-Treffer"
+              description="Wenn ein Produkt von deiner Watchlist im Angebot ist"
+              checked={prefs.watchlist_price_drop}
+              onChange={(v) => update({ watchlist_price_drop: v })}
+              disabled={isUpdating}
+            />
           </div>
 
           {/* Marketing ist visuell getrennt - separater Einwilligungs-Block */}

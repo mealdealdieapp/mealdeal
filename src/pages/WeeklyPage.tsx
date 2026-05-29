@@ -12,6 +12,8 @@ import { useAddToShopping } from '../hooks/useAddToShopping'
 import { useOffers } from '../hooks/useOffers'
 import { useSynonyms } from '../hooks/useSynonyms'
 import { matchIngredientToOffer } from '../lib/offerMatching'
+import { isInPantry } from '../lib/pantryFilter'
+import { useAppStore } from '../store/useAppStore'
 import { Portal } from '../components/ui/Portal'
 import { ErrorState } from '../components/ui/ErrorState'
 import type { DayKey, MealKey, PlanRecipe } from '../hooks/useWeeklyPlan'
@@ -22,6 +24,7 @@ export function WeeklyPage() {
   const { addMany } = useAddToShopping()
   const { offers } = useOffers()
   const { data: synonymMap } = useSynonyms()
+  const userPantry = useAppStore((s) => s.profile?.pantry) ?? []
   const [openDay, setOpenDay] = useState<DayKey | null>(today)
   const [picker, setPicker] = useState<{ day: DayKey; meal: MealKey } | null>(null)
   const [toast, setToast] = useState<string | null>(null)
@@ -39,7 +42,10 @@ export function WeeklyPage() {
   const handleAddAllToShopping = () => {
     if (allIngredients.length === 0) return
     setAddingToShopping(true)
-    const items = allIngredients.map((ing) => {
+    // Pantry-Filter: Items die der User dauerhaft zuhause hat raus
+    const filteredIngredients = allIngredients.filter((ing) => !isInPantry(ing.name, userPantry))
+    const skipped = allIngredients.length - filteredIngredients.length
+    const items = filteredIngredients.map((ing) => {
       const match = offers.length > 0
         ? matchIngredientToOffer(
             { name: ing.name, category: ing.category },
@@ -57,7 +63,13 @@ export function WeeklyPage() {
       }
     })
     addMany.mutate(items, {
-      onSuccess: (count) => { setToast(`${count} Zutaten hinzugefügt`); setTimeout(() => setToast(null), 2000) },
+      onSuccess: (count) => {
+        const msg = skipped > 0
+          ? `${count} Zutaten hinzugefügt (${skipped} aus Vorrat übersprungen)`
+          : `${count} Zutaten hinzugefügt`
+        setToast(msg)
+        setTimeout(() => setToast(null), 2500)
+      },
       onSettled: () => setAddingToShopping(false),
     })
   }

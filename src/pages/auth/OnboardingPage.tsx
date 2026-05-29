@@ -1,13 +1,54 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { ArrowLeft, Check, Store, Shield, Loader2 } from 'lucide-react'
+import { ArrowLeft, Check, Store, Shield, Loader2, Bell } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { useAppStore } from '../../store/useAppStore'
 import { queryClient } from '../../lib/queryClient'
 import { scrapeOffersForPlz, hasOffersForPlz } from '../../lib/marktguruScraper'
 import { logger } from '../../lib/logger'
 
-const TOTAL_STEPS = 5
+const TOTAL_STEPS = 9
+
+const ALLERGENS = [
+  { id: 'gluten', emoji: '🌾', label: 'Gluten', desc: 'Weizen, Roggen, Gerste, Hafer, Dinkel' },
+  { id: 'milk', emoji: '🥛', label: 'Milch / Laktose', desc: 'Inkl. Butter, Käse, Joghurt' },
+  { id: 'eggs', emoji: '🥚', label: 'Eier', desc: 'Auch in Backwaren' },
+  { id: 'nuts', emoji: '🌰', label: 'Schalenfrüchte', desc: 'Mandeln, Haselnüsse, Walnüsse, Cashews' },
+  { id: 'peanuts', emoji: '🥜', label: 'Erdnüsse', desc: 'Eigene Allergen-Gruppe' },
+  { id: 'soy', emoji: '🫘', label: 'Soja', desc: 'Sojaprodukte, Tofu, Sojasauce' },
+  { id: 'fish', emoji: '🐟', label: 'Fisch', desc: 'Alle Fischarten' },
+  { id: 'crustacea', emoji: '🦐', label: 'Krebstiere', desc: 'Krabben, Hummer, Garnelen' },
+  { id: 'molluscs', emoji: '🐚', label: 'Weichtiere', desc: 'Muscheln, Tintenfisch, Schnecken' },
+  { id: 'celery', emoji: '🌿', label: 'Sellerie', desc: 'Auch in Brühen und Saucen' },
+  { id: 'mustard', emoji: '🌶️', label: 'Senf', desc: 'Auch in Dressings' },
+  { id: 'sesame', emoji: '🫓', label: 'Sesam', desc: 'Samen, Öl, Tahini' },
+  { id: 'sulphites', emoji: '🍷', label: 'Sulfite', desc: 'In Wein, Trockenfrüchten, Konserven' },
+  { id: 'lupin', emoji: '🌼', label: 'Lupinen', desc: 'In manchen Mehlen und Aufstrichen' },
+]
+
+const PANTRY_SETS = [
+  { id: 'salt-pepper', emoji: '🧂', label: 'Salz & Pfeffer', desc: 'Klassische Basics' },
+  { id: 'oil-vinegar', emoji: '🫒', label: 'Öl & Essig', desc: 'Olivenöl, Sonnenblumenöl, Essig' },
+  { id: 'sugar-flour', emoji: '🥄', label: 'Zucker & Mehl', desc: 'Standard-Backbasis' },
+  { id: 'baking', emoji: '🧁', label: 'Backzutaten', desc: 'Backpulver, Vanille, Hefe' },
+  { id: 'spices-base', emoji: '🌶️', label: 'Grundgewürze', desc: 'Paprika, Curry, Oregano, Thymian' },
+  { id: 'spices-asian', emoji: '🥢', label: 'Asia-Set', desc: 'Sojasauce, Sesamöl, Ingwer' },
+  { id: 'spices-med', emoji: '🍅', label: 'Mediterran', desc: 'Knoblauch, Basilikum, Tomatenmark' },
+  { id: 'condiments', emoji: '🥫', label: 'Saucen & Dips', desc: 'Ketchup, Senf, Mayo' },
+]
+
+const HOUSEHOLD_OPTIONS = [
+  { value: 1, label: '1 Person', emoji: '🧍' },
+  { value: 2, label: '2 Personen', emoji: '👫' },
+  { value: 3, label: '3-4 Personen', emoji: '👨‍👩‍👧' },
+  { value: 5, label: '5+ Personen', emoji: '👨‍👩‍👧‍👦' },
+]
+
+const NOTIF_OPTIONS = [
+  { id: 'weekly_plan_reminder', emoji: '📅', label: 'Wochenplan-Erinnerung', desc: 'Sonntag-Abend: Plan die kommende Woche' },
+  { id: 'offer_ending_soon', emoji: '⏰', label: 'Angebote enden bald', desc: 'Wenn deine Watchlist-Produkte ablaufen' },
+  { id: 'new_offers_in_plz', emoji: '🆕', label: 'Neue Angebote', desc: 'Frische Deals in deiner Region' },
+]
 
 const MARKETS = [
   { id: 'REWE', color: '#CC0000' },
@@ -43,6 +84,7 @@ export function OnboardingPage() {
   const session = useAppStore((s) => s.session)
   const navigate = useNavigate()
   const [privacyAccepted, setPrivacyAccepted] = useState(false)
+  const [termsAccepted, setTermsAccepted] = useState(false)
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
   const [welcomeProgress, setWelcomeProgress] = useState(0)
@@ -55,7 +97,12 @@ export function OnboardingPage() {
   const plzRef = useRef<HTMLInputElement>(null)
   const [markets, setMarkets] = useState<string[]>([])
   const [diets, setDiets] = useState<string[]>([])
+  const [allergies, setAllergies] = useState<string[]>([])
+  const [pantry, setPantry] = useState<string[]>(['salt-pepper', 'oil-vinegar'])
   const [preferences, setPreferences] = useState<string[]>([])
+  const [householdSize, setHouseholdSize] = useState<number>(1)
+  const [weeklyBudget, setWeeklyBudget] = useState<number>(80)
+  const [notifPrefs, setNotifPrefs] = useState<string[]>(['weekly_plan_reminder', 'offer_ending_soon'])
 
   useEffect(() => {
     if (showOnboarding && step === 1) plzRef.current?.focus()
@@ -66,8 +113,12 @@ export function OnboardingPage() {
       case 1: return plz.length === 5
       case 2: return markets.length > 0
       case 3: return diets.length > 0
-      case 4: return true
-      case 5: return true
+      case 4: return true  // Allergien optional
+      case 5: return true  // Pantry optional
+      case 6: return true  // Praeferenzen optional
+      case 7: return householdSize > 0  // Haushalt
+      case 8: return true  // Notifications optional
+      case 9: return true  // Summary
       default: return false
     }
   }
@@ -88,8 +139,25 @@ export function OnboardingPage() {
         plz,
         markets,
         diets,
+        allergies,
+        pantry,
         preferences,
+        household_size: householdSize,
+        budget: weeklyBudget,
+        notification_onboarded: true,
       }).select().single()
+
+      // Push-Preferences speichern falls User Notifications gewaehlt hat
+      // (eigentliche Permission/Subscription macht der User spaeter im Profil)
+      if (notifPrefs.length > 0) {
+        await supabase.from('push_preferences').upsert({
+          user_id: session.user.id,
+          weekly_plan_reminder: notifPrefs.includes('weekly_plan_reminder'),
+          offer_ending_soon: notifPrefs.includes('offer_ending_soon'),
+          new_offers_in_plz: notifPrefs.includes('new_offers_in_plz'),
+          marketing: false,  // separater Consent erforderlich (§7 UWG)
+        }, { onConflict: 'user_id' })
+      }
       if (saveError) throw saveError
       if (data) {
         setProfile(data)
@@ -136,6 +204,9 @@ export function OnboardingPage() {
   const toggleMarket = (m: string) => setMarkets((p) => p.includes(m) ? p.filter((x) => x !== m) : [...p, m])
   const toggleDiet = (d: string) => setDiets((prev) => prev.includes(d) ? prev.filter((x) => x !== d) : [...prev, d])
   const togglePref = (p: string) => setPreferences((prev) => prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p])
+  const toggleAllergy = (a: string) => setAllergies((prev) => prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a])
+  const togglePantry = (p: string) => setPantry((prev) => prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p])
+  const toggleNotif = (n: string) => setNotifPrefs((prev) => prev.includes(n) ? prev.filter((x) => x !== n) : [...prev, n])
 
   const progress = (step / TOTAL_STEPS) * 100
 
@@ -248,11 +319,35 @@ export function OnboardingPage() {
                 gelesen und stimme der Verarbeitung meiner Daten zu.
               </span>
             </button>
+
+            <button
+              onClick={() => setTermsAccepted(!termsAccepted)}
+              className="w-full flex items-start gap-3 py-3 px-1 text-left border-t border-gray-100"
+            >
+              <div
+                className={`w-[22px] h-[22px] rounded-[6px] border-2 flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
+                  termsAccepted ? 'bg-primary border-primary' : 'border-gray-300'
+                }`}
+              >
+                {termsAccepted && <Check size={13} className="text-white" strokeWidth={3} />}
+              </div>
+              <span className="text-[13px] text-dark leading-relaxed">
+                Ich akzeptiere die{' '}
+                <Link
+                  to="/agb"
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-primary font-semibold underline"
+                >
+                  Allgemeinen Geschäftsbedingungen
+                </Link>
+                .
+              </span>
+            </button>
           </div>
 
           <button
             onClick={() => setShowOnboarding(true)}
-            disabled={!privacyAccepted}
+            disabled={!privacyAccepted || !termsAccepted}
             className="w-full mt-4 py-3.5 bg-primary text-white font-bold text-[15px] rounded-btn active:bg-green-800 disabled:opacity-30 transition-opacity"
           >
             Los geht's
@@ -288,8 +383,12 @@ export function OnboardingPage() {
           {step === 1 && <StepPLZ plz={plz} setPlz={setPlz} inputRef={plzRef} />}
           {step === 2 && <StepMarkets markets={markets} toggle={toggleMarket} />}
           {step === 3 && <StepDiet diets={diets} toggle={toggleDiet} />}
-          {step === 4 && <StepPreferences preferences={preferences} toggle={togglePref} />}
-          {step === 5 && <StepDone plz={plz} markets={markets} diets={diets} />}
+          {step === 4 && <StepAllergies allergies={allergies} toggle={toggleAllergy} />}
+          {step === 5 && <StepPantry pantry={pantry} toggle={togglePantry} />}
+          {step === 6 && <StepPreferences preferences={preferences} toggle={togglePref} />}
+          {step === 7 && <StepHouseholdBudget householdSize={householdSize} setHouseholdSize={setHouseholdSize} weeklyBudget={weeklyBudget} setWeeklyBudget={setWeeklyBudget} />}
+          {step === 8 && <StepNotifications notifPrefs={notifPrefs} toggle={toggleNotif} />}
+          {step === 9 && <StepDone plz={plz} markets={markets} diets={diets} />}
         </div>
       </div>
 
@@ -424,6 +523,171 @@ function StepDiet({ diets, toggle }: { diets: string[]; toggle: (d: string) => v
           )
         })}
       </div>
+    </>
+  )
+}
+
+function StepAllergies({ allergies, toggle }: { allergies: string[]; toggle: (a: string) => void }) {
+  return (
+    <>
+      <StepHeadline title="Hast du Allergien?" sub="Wir blenden Rezepte mit diesen Zutaten aus" />
+      <div className="space-y-2">
+        {ALLERGENS.map((a) => {
+          const selected = allergies.includes(a.id)
+          return (
+            <button
+              key={a.id}
+              onClick={() => toggle(a.id)}
+              className={`w-full p-3 rounded-card text-left flex items-center gap-3 transition-all active:scale-[0.98] ${selected ? 'bg-red-50' : 'bg-white'}`}
+              style={{ border: selected ? '2px solid #DC2626' : '1.5px solid #EBEBEB' }}
+            >
+              <span className="text-[22px] leading-none w-8 text-center shrink-0">{a.emoji}</span>
+              <div className="flex-1 min-w-0">
+                <span className="font-display text-[14px] font-extrabold text-dark block">{a.label}</span>
+                <span className="text-[11px] text-muted">{a.desc}</span>
+              </div>
+              {selected && (
+                <div className="w-5 h-5 bg-red-600 rounded-full flex items-center justify-center shrink-0">
+                  <Check size={12} className="text-white" strokeWidth={3} />
+                </div>
+              )}
+            </button>
+          )
+        })}
+      </div>
+      <p className="text-center text-[12px] text-muted mt-3">
+        Optional. Du kannst Allergien jederzeit im Profil anpassen.
+      </p>
+    </>
+  )
+}
+
+function StepPantry({ pantry, toggle }: { pantry: string[]; toggle: (p: string) => void }) {
+  return (
+    <>
+      <StepHeadline title="Was hast du immer da?" sub="Diese Zutaten landen nicht auf deiner Einkaufsliste" />
+      <div className="space-y-2.5">
+        {PANTRY_SETS.map((p) => {
+          const selected = pantry.includes(p.id)
+          return (
+            <button
+              key={p.id}
+              onClick={() => toggle(p.id)}
+              className={`w-full p-3.5 rounded-card text-left flex items-center gap-3.5 transition-all active:scale-[0.98] ${selected ? 'bg-green-50' : 'bg-white'}`}
+              style={{ border: selected ? '2px solid #028350' : '1.5px solid #EBEBEB' }}
+            >
+              <span className="text-[26px] leading-none w-9 text-center shrink-0">{p.emoji}</span>
+              <div className="flex-1 min-w-0">
+                <span className="font-display text-[14px] font-extrabold text-dark block">{p.label}</span>
+                <span className="text-[12px] text-muted">{p.desc}</span>
+              </div>
+              {selected && (
+                <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center shrink-0">
+                  <Check size={12} className="text-white" strokeWidth={3} />
+                </div>
+              )}
+            </button>
+          )
+        })}
+      </div>
+      <p className="text-center text-[12px] text-muted mt-3">
+        Salz & Pfeffer und Öl sind vorausgewählt - passe es einfach an.
+      </p>
+    </>
+  )
+}
+
+function StepHouseholdBudget({ householdSize, setHouseholdSize, weeklyBudget, setWeeklyBudget }: {
+  householdSize: number; setHouseholdSize: (v: number) => void;
+  weeklyBudget: number; setWeeklyBudget: (v: number) => void;
+}) {
+  return (
+    <>
+      <StepHeadline title="Für wie viele kochst du?" sub="So skaliert dein Wochenplan die Portionen richtig" />
+
+      <div className="grid grid-cols-2 gap-2.5 mb-6">
+        {HOUSEHOLD_OPTIONS.map((h) => {
+          const selected = householdSize === h.value
+          return (
+            <button
+              key={h.value}
+              onClick={() => setHouseholdSize(h.value)}
+              className={`p-3.5 rounded-card text-left flex items-center gap-3 transition-all active:scale-[0.97] ${selected ? 'bg-green-50' : 'bg-white'}`}
+              style={{ border: selected ? '2px solid #028350' : '1.5px solid #EBEBEB' }}
+            >
+              <span className="text-[24px] leading-none shrink-0">{h.emoji}</span>
+              <span className="font-display text-[14px] font-extrabold text-dark">{h.label}</span>
+              {selected && <Check size={14} className="text-primary ml-auto shrink-0" strokeWidth={3} />}
+            </button>
+          )
+        })}
+      </div>
+
+      <div className="bg-white rounded-card p-4 mb-3" style={{ border: '1.5px solid #EBEBEB' }}>
+        <div className="flex items-center justify-between mb-2">
+          <span className="font-display text-[14px] font-extrabold text-dark">Wochenbudget</span>
+          <span className="font-display text-[18px] font-extrabold text-primary">{weeklyBudget} €</span>
+        </div>
+        <input
+          type="range"
+          min={20}
+          max={250}
+          step={5}
+          value={weeklyBudget}
+          onChange={(e) => setWeeklyBudget(parseInt(e.target.value))}
+          className="w-full accent-primary"
+        />
+        <div className="flex justify-between text-[11px] text-muted mt-1">
+          <span>20 €</span>
+          <span>250 €</span>
+        </div>
+      </div>
+      <p className="text-center text-[12px] text-muted mt-1">
+        Premium: KI-Wochenplan optimiert auf dein Budget
+      </p>
+    </>
+  )
+}
+
+function StepNotifications({ notifPrefs, toggle }: { notifPrefs: string[]; toggle: (n: string) => void }) {
+  return (
+    <>
+      <StepHeadline title="Bleib auf dem Laufenden" sub="Wir senden nur was dir wirklich Geld spart" />
+
+      <div className="bg-white rounded-card p-3 mb-4 flex items-center gap-3" style={{ border: '1.5px solid #EBEBEB' }}>
+        <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center shrink-0">
+          <Bell size={18} className="text-primary" />
+        </div>
+        <p className="text-[12px] text-muted leading-relaxed">
+          Du kannst Benachrichtigungen jederzeit im Profil anpassen oder ganz abschalten.
+        </p>
+      </div>
+
+      <div className="space-y-2.5">
+        {NOTIF_OPTIONS.map((n) => {
+          const selected = notifPrefs.includes(n.id)
+          return (
+            <button
+              key={n.id}
+              onClick={() => toggle(n.id)}
+              className={`w-full p-3.5 rounded-card text-left flex items-center gap-3.5 transition-all active:scale-[0.98] ${selected ? 'bg-green-50' : 'bg-white'}`}
+              style={{ border: selected ? '2px solid #028350' : '1.5px solid #EBEBEB' }}
+            >
+              <span className="text-[26px] leading-none w-9 text-center shrink-0">{n.emoji}</span>
+              <div className="flex-1 min-w-0">
+                <span className="font-display text-[14px] font-extrabold text-dark block">{n.label}</span>
+                <span className="text-[12px] text-muted">{n.desc}</span>
+              </div>
+              <div className={`w-11 h-6 rounded-full relative transition-colors shrink-0 ${selected ? 'bg-primary' : 'bg-gray-200'}`}>
+                <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform ${selected ? 'translate-x-5' : 'translate-x-0.5'}`} />
+              </div>
+            </button>
+          )
+        })}
+      </div>
+      <p className="text-center text-[11px] text-muted mt-3">
+        Marketing-Push fragen wir separat - hier nur Service-Benachrichtigungen.
+      </p>
     </>
   )
 }

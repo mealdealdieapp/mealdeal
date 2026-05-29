@@ -127,6 +127,11 @@ export function ProfileMain({ setView }: ProfileMainProps) {
           style={{ border: '1.5px solid #EBEBEB' }}>
           <Shield size={12} /> Datenschutz
         </button>
+        <button onClick={() => navigate('/agb')}
+          className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-muted bg-white rounded-card text-[11px] font-medium active:bg-background"
+          style={{ border: '1.5px solid #EBEBEB' }}>
+          <FileText size={12} /> AGB
+        </button>
         <button onClick={() => navigate('/impressum')}
           className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-muted bg-white rounded-card text-[11px] font-medium active:bg-background"
           style={{ border: '1.5px solid #EBEBEB' }}>
